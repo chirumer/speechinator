@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speech Breath</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --fg:#1b1f24; --mute:#6b7380; --ok:#2e9e5b; --fast:#d9534f; --slow:#e0a21b; --idle:#9aa3af; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14171b; --card:#1d2126; --fg:#eceff3; --mute:#98a1ad; }
+  }
+  * { box-sizing:border-box }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.4 system-ui,sans-serif; display:flex; justify-content:center; padding:24px 16px }
+  main { width:100%; max-width:520px; display:flex; flex-direction:column; gap:16px }
+  h1 { margin:0; font-size:1.4rem }
+  .sub { color:var(--mute); margin:0; font-size:.9rem }
+  .card { background:var(--card); border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.08) }
+  #orb { width:160px; height:160px; border-radius:50%; margin:8px auto 16px; background:var(--idle); transition:background .3s, transform .1s; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600; font-size:1.1rem; text-align:center }
+  #msg { text-align:center; font-size:1.2rem; font-weight:600; min-height:1.6em }
+  .stats { display:flex; justify-content:space-around; margin-top:12px; text-align:center }
+  .stats b { display:block; font-size:1.5rem }
+  .stats span { color:var(--mute); font-size:.8rem }
+  button { width:100%; padding:14px; border:0; border-radius:12px; font-size:1rem; font-weight:600; background:#3b6cf6; color:#fff; cursor:pointer }
+  button.stop { background:#444c57 }
+  label { display:flex; justify-content:space-between; font-size:.9rem; margin-top:12px }
+  input[type=range] { width:100%; margin-top:4px }
+  .row { display:flex; align-items:center; gap:8px; margin-top:12px; font-size:.9rem }
+  .plist { list-style:none; margin:8px 0 0; padding:0; font-size:.9rem; max-height:180px; overflow:auto }
+  .plist li { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(150,150,150,.2) }
+  .btns { display:flex; gap:8px; margin-top:12px } .btns button { padding:8px; background:#444c57; font-size:.85rem }
+  canvas { width:100%; height:70px; display:block; margin-top:12px }
+  #err { color:var(--fast); font-size:.9rem; display:none }
+</style>
+</head>
+<body>
+<main>
+  <div>
+    <h1>Speech Breath</h1>
+    <p class="sub">Tells you when you're speaking too fast or too slow. Voice detection by Silero VAD, running locally in your browser.</p>
+  </div>
+
+  <div class="card">
+    <div id="orb">Idle</div>
+    <div id="msg">Press Start and talk</div>
+    <div class="stats">
+      <div><b id="rate">–</b><span>syllables / sec</span></div>
+      <div><b id="wpm">–</b><span>≈ words / min</span></div>
+      <div><b id="pause">–</b><span>% pausing</span></div>
+    </div>
+    <canvas id="chart" width="480" height="70"></canvas>
+  </div>
+
+  <button id="toggle">Start</button>
+  <div id="err"></div>
+
+  <div class="card">
+    <b>Pauses</b> <span class="sub">(silences of 0.3s or longer, after you start talking)</span>
+    <div class="stats">
+      <div><b id="pLive">–</b><span>current silence</span></div>
+      <div><b id="pCount">0</b><span>pauses</span></div>
+      <div><b id="pTotal">0s</b><span>total silent</span></div>
+      <div><b id="pMax">–</b><span>longest</span></div>
+    </div>
+    <ul class="plist" id="plist"></ul>
+    <div class="btns"><button id="pCsv">Download CSV</button><button id="pClear">Clear</button></div>
+  </div>
+
+  <div class="card">
+    <label>Too slow below <span id="slowV"></span></label>
+    <input id="slow" type="range" min="1.5" max="4" step="0.1" value="2.8">
+    <label>Too fast above <span id="fastV"></span></label>
+    <input id="fast" type="range" min="4" max="8" step="0.1" value="5.2">
+    <div class="row"><input id="beep" type="checkbox" checked><label for="beep" style="margin:0">Play a tone on alert</label></div>
+    <div class="row"><input id="notif" type="checkbox"><label for="notif" style="margin:0">Desktop notification</label></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/ort.wasm.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.24/dist/bundle.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const WINDOW_S = 8;          // sliding analysis window
+const MIN_SPEECH_S = 2;      // need this much speech in window to judge
+const COOLDOWN_MS = 6000;
+const SYL_PER_WORD = 1.4;    // rough English average
+
+let session = null, running = false;
+let frames = [];             // {t, speech, peak}
+let hist = [];               // {t, rate} for chart
+let env = [], lastPeakT = -1, floorDb = -60;
+let pauses = [], pauseStart = null, speechRun = 0, runStart = 0, seenSpeech = false, sessionStart = 0;
+const MIN_PAUSE_S = 0.3, SPEECH_HANG_S = 0.15;
+let state = 'idle', pending = 0, lastAlert = 0, audioCtx = null;
+
+function bindSlider(id, out) {
+  const el = $(id), o = $(out);
+  const saved = localStorage.getItem(id); if (saved) el.value = saved;
+  const upd = () => { o.textContent = (+el.value).toFixed(1) + ' syl/s'; localStorage.setItem(id, el.value); };
+  el.oninput = upd; upd();
+}
+bindSlider('slow', 'slowV'); bindSlider('fast', 'fastV');
+
+// Syllable nuclei = local peaks in the loudness envelope, counted only while Silero says "speech".
+function onFrame(probs, frame) {
+  const now = performance.now() / 1000;
+  const dt = frame.length / 16000;
+  let s = 0; for (let i = 0; i < frame.length; i++) s += frame[i] * frame[i];
+  const db = 10 * Math.log10(s / frame.length + 1e-10);
+  const speech = probs.isSpeech > 0.5;
+
+  env.push(db); if (env.length > 3) env.shift();
+  let peak = false;
+  if (speech && env.length === 3) {
+    const [a, b, c] = env;
+    // peak at the middle sample, clearly above background and with a real dip around it
+    if (b > a && b >= c && b > floorDb + 8 && now - lastPeakT > 0.12) { peak = true; lastPeakT = now; }
+  }
+  if (!speech) floorDb = floorDb * 0.98 + db * 0.02; // track background noise level
+
+  trackPause(now, dt, speech);
+  frames.push({ t: now, dt, speech, peak });
+  while (frames.length && now - frames[0].t > WINDOW_S) frames.shift();
+  evaluate(now);
+}
+
+// A pause starts at the first non-speech frame after speech and ends once speech has lasted
+// SPEECH_HANG_S, so brief VAD flickers don't split one pause into two.
+function trackPause(now, dt, speech) {
+  if (speech) {
+    if (!speechRun) runStart = now;
+    speechRun += dt;
+    if (speechRun >= SPEECH_HANG_S) { seenSpeech = true; if (pauseStart !== null) endPause(runStart); }
+  } else {
+    speechRun = 0;
+    if (seenSpeech && pauseStart === null) pauseStart = now;
+  }
+  $('pLive').textContent = pauseStart !== null ? (now - pauseStart).toFixed(1) + 's' : '–';
+}
+
+function endPause(endT) {
+  const dur = endT - pauseStart;
+  if (dur >= MIN_PAUSE_S) pauses.push({ at: pauseStart - sessionStart, dur, clock: new Date().toLocaleTimeString() });
+  pauseStart = null; renderPauses();
+}
+
+function renderPauses() {
+  const total = pauses.reduce((a, p) => a + p.dur, 0), max = Math.max(0, ...pauses.map(p => p.dur));
+  $('pCount').textContent = pauses.length;
+  $('pTotal').textContent = total.toFixed(1) + 's';
+  $('pMax').textContent = pauses.length ? max.toFixed(1) + 's' : '–';
+  $('plist').innerHTML = pauses.slice().reverse().map((p, i) =>
+    `<li><span>#${pauses.length - i} · at ${p.at.toFixed(1)}s</span><span>${p.dur.toFixed(1)}s</span></li>`).join('');
+}
+
+$('pClear').onclick = () => { pauses = []; renderPauses(); };
+$('pCsv').onclick = () => {
+  const csv = 'number,start_seconds,duration_seconds,clock_time\n' +
+    pauses.map((p, i) => `${i + 1},${p.at.toFixed(2)},${p.dur.toFixed(2)},${p.clock}`).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'speech-breath-pauses.csv'; a.click();
+};
+
+function evaluate(now) {
+  let speechS = 0, peaks = 0, total = 0;
+  for (const f of frames) { total += f.dt; if (f.speech) { speechS += f.dt; if (f.peak) peaks++; } }
+  const pausePct = total ? Math.round(100 * (1 - speechS / total)) : 0;
+  if (speechS < MIN_SPEECH_S) { setState('listen', null, pausePct); return; }
+
+  const rate = peaks / speechS;                 // articulation rate
+  const wpm = Math.round(rate * 60 / SYL_PER_WORD * (speechS / total)); // includes pauses
+  hist.push({ t: now, rate }); if (hist.length > 120) hist.shift();
+
+  const slow = +$('slow').value, fast = +$('fast').value;
+  setState(rate > fast ? 'fast' : rate < slow ? 'slow' : 'ok', { rate, wpm }, pausePct);
+}
+
+const LABELS = {
+  idle:   ['Idle', 'var(--idle)', 'Press Start and talk'],
+  listen: ['Listening', 'var(--idle)', 'Listening…'],
+  ok:     ['Good pace', 'var(--ok)', 'Nice, steady pace'],
+  fast:   ['Too fast', 'var(--fast)', 'Slow down — take a breath'],
+  slow:   ['Too slow', 'var(--slow)', 'Pick up the pace a little'],
+};
+
+function setState(next, m, pausePct) {
+  if (m) { $('rate').textContent = m.rate.toFixed(1); $('wpm').textContent = m.wpm; }
+  $('pause').textContent = pausePct;
+  // require 2 consecutive evaluations of the same bad state before changing/alerting (debounce)
+  if (next === state) { pending = 0; drawChart(); return; }
+  if (next === 'fast' || next === 'slow') { if (++pending < 15) { drawChart(); return; } }
+  pending = 0; state = next;
+  const [orb, color, msg] = LABELS[state];
+  $('orb').textContent = orb; $('orb').style.background = color; $('msg').textContent = msg;
+  if (state === 'fast' || state === 'slow') alertUser(msg);
+  drawChart();
+}
+
+function alertUser(msg) {
+  const t = Date.now(); if (t - lastAlert < COOLDOWN_MS) return; lastAlert = t;
+  if ($('beep').checked && audioCtx) {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.frequency.value = state === 'fast' ? 660 : 330;
+    g.gain.setValueAtTime(.15, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + .4);
+    o.connect(g).connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime + .4);
+  }
+  if ($('notif').checked && Notification.permission === 'granted') new Notification('Speech Breath', { body: msg });
+  if (navigator.vibrate) navigator.vibrate(200);
+}
+
+function drawChart() {
+  const c = $('chart'), g = c.getContext('2d'), W = c.width, H = c.height;
+  g.clearRect(0, 0, W, H);
+  const y = v => H - (v / 8) * H;
+  g.strokeStyle = 'rgba(150,150,150,.4)'; g.setLineDash([4, 4]);
+  for (const v of [+$('slow').value, +$('fast').value]) { g.beginPath(); g.moveTo(0, y(v)); g.lineTo(W, y(v)); g.stroke(); }
+  g.setLineDash([]); g.strokeStyle = '#3b6cf6'; g.lineWidth = 2; g.beginPath();
+  hist.forEach((p, i) => { const x = i / 119 * W; i ? g.lineTo(x, y(p.rate)) : g.moveTo(x, y(p.rate)); });
+  g.stroke();
+}
+
+$('notif').onchange = e => { if (e.target.checked && 'Notification' in window) Notification.requestPermission(); };
+
+$('toggle').onclick = async () => {
+  $('err').style.display = 'none';
+  if (running) { if (pauseStart !== null) endPause(performance.now() / 1000); session.destroy(); session = null; running = false; $('toggle').textContent = 'Start'; $('toggle').classList.remove('stop'); state = 'idle'; frames = []; hist = []; setState('listen', null, 0); state = 'idle'; const [o,c,m] = LABELS.idle; $('orb').textContent=o; $('orb').style.background=c; $('msg').textContent=m; return; }
+  try {
+    audioCtx = audioCtx || new AudioContext(); await audioCtx.resume();
+    session = await vad_web_start();
+    pauses = []; pauseStart = null; speechRun = 0; seenSpeech = false; sessionStart = performance.now() / 1000; renderPauses();
+    running = true; $('toggle').textContent = 'Stop'; $('toggle').classList.add('stop'); setState('listen', null, 0);
+  } catch (e) {
+    $('err').textContent = 'Could not start: ' + (e.message || e) + '. Serve over http://localhost or https and allow the microphone.';
+    $('err').style.display = 'block';
+  }
+};
+
+async function vad_web_start() {
+  const v = await vad.MicVAD.new({
+    baseAssetPath: 'https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.24/dist/',
+    onnxWASMBasePath: 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.22.0/dist/',
+    onFrameProcessed: onFrame,
+  });
+  v.start();
+  return v;
+}
+</script>
+</body>
+</html>

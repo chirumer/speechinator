@@ -72,7 +72,7 @@ anbaric secrets set JEV_API_KEY
 anbaric app deploy       # later: anbaric app update
 ```
 
-The page uses only relative links and `#/` routes, so it works at the app's own address and under `/app/<name>/`. The app name and port are in `.anbaric/app-config.json`.
+The page uses only relative links and `#/` routes, so it works at the app's own address and under `/app/<name>/`. The deployment config lives in `.anbaric/app-config.json`, which is not in git. Create it with `anbaric app configure` (name `preparation-app`, port `3003`).
 
 ## Project layout
 
@@ -84,8 +84,8 @@ src/suggest.ts         Claude prompt, response checking, model list
 src/jev.ts             rubric scoring with Jev (TypeScript port of the original Python scorer)
 scripts/               gen-cache.ts, gen-rubrics.ts: make the saved results
 run.sh                 local launcher
-.anbaric/              deployment config
-archive/               old experiments and notes (local only, not in git)
+archive/               earlier experiments and notes (voice-app, speech-breath, Jev docs)
+.anbaric/              local deployment config (not in git)
 ```
 
 ## Notes and limits

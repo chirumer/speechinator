@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guided Speech</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --fg:#1b1f24; --mute:#6b7380; --accent:#3b6cf6; --live:#e5484d; --bar:#1b1f24; --barfg:#eceff3; --line:rgba(150,150,150,.25); --ok:#2e9e5b; --warn:#e0a21b; --violet:#7c5cf0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#14171b; --card:#1d2126; --fg:#eceff3; --mute:#98a1ad; --bar:#000; }
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent }
+  html, body { height:100%; margin:0 }
+  body { background:#cfd3da; color:var(--fg); font:16px/1.4 system-ui,sans-serif; overflow:hidden }
+  button { font:inherit }
+
+  /* Stage is a fixed-size design canvas, scaled to fit the window: phone on the left, board on the right. */
+  #stage { position:absolute; left:50%; top:50%; width:1390px; height:844px; display:flex; gap:40px; transform-origin:center; transform:translate(-50%,-50%) }
+  #phone { position:relative; flex:none; width:390px; height:844px; background:var(--bg); display:flex; flex-direction:column; overflow:hidden; border-radius:44px; box-shadow:0 0 0 10px #0d0f12, 0 30px 80px rgba(0,0,0,.35) }
+
+  /* ---------- phone ---------- */
+  .view { flex:1; min-height:0; display:none; flex-direction:column; padding:56px 22px 12px }
+  .view.active { display:flex }
+  h1 { margin:0 0 6px; font-size:2rem; letter-spacing:-.02em }
+  h2.pt { margin:0; font-size:1.3rem; letter-spacing:-.01em }
+  .sub { color:var(--mute); margin:0; font-size:.9rem }
+  #v-home { justify-content:center; gap:14px }
+  #v-home .hero { margin-bottom:28px }
+  .big { width:100%; padding:20px; border:0; border-radius:18px; font-size:1.1rem; font-weight:600; background:var(--accent); color:#fff; cursor:pointer; text-align:left; display:flex; justify-content:space-between; align-items:center }
+  .big.alt { background:var(--card); color:var(--fg); box-shadow:0 1px 3px rgba(0,0,0,.1) }
+  .back { align-self:flex-start; background:none; border:0; color:var(--accent); font-size:1rem; padding:0; margin-bottom:14px; cursor:pointer }
+  .card { background:var(--card); border-radius:16px; padding:16px; box-shadow:0 1px 3px rgba(0,0,0,.08) }
+  .row-btn { padding:10px 14px; border:0; border-radius:10px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer }
+
+  /* project list */
+  #plist { display:flex; flex-direction:column; gap:10px; overflow:auto; margin-top:14px; padding-bottom:6px }
+  .newp { border:2px dashed var(--accent); background:transparent; color:var(--accent); border-radius:16px; padding:16px; font-weight:600; cursor:pointer; text-align:left; display:flex; justify-content:space-between; align-items:center }
+  .proj { border:0; text-align:left; cursor:pointer; color:var(--fg); width:100% }
+  .proj b { display:block; font-size:1.02rem }
+  .proj .meta { color:var(--mute); font-size:.8rem; margin-top:4px }
+  .tag { display:inline-block; font-size:.62rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:99px; background:rgba(59,108,246,.14); color:var(--accent); margin-left:6px; vertical-align:middle }
+  .tag.up { background:rgba(46,158,91,.16); color:var(--ok) }
+
+  /* speech session */
+  #v-session { padding-top:48px }
+  #sumCard { margin-top:10px; flex:none }
+  #sumText { font-size:.86rem; color:var(--mute); margin:0 0 10px }
+  .chips { display:flex; flex-wrap:wrap; gap:6px }
+  .chip { font-size:.72rem; padding:3px 9px; border-radius:99px; background:rgba(150,150,150,.16) }
+  .chip.t { background:rgba(59,108,246,.12); color:var(--accent) }
+  #script { position:relative; flex:1; min-height:0; margin-top:12px; overflow:auto; padding:70px 6px 120px; font-size:1.18rem; line-height:1.75; scrollbar-width:none;
+            mask-image:linear-gradient(transparent, #000 14%, #000 86%, transparent); -webkit-mask-image:linear-gradient(transparent, #000 14%, #000 86%, transparent) }
+  #script::-webkit-scrollbar { display:none }
+  #script p { margin:0 0 1em }
+  #script .w { color:var(--fg); border-radius:5px; cursor:pointer; transition:color .25s, background .25s }
+  #script .w.done { color:var(--mute); opacity:.55 }
+  #script .w.skip { color:var(--warn); opacity:.7; text-decoration:underline dotted }
+  #script .w.cur { background:rgba(59,108,246,.2); color:var(--accent); font-weight:600 }
+  .sfoot { flex:none; display:flex; align-items:center; gap:12px; padding-top:8px }
+  .pbar { flex:1; height:6px; border-radius:6px; background:rgba(150,150,150,.25); overflow:hidden }
+  .pbar i { display:block; height:100%; width:0; background:var(--accent); transition:width .3s }
+  #pct { font-size:.8rem; color:var(--mute); min-width:36px; text-align:right }
+  .end { background:#444c57; padding:8px 14px }
+
+  #v-session.free #script { padding:14px 6px; display:flex; flex-direction:column; justify-content:flex-end; mask-image:linear-gradient(transparent, #000 10%); -webkit-mask-image:linear-gradient(transparent, #000 10%) }
+  #v-session.free .pbar, #v-session.free #pct { visibility:hidden }
+  #liveTx { font-size:1.25rem; line-height:1.6; white-space:pre-wrap; word-break:break-word }
+  #liveTx .interim { opacity:.55 } #liveTx .idle { color:var(--mute); font-style:italic }
+  #board.free .wd[data-script] { display:none !important }
+  .pwrap { display:flex; flex-direction:column; gap:6px }
+  .recs { display:flex; flex-wrap:wrap; gap:6px; padding:0 4px }
+  .norec { font-size:.78rem; color:var(--mute); padding:0 2px }
+  .rec { border:0; border-radius:99px; padding:6px 12px; font-size:.78rem; font-weight:600; cursor:pointer; background:rgba(59,108,246,.14); color:var(--accent) }
+  #v-summary { overflow:auto }
+  .verdict { font-size:1.6rem; font-weight:700; letter-spacing:-.02em; margin:0 }
+  .verdict small { display:block; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--mute); margin-bottom:4px }
+  #sgList { margin:8px 0 0; padding-left:20px } #sgList li { margin-bottom:6px }
+  #sgTranscript { font-size:.85rem; color:var(--mute); white-space:pre-wrap; max-height:200px; overflow:auto }
+  .h4 { font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--mute); margin:0 }
+  #transcriptFull { white-space:pre-wrap; min-height:120px; overflow:auto }
+  #v-workspace .card { margin-top:14px; flex:1; min-height:0; overflow:auto }
+
+  .lvl { width:46px; height:6px; border-radius:6px; background:rgba(150,150,150,.25); overflow:hidden; flex:none }
+  .lvl i { display:block; height:100%; width:0; background:var(--ok) }
+  #micNote { flex-basis:100%; color:var(--live); font-size:.78rem; min-height:0 }
+  .passive { flex-wrap:wrap; row-gap:2px; text-align:center; color:var(--mute); font-size:.85rem; padding:10px 16px 12px; display:flex; align-items:center; justify-content:center; gap:8px }
+  .dot { width:9px; height:9px; border-radius:50%; background:var(--mute); flex:none }
+  .on .dot { background:var(--live); animation:pulse 1.4s infinite }
+  @keyframes pulse { 50% { opacity:.3 } }
+  #banner { background:var(--bar); color:var(--barfg); height:60px; padding:0 16px; display:flex; align-items:center; gap:10px; flex:none; padding-bottom:env(safe-area-inset-bottom) }
+  #banner .live { font-size:.65rem; font-weight:700; letter-spacing:.08em; color:var(--live); flex:none }
+  #ticker { flex:1; overflow:hidden; white-space:nowrap; font-size:1.1rem; line-height:60px; mask-image:linear-gradient(90deg,transparent,#000 12%); -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%) }
+  #ticker .interim { opacity:.6 }
+  #ticker .idle { opacity:.45; font-style:italic }
+  #banner .live::before { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--live); margin-right:6px; animation:pulse 1.4s infinite }
+
+  /* ---------- What's Happening board ---------- */
+  #board { flex:1; background:#fff; color:#1b1f24; border-radius:32px; box-shadow:0 30px 80px rgba(0,0,0,.2); display:flex; flex-direction:column; overflow:hidden; min-width:0 }
+  #board header { display:flex; align-items:center; gap:12px; padding:16px 24px; border-bottom:1px solid #e4e7ec; flex:none }
+  #board h2 { margin:0; font-size:1.1rem; flex:1 }
+  #pageChip { font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:3px 10px; border-radius:99px; background:#eef2ff; color:var(--accent) }
+  #board select { border:1px solid #d5d9e0; border-radius:8px; padding:3px 6px; font-size:.78rem; background:#fff; color:#1b1f24 }
+  #board label.sw { font-size:.8rem; color:#6b7380; display:flex; align-items:center; gap:6px }
+  .wgrid { flex:1; overflow:auto; padding:20px; display:grid; grid-template-columns:1fr 1fr; gap:14px; align-content:start }
+  .wd { display:none; background:#f6f7f9; border-radius:18px; padding:14px 16px }
+  .wd.show { display:block }
+  .wd.wide { grid-column:1/-1 }
+  .wd h3 { margin:0 0 2px; font-size:.92rem; display:flex; align-items:center; gap:8px }
+  .wd h3 span { font-size:.62rem; font-weight:700; color:#6b7380; background:#e4e7ec; padding:1px 7px; border-radius:99px }
+  .wd .cap { margin:0 0 10px; font-size:.74rem; color:#6b7380 }
+  .wd canvas { width:100%; display:block; border-radius:10px; background:#fff }
+  .big-n { font-size:1.6rem; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums }
+  .small { font-size:.74rem; color:#6b7380 }
+  .pill { display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:600; padding:3px 10px; border-radius:99px; background:#e4e7ec; color:#6b7380; transition:all .2s }
+  .pill.on { background:var(--warn); color:#fff }
+  .pill.on.v { background:var(--violet) }
+  .pill.ok { background:var(--ok); color:#fff }
+  .gauge { position:relative; height:16px; border-radius:10px; background:#e4e7ec; margin:22px 0 22px }
+  .gauge i { position:absolute; left:0; top:0; bottom:0; border-radius:10px; width:0; background:var(--ok); transition:background .2s }
+  .gauge u { position:absolute; top:-6px; bottom:-6px; width:2px; background:#1b1f24; text-decoration:none }
+  .gauge u b { position:absolute; top:-15px; left:50%; transform:translateX(-50%); font-size:.62rem; font-weight:600; white-space:nowrap }
+  .gauge u em { position:absolute; bottom:-16px; left:50%; transform:translateX(-50%); font-size:.62rem; color:#6b7380; font-style:normal; white-space:nowrap }
+  .flex { display:flex; align-items:center; gap:14px }
+  .hbar { height:10px; border-radius:10px; background:#e4e7ec; overflow:hidden; position:relative }
+  .hbar i { display:block; height:100%; width:0; background:var(--accent) }
+  .segs { display:flex; gap:2px; margin:8px 0 }
+  .segs i { flex:1; height:16px; border-radius:3px; background:#e4e7ec; transition:background .1s }
+  .segs i.f { background:var(--accent) }
+  .segs.hot i.f { background:var(--live) }
+  .mini { position:relative; height:14px; border-radius:8px; background:#e4e7ec; display:flex; gap:2px; overflow:hidden }
+  .mini s { background:#cfd6e4; height:100%; text-decoration:none; position:relative; overflow:hidden }
+  .mini s i { position:absolute; left:0; top:0; bottom:0; background:var(--accent); width:0 }
+  .sug { display:flex; flex-direction:column; gap:6px }
+  .sug .it { display:flex; align-items:center; gap:8px; background:#fff; border-radius:10px; padding:6px 8px; font-size:.8rem }
+  .sug .it b { flex:1 }
+  .sug .it s { text-decoration:line-through; color:#a0a8b4 }
+  .sug .it button { border:0; background:var(--accent); color:#fff; border-radius:8px; padding:3px 10px; font-size:.72rem; font-weight:600; cursor:pointer }
+  .sug .k { font-size:.58rem; font-weight:700; text-transform:uppercase; padding:1px 6px; border-radius:99px; background:#e4e7ec; color:#6b7380 }
+  .sug .k.c { background:#fde6e7; color:var(--live) }
+  .slides { display:flex; flex-direction:column; gap:5px }
+  .slides div { display:flex; gap:8px; align-items:center; background:#fff; border-radius:10px; padding:6px 8px; font-size:.76rem; border:2px solid transparent; transition:all .2s }
+  .slides div em { font-style:normal; flex:none; width:20px; height:20px; border-radius:50%; background:#e4e7ec; display:flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:700 }
+  .slides div.cur { border-color:var(--accent); background:#eef2ff }
+  .slides div.cur em { background:var(--accent); color:#fff }
+  .flow { display:flex; align-items:center; justify-content:space-between; gap:4px; margin:6px 0 8px }
+  .flow .nd { flex:1; text-align:center; font-size:.72rem; font-weight:600; padding:7px 4px; border-radius:10px; background:#e4e7ec; color:#6b7380; transition:all .15s }
+  .flow .nd.on { background:var(--accent); color:#fff }
+  .flow .nd.err { background:var(--live); color:#fff }
+  .flow .ar { color:#a0a8b4 }
+  .dev { display:flex; align-items:center; gap:8px; font-size:.78rem; background:#fff; border-radius:10px; padding:6px 10px; margin-top:5px }
+  .dev b { flex:1; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .btnrow { display:flex; gap:6px; margin-top:8px }
+  .btnrow button, .wd select { border:0; background:#e4e7ec; color:#1b1f24; border-radius:8px; padding:5px 10px; font-size:.74rem; font-weight:600; cursor:pointer }
+  .conf { height:8px; border-radius:8px; background:#e4e7ec; overflow:hidden }
+  .conf i { display:block; height:100%; width:0; background:var(--ok); transition:width .2s, background .2s }
+  .heard { font-size:.78rem; margin-top:8px; background:#fff; border-radius:10px; padding:7px 10px; min-height:2.6em }
+  .heard b { color:var(--accent) }
+</style>
+</head>
+<body>
+<div id="stage">
+<div id="phone">
+
+  <section id="v-home" class="view active">
+    <div class="hero"><h1>Guided Speech</h1></div>
+    <button class="big" data-go="list">Guided Speech<span>›</span></button>
+    <button class="big alt" data-go="workspace">Workspace<span>›</span></button>
+  </section>
+
+  <section id="v-list" class="view">
+    <button class="back" data-go="home">‹ Back</button>
+    <h1>Guided Speech</h1>
+    <div id="plist"></div>
+    <input type="file" id="upload" accept=".txt,.md,text/plain" hidden>
+  </section>
+
+  <section id="v-session" class="view">
+    <button class="back" data-go="list">‹ Projects</button>
+    <h2 class="pt" id="sTitle"></h2>
+    <div class="card" id="sumCard">
+      <p id="sumText"></p>
+      <div class="chips" id="sumChips"></div>
+    </div>
+    <div id="script"></div>
+    <div class="sfoot">
+      <div class="pbar"><i id="sBar"></i></div><span id="pct">0%</span>
+      <button class="row-btn end" data-go="list">End</button>
+    </div>
+  </section>
+
+  <section id="v-summary" class="view">
+    <button class="back" data-go="list">‹ Projects</button>
+    <h2 class="pt" id="rTitle"></h2>
+    <p class="sub" id="rWhen"></p>
+    <div class="card" style="margin-top:14px"><p class="verdict"><small>Summary</small><span id="rVerdict">Summarizing…</span></p></div>
+    <div class="card" style="margin-top:12px"><p class="h4">Suggestions</p><ul id="sgList"></ul></div>
+    <div class="card" style="margin-top:12px"><p class="h4" style="margin-bottom:6px">Transcript</p><div id="sgTranscript"></div></div>
+  </section>
+
+  <section id="v-workspace" class="view">
+    <button class="back" data-go="home">‹ Back</button>
+    <h1>Workspace</h1>
+    <p class="sub">Everything you say appears here.</p>
+    <div class="card"><div id="transcriptFull">Nothing yet…</div></div>
+    <div style="margin-top:12px"><button class="row-btn" id="clear">Clear</button></div>
+  </section>
+
+  <div id="status" class="passive"><span class="dot"></span><span id="statusText">Starting passive listening…</span><span class="lvl"><i id="lvl"></i></span><span id="micNote"></span></div>
+  <div id="banner"><span class="live">LIVE</span><div id="ticker"></div></div>
+</div>
+
+<aside id="board">
+  <header>
+    <h2>What's Happening</h2>
+    <span id="pageChip">Home</span>
+    <label class="sw">Transcription <select id="engineSel"><option value="webspeech">Live (Chrome speech)</option><option value="whisper">On-device (Whisper)</option></select></label>
+    <label class="sw"><input type="checkbox" id="cues" checked> Audio cues</label>
+  </header>
+  <div class="wgrid">
+
+    <!-- §9 passive wake detection -->
+    <section class="wd wide" data-pages="home list">
+      <h3>Passive wake detection <span>§9</span></h3>
+      <p class="cap">Mic energy (RMS) must stay above the threshold for 18 straight frames (≈ 600 ms) to wake the app. Then a 10 s cooldown.</p>
+      <canvas id="wakeCv" width="1760" height="150"></canvas>
+      <div class="flex" style="margin-top:8px">
+        <div style="flex:1"><div class="segs" id="wakeSegs"></div><div class="small" id="wakeTxt">Waiting for the microphone…</div></div>
+        <div style="width:150px"><div class="small">Cooldown</div><div class="hbar"><i id="wakeCd" style="background:var(--violet)"></i></div></div>
+      </div>
+    </section>
+
+    <!-- §10 bluetooth routing -->
+    <section class="wd wide" data-pages="home">
+      <h3>Bluetooth microphone routing <span>§10</span></h3>
+      <p class="cap">Audio input devices; a Bluetooth headset becomes the active mic during a session.</p>
+      <div class="flex"><span class="pill" id="btPill">No Bluetooth mic</span><span class="small" id="btTxt"></span></div>
+      <div id="devs"></div>
+    </section>
+
+    <!-- §2 pause detection -->
+    <section class="wd wide" data-pages="session workspace">
+      <h3>Pause detection <span>§2</span></h3>
+      <p class="cap">Silence timer polled every 250 ms. A hum fires once per silence; any new speech resets both latches.</p>
+      <div class="flex"><div class="big-n" id="idleN">0.0s</div><span class="small">since last speech</span>
+        <span style="flex:1"></span><span class="pill" id="pBreath">Breath hum</span><span class="pill" id="pAud">Audience hum</span></div>
+      <div class="gauge" id="gauge">
+        <i id="gFill"></i>
+        <u style="left:25%"><b>1.5s</b><em>breath</em></u>
+        <u style="left:66.67%"><b>4.0s</b><em>audience</em></u>
+      </div>
+      <canvas id="stripCv" width="1760" height="90"></canvas>
+      <div class="small" style="margin-top:4px">Last 60 s · blue = speaking · ▲ amber = breath hum · ▲ violet = audience hum</div>
+    </section>
+
+    <!-- §3 word count hum -->
+    <section class="wd" data-pages="session workspace">
+      <h3>Word-count hum <span>§3</span></h3>
+      <p class="cap">Chime every 100 final words.</p>
+      <div class="flex">
+        <svg width="104" height="104" viewBox="0 0 104 104">
+          <circle cx="52" cy="52" r="42" fill="none" stroke="#e4e7ec" stroke-width="10"/>
+          <circle id="ring" cx="52" cy="52" r="42" fill="none" stroke="#3b6cf6" stroke-width="10" stroke-linecap="round" stroke-dasharray="263.9" stroke-dashoffset="263.9" transform="rotate(-90 52 52)"/>
+          <text id="ringN" x="52" y="58" text-anchor="middle" font-size="22" font-weight="700" fill="#1b1f24">0</text>
+        </svg>
+        <div><div class="small">of 100 words</div><div class="big-n" id="chimeN">0</div><div class="small">chimes so far</div></div>
+      </div>
+    </section>
+
+    <!-- §4 mile timer -->
+    <section class="wd" data-pages="session workspace">
+      <h3>Mile-timer vocal stamps <span>§4</span></h3>
+      <p class="cap">Spoken stamp with minutes and word count.</p>
+      <div class="flex"><div class="big-n" id="mileClock">00:00</div>
+        <select id="mileSel"><option value="1">every 1 min</option><option value="5" selected>every 5 min</option></select></div>
+      <div class="hbar" style="margin:10px 0 6px"><i id="mileBar"></i></div>
+      <div class="small" id="mileTxt">No stamps yet</div>
+    </section>
+
+    <!-- script tracking -->
+    <section class="wd wide" data-pages="session" data-script>
+      <h3>Script tracking <span>fuzzy</span></h3>
+      <p class="cap">Matches the last few heard words against the script by spelling and sound, so misheard words don't derail it. It only moves forward.</p>
+      <div class="mini" id="mini"></div>
+      <div class="flex" style="margin-top:10px"><span class="small">Match confidence</span><div class="conf" style="flex:1"><i id="confBar"></i></div><b id="confN" class="small">–</b></div>
+      <div class="heard" id="heard">Start speaking…</div>
+      <div class="small" style="margin-top:6px">Words skipped: <b id="skipN">0</b> · Jumps: <b id="jumpN">0</b> · tap a script word to reposition</div>
+    </section>
+
+    <!-- §6 suggestions -->
+    <section class="wd wide" data-pages="session workspace">
+      <h3>Terminology &amp; corrections <span>§6</span></h3>
+      <p class="cap">Known mis-hearings (exact) plus words that look like project terms (prefix). Max 5.</p>
+      <div class="sug" id="sug"><div class="small">No suggestions yet.</div></div>
+    </section>
+
+    <!-- §7 slide coach -->
+    <section class="wd wide" data-pages="session" data-script>
+      <h3>Word-trigger slide coach <span>§7</span></h3>
+      <p class="cap">Say “next” to hear the next slide prompt.</p>
+      <div class="slides" id="slides"></div>
+    </section>
+
+    <!-- §5 hum synthesis -->
+    <section class="wd wide" data-pages="list session">
+      <h3>Hum tone synthesis <span>§5</span></h3>
+      <p class="cap">Sine wave at 22,050 Hz with a 10 ms attack and 20 ms decay so it reads as a hum, not a click.</p>
+      <canvas id="humCv" width="1760" height="130"></canvas>
+      <div class="flex" style="margin-top:6px"><span class="small" id="humTxt">Press a button to hear a tone</span>
+        <span style="flex:1"></span>
+        <div class="btnrow" style="margin:0"><button data-hum="breath">Breath</button><button data-hum="audience">Audience</button><button data-hum="chime">Chime</button></div></div>
+    </section>
+
+    <!-- §1 recognition loop -->
+    <section class="wd wide" data-pages="home list session workspace">
+      <h3>Continuous recognition loop <span>§1</span></h3>
+      <p class="cap">Every result immediately restarts listening. Soft errors restart silently; hard errors stop.</p>
+      <div class="flow"><div class="nd" id="nL">Listening</div><span class="ar">›</span><div class="nd" id="nR">Result</div><span class="ar">›</span><div class="nd" id="nS">Restart</div></div>
+      <div class="small" id="loopTxt">0 results</div>
+    </section>
+  </div>
+</aside>
+</div>
+
+<script>
+const BUILD = 'live-transcription-3';
+const log = (...a) => console.log('%c[voice]', 'color:#3b6cf6;font-weight:bold', ...a);   // filter the console on "[voice]"
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const now = () => performance.now();
+
+addEventListener('error', e => log('JS ERROR:', e.message, e.filename + ':' + e.lineno));
+addEventListener('unhandledrejection', e => log('UNHANDLED REJECTION:', e.reason && (e.reason.message || e.reason)));
+// ---------- config (all hum frequencies, thresholds and cadences in one place) ----------
+const CFG = {
+  breath:  { hz:440, ms:120, at:1.5 },
+  audience:{ hz:280, ms:400, at:4.0 },
+  chime:   { hz:[520, 700], ms:120, gap:140 },
+  words:100, mileMin:5, trigger:'next',
+  wake:{ rms:1500, low:1000, frames:18, cooldown:10 },
+};
+
+// ---------- stage scaling ----------
+function fit() { $('stage').style.transform = `translate(-50%,-50%) scale(${Math.min(innerWidth / 1440, innerHeight / 900)})`; }
+addEventListener('resize', fit); fit();
+
+// ---------- projects ----------
+const DEFAULT_CORR = { 'kay pi eyes':'KPIs', 'k p i s':'KPIs', 'o k r s':'OKRs', 'okay ours':'OKRs', 'road map':'roadmap', 'sass':'SaaS', 'stand up':'standup',
+  'on boarding':'onboarding', 'head count':'headcount', 'run book':'runbook', 'q three':'Q3', 'pay back':'payback' };
+const SAMPLES = [
+  { id:'s1', title:'Q3 Product Roadmap Review', sample:true,
+    summary:'Quarterly review of results against OKRs, what shipped, and the Q4 retention plan, ending with a request for roadmap feedback.',
+    terms:['roadmap','OKRs','KPIs','onboarding','SaaS','analytics','personalization','retention','churn'],
+    text:`Good morning everyone, and thanks for joining the Q3 product roadmap review. Today I want to cover three things: where we landed against our OKRs, what shipped, and what comes next.
+
+First, the numbers. Active users grew twelve percent quarter over quarter, and our onboarding completion rate climbed from sixty two to seventy eight percent. Churn stayed flat, which is the metric we still need to move.
+
+Second, the highlights. We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner. Each of these shipped on schedule.
+
+Looking ahead, Q4 focuses on retention. We will invest in personalization, faster search, and a lifecycle email program. I would like your feedback on sequencing before we lock the roadmap on Friday. Thank you, and let's open it up for questions.` },
+  { id:'s2', title:'Weekly Engineering Standup', sample:true,
+    summary:'Platform team status: database migration done, three focus items this week, and a security review blocker on the token service.',
+    terms:['migration','latency','authentication','refactor','pipeline','runbook','standup','integration'],
+    text:`Quick update from the platform team. Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent.
+
+This week we are focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates.
+
+One blocker to flag. We are waiting on security review for the new token service, and that review is holding up the authentication work. If someone can nudge the security team, that would help us stay on track for the release.
+
+That's all from platform. Next up, the mobile team.` },
+  { id:'s3', title:'Budget Proposal for Finance', sample:true,
+    summary:'Request for a 1.8 million dollar budget, a seven percent increase driven by four hires and cloud renewals, with payback in eighteen months.',
+    terms:['budget','fiscal','headcount','infrastructure','payback','vendor','enterprise','roadmap'],
+    text:`Thank you for making time today. I am here to present our proposed budget for the next fiscal year and to explain the reasoning behind each line.
+
+We are requesting a total of one point eight million dollars, which is a seven percent increase over this year. Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is reserved for training and travel.
+
+The increase is driven by two investments. First, we plan to hire four engineers to support the enterprise roadmap. Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit.
+
+We expect a payback within eighteen months through reduced vendor spend and faster delivery. I welcome your questions and any adjustments you recommend.` },
+  { id:'s4', title:'Customer Onboarding Pitch', sample:true,
+    summary:'A thirty day onboarding plan for a new customer: setup in week one, adoption in weeks two and three, and a success review at day thirty.',
+    terms:['onboarding','implementation','adoption','integration','dashboard','templates','training'],
+    text:`Welcome, and thank you for choosing us. In the next ten minutes I will walk you through how onboarding works, what you can expect from our team, and how we measure success together.
+
+Week one is about setup. We connect your data sources, configure single sign on, and invite your first group of users. Our implementation manager will be on call the whole time.
+
+Weeks two and three are about adoption. We run live training sessions, share best practice templates, and review early usage reports with you.
+
+By day thirty we hold a success review. We compare results against the goals you set, agree on next steps, and schedule your quarterly check in. Let's get started.` },
+];
+
+let uploaded = [];
+try { uploaded = JSON.parse(localStorage.getItem('uploadedProjects') || '[]'); } catch {}
+const saveUploaded = () => { try { localStorage.setItem('uploadedProjects', JSON.stringify(uploaded)); } catch {} };
+const FREE = { id:'free', title:'Free speech', free:true, text:'', terms:[], summary:'No script. Just speak, and your words are typed out live as you talk.' };
+const allProjects = () => [...SAMPLES, ...uploaded];
+
+// recorded transcripts: cached in this browser, and stored with each session on the server
+let recordings = [];
+try { recordings = JSON.parse(localStorage.getItem('recordings') || '[]'); } catch {}
+const saveRecordings = () => { try { localStorage.setItem('recordings', JSON.stringify(recordings)); } catch {} };
+const recLabel = r => new Date(r.startedAt).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+async function syncRecordings() {                                     // pull sessions stored on the server that this browser doesn't have yet
+  try {
+    const jobs = await (await fetch('api/sessions')).json();
+    for (const j of jobs) { const p = j.properties || {};
+      if (p.mode !== 'guided' || !p.projectId || !p.transcript || recordings.some(r => r.jobId === j.id)) continue;
+      recordings.push({ id:'j' + j.id, jobId:j.id, projectId:p.projectId, title:p.title, startedAt:p.startedAt, endedAt:p.endedAt || p.startedAt, transcript:p.transcript, words:p.words || 0 }); }
+    saveRecordings(); if (page === 'list') renderList();
+  } catch {}
+}
+
+const paras = text => {
+  let p = text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  if (p.length === 1) { // one big block: chunk by ~3 sentences
+    const sents = p[0].match(/[^.!?]+[.!?]*\s*/g) || [p[0]]; p = [];
+    for (let i = 0; i < sents.length; i += 3) p.push(sents.slice(i, i + 3).join('').trim());
+  }
+  return p;
+};
+const countWords = t => (t.match(/\S+/g) || []).length;
+function extractTerms(text) { // capitalised words (not sentence-initial), acronyms, long repeated words
+  const freq = {};
+  const re = /(^|[.!?]\s+|\n)|\b([A-Z]{2,}s?|[A-Z][a-z]{3,}|[a-z]{9,})\b/g; let m, startNext = true;
+  while ((m = re.exec(text))) {
+    if (m[1] !== undefined) { startNext = true; continue; }
+    const w = m[2]; const sentStart = startNext && /^[A-Z][a-z]/.test(w); startNext = false;
+    if (sentStart) continue; freq[w] = (freq[w] || 0) + 1;
+  }
+  return Object.keys(freq).sort((a, b) => freq[b] - freq[a]).slice(0, 10);
+}
+function firstSentences(text, n) { const s = (text.replace(/\s+/g, ' ').match(/[^.!?]+[.!?]/g) || [text]).slice(0, n).join(' ').trim(); return s.length > 230 ? s.slice(0, 227) + '…' : s; }
+
+function renderList() {
+  $('plist').innerHTML = '<button class="newp" id="newp">New project — upload a .txt file <span>＋</span></button>' +
+    [FREE, ...allProjects()].map(p => { const w = countWords(p.text), rs = recordings.filter(r => r.projectId === p.id).sort((a, b) => b.startedAt - a.startedAt);
+      return `<div class="pwrap"><button class="card proj" data-p="${p.id}"><b>${esc(p.title)}<span class="tag ${p.free ? 'up' : p.sample ? '' : 'up'}">${p.free ? 'No script' : p.sample ? 'Sample' : 'Uploaded'}</span></b>
+        <div class="meta">${p.free ? 'Just record — your words are typed live' : `${w} words · ~${Math.max(1, Math.round(w / 130))} min · ${paras(p.text).length} sections`}</div></button>
+        <div class="recs">${rs.length ? rs.map(r => `<button class="rec" data-r="${r.id}">🎙 ${esc(recLabel(r))}</button>`).join('') : '<div class="norec">-- no recorded sessions --</div>'}</div></div>`; }).join('');
+  $('newp').onclick = () => $('upload').click();
+}
+$('upload').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  const text = (await f.text()).trim(); if (!text) return;
+  const p = { id:'u' + Date.now(), title:f.name.replace(/\.[^.]+$/, ''), sample:false, text, summary:firstSentences(text, 2), terms:extractTerms(text) };
+  uploaded.push(p); saveUploaded(); renderList(); openProject(p.id);
+};
+
+// ---------- fuzzy script tracking ----------
+// Handles misheard/mispronounced words (spelling + sound + partial-word similarity), dropped words, and the speaker
+// skipping ahead or jumping back (confirmed over two updates so one bad transcript can't throw it off).
+const STOP = new Set('the a an of to and in on for is are was be it that this with as at by or we our i you'.split(' '));
+const norm = w => w.toLowerCase().replace(/[^a-z0-9]/g, '');
+function lev(a, b) {
+  const d = Array.from({ length:a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+// rough phonetic key: fold common spelling variants first (ph/f, ck/k, kn/n, wr/r, c->k/s ...), then Soundex
+function phon(w) {
+  w = w.replace(/^kn/, 'n').replace(/^wr/, 'r').replace(/^wh/, 'w').replace(/ph/g, 'f').replace(/ck/g, 'k').replace(/gh/g, '').replace(/ce|ci|cy/g, m => 's' + m[1]).replace(/c/g, 'k').replace(/tion|sion/g, 'shun').replace(/(.)\1+/g, '$1');
+  const c = { b:1,f:1,p:1,v:1, k:2,g:2,j:2,q:2,s:2,x:2,z:2, d:3,t:3, l:4, m:5,n:5, r:6 };
+  let out = w[0], last = c[w[0]] || 0;
+  for (let i = 1; i < w.length && out.length < 5; i++) { const k = c[w[i]] || 0; if (k && k !== last) out += k; if (!'hw'.includes(w[i])) last = k; }
+  return (out + '0000').slice(0, 5);
+}
+function sim(a, b) {
+  if (!a || !b) return 0; if (a === b) return 1;
+  const isW = /^[a-z]/.test(a) && /^[a-z]/.test(b);
+  let s = 1 - lev(a, b) / Math.max(a.length, b.length); if (s < 0.6) s = 0;
+  if (isW && a.length > 2 && b.length > 2) {
+    if (phon(a) === phon(b)) s = Math.max(s, 0.85);                                                  // sounds alike
+    else if (a[0] === b[0] && phon(a).slice(0, 3) === phon(b).slice(0, 3)) s = Math.max(s, 0.65);   // sounds roughly alike
+    if (a.length >= 3 && b.startsWith(a)) s = Math.max(s, 0.8);                                      // half-recognised word
+  }
+  return s;
+}
+
+const T = { words:[], S:[], pos:0, lost:0, heard:[], conf:0, project:null, paraEnds:[], skipped:new Set(), rows:new Map(), pending:null, jumps:0 };
+function loadScript(p) {
+  T.project = p; T.words = []; T.S = []; T.pos = 0; T.lost = 0; T.heard = []; T.conf = 0; T.paraEnds = []; T.skipped = new Set(); T.rows = new Map(); T.pending = null; T.jumps = 0;
+  const ps = paras(p.text); let html = '', i = 0;
+  for (const para of ps) {
+    html += '<p>';
+    for (const w of para.split(/\s+/)) { T.words.push(w); T.S.push(norm(w)); html += `<span class="w" data-i="${i++}">${esc(w)}</span> `; }
+    html += '</p>'; T.paraEnds.push(i);
+  }
+  $('script').innerHTML = html; $('script').scrollTop = 0;
+  $('mini').innerHTML = ps.map((q, k) => `<s style="flex:${countWords(q)}"><i id="mp${k}"></i></s>`).join('');
+  $('skipN').textContent = '0'; $('jumpN').textContent = '0';
+  setPos(0, true);
+}
+let shownPos = -1;
+function setPos(np, full) {
+  const spans = $('script').querySelectorAll('.w'), cls = i => 'w' + (i < np ? (T.skipped.has(i) ? ' skip' : ' done') : i === np ? ' cur' : '');
+  if (full || shownPos < 0) spans.forEach((el, i) => el.className = cls(i));
+  else { const lo = Math.max(0, Math.min(np, shownPos) - 1), hi = Math.min(spans.length - 1, Math.max(np, shownPos) + 1); for (let i = lo; i <= hi; i++) spans[i].className = cls(i); }
+  T.pos = np; shownPos = np;
+  const cur = spans[Math.min(np, spans.length - 1)];
+  if (cur) { const box = $('script'); box.scrollTo({ top:cur.offsetTop - box.clientHeight * 0.4, behavior:'smooth' }); }
+  const frac = T.S.length ? np / T.S.length : 0;
+  $('sBar').style.width = (frac * 100) + '%'; $('pct').textContent = Math.round(frac * 100) + '%';
+  let start = 0; T.paraEnds.forEach((end, k) => { const f = Math.max(0, Math.min(1, (np - start) / (end - start))); const m = $('mp' + k); if (m) m.style.width = (f * 100) + '%'; start = end; });
+  $('skipN').textContent = T.skipped.size;
+}
+$('script').addEventListener('click', e => { const s = e.target.closest('.w'); if (s) { T.lost = 0; T.pending = null; const n = +s.dataset.i; for (const i of [...T.skipped]) if (i >= n) T.skipped.delete(i); setPos(n, true); } });
+
+// similarity of one heard word against every script word (cached per word)
+function row(hw) {
+  let r = T.rows.get(hw); if (r) return r;
+  r = new Float32Array(T.S.length); for (let i = 0; i < r.length; i++) r[i] = sim(hw, T.S[i]);
+  if (T.rows.size > 400) T.rows.clear(); T.rows.set(hw, r); return r;
+}
+// how well do the heard words fit a window of script ending at j?
+function scoreAt(j, heard, rows) {
+  const m = heard.length; let sc = 0, wt = 0, solid = 0, endHit = false, nonStop = 0;
+  for (let k = 0; k < m; k++) {
+    const stop = STOP.has(heard[k]), w = stop ? 0.35 : 1; let bs = 0;
+    for (let si = Math.max(0, j - m - 1); si <= j; si++) { const v = rows[k][si]; if (v > bs) bs = v; if (si === j && v >= 0.8 && !stop) endHit = true; }
+    sc += w * bs; wt += w; if (!stop) { nonStop++; if (bs >= 0.8) solid++; }
+  }
+  return { score:sc / wt, solid, nonStop, ok:endHit && nonStop > 0 && solid >= Math.min(2, nonStop) };
+}
+
+function track(interimWords) {
+  if (!T.project || !T.S.length) return;
+  const heard = T.heard.concat(interimWords).slice(-5), m = heard.length; if (!m) return;
+  const rows = heard.map(row), N = T.S.length;
+  // best candidate near the current position (small forward bias) and best anywhere in the script (needs stronger proof)
+  let near = null, far = null;
+  for (let j = 0; j < N; j++) {
+    const d = j - T.pos, isNear = d >= -3 && d <= 40;
+    const r = scoreAt(j, heard, rows); if (!r.ok) continue;
+    const sc = r.score - (isNear ? 0.003 * Math.max(0, d) : 0.0005 * Math.abs(d)), c = { j, sc, solid:r.solid, raw:r.score };
+    if (isNear) { if (!near || sc > near.sc) near = c; } else if (!far || sc > far.sc) far = c;
+  }
+  const needNear = m < 3 ? 0.85 : 0.5;
+  const farOk = far && far.solid >= Math.min(3, m) && far.raw >= 0.7 && m >= 3 && (!near || far.sc > near.sc + 0.1);
+  const showHeard = (matchJ, note) => $('heard').innerHTML = `Heard: ${esc(heard.join(' '))}<br>` + (matchJ >= 0 ? `Matched: <b>${esc(T.words.slice(Math.max(0, matchJ - m + 1), matchJ + 1).join(' '))}</b>` : '') + (note ? ` <span class="small">${note}</span>` : '');
+  const conf = near && near.sc >= needNear ? near.sc : farOk ? far.sc : Math.max(0, near ? near.sc : 0, far ? far.sc * 0.6 : 0);
+
+  if (near && near.sc >= needNear && !farOk) {                                                       // normal reading, incl. mispronounced / dropped words
+    T.lost = 0; T.pending = null;
+    const first = near.j - m + 1;
+    if (near.j + 1 > T.pos) {
+      const gap = first - T.pos;                                                                     // words clearly passed over without being said
+      if (gap >= 4) { for (let i = T.pos; i < first; i++) T.skipped.add(i); setPos(near.j + 1, true); showHeard(near.j, `skipped ${gap} words`); }
+      else { setPos(near.j + 1); showHeard(near.j, ''); }
+    } else showHeard(near.j, '');
+  } else if (farOk) {                                                                                // user skipped ahead or jumped back: confirm on a second update
+    if (T.pending && Math.abs(T.pending.j - far.j) <= 6) T.pending.n++; else T.pending = { j:far.j, n:1 };
+    if (T.pending.n >= 2) {
+      const first = far.j - m + 1, from = T.pos; T.pending = null; T.lost = 0; T.jumps++; $('jumpN').textContent = T.jumps;
+      if (far.j + 1 > from) { const gap = first - from; if (gap >= 4) for (let i = from; i < first; i++) T.skipped.add(i); }
+      else for (const i of [...T.skipped]) if (i >= first) T.skipped.delete(i);                     // jumping back: un-skip what's re-read
+      setPos(far.j + 1, true); showHeard(far.j, far.j + 1 > from ? `jumped ahead ${far.j + 1 - from} words` : `jumped back ${from - far.j - 1} words`);
+    } else showHeard(-1, 'Possible jump — checking…');
+  } else {
+    T.lost++; showHeard(-1, `Not sure yet${T.lost >= 3 ? ' — listening for a place to rejoin' : ''}…`);
+  }
+  T.conf = conf;
+  $('confBar').style.width = (Math.min(1, T.conf) * 100) + '%'; $('confBar').style.background = T.conf >= 0.7 ? 'var(--ok)' : T.conf >= 0.5 ? 'var(--warn)' : 'var(--live)';
+  $('confN').textContent = Math.round(T.conf * 100) + '%';
+}
+
+// ---------- hum synthesis ----------
+let actx = null; const HUM_SR = 22050; let lastTone = null;
+function audio() { if (!actx) actx = new AudioContext(); if (actx.state === 'suspended') actx.resume(); return actx; }
+function synth(hz, ms) {
+  const n = Math.floor(HUM_SR * ms / 1000), att = HUM_SR * 0.01, dec = HUM_SR * 0.02, buf = new Float32Array(n), env = new Float32Array(n);
+  for (let i = 0; i < n; i++) { env[i] = Math.min(1, i / att, (n - 1 - i) / dec); buf[i] = Math.sin(2 * Math.PI * hz * i / HUM_SR) * 9000 / 32768 * env[i]; }
+  return { hz, ms, buf, env };
+}
+let cueUntil = 0; const cueActive = () => performance.now() < cueUntil;   // our own tones/TTS reach the mic; ignore the mic while they play
+function play(tone, delayMs = 0) {
+  lastTone = tone; drawHum(); cueUntil = performance.now() + tone.ms + 500;
+  if (!$('cues').checked) return;
+  const c = audio(), b = c.createBuffer(1, tone.buf.length, HUM_SR); b.copyToChannel(tone.buf, 0);
+  const s = c.createBufferSource(); s.buffer = b; s.connect(c.destination); s.start(c.currentTime + delayMs / 1000);
+}
+function hum(kind) {
+  if (kind === 'chime') {
+    const [a, b] = CFG.chime.hz; play(synth(a, CFG.chime.ms)); setTimeout(() => play(synth(b, CFG.chime.ms)), CFG.chime.gap);
+    $('humTxt').textContent = `Chime ${a} Hz → ${b} Hz`;
+  } else { const c = CFG[kind]; play(synth(c.hz, c.ms)); $('humTxt').textContent = `${kind === 'breath' ? 'Breath' : 'Audience'} hum · ${c.hz} Hz · ${c.ms} ms`; }
+}
+document.querySelectorAll('[data-hum]').forEach(b => b.onclick = () => { audio(); hum(b.dataset.hum); });
+function drawHum() {
+  const cv = $('humCv'), g = cv.getContext('2d'), W = cv.width, H = cv.height; g.clearRect(0, 0, W, H);
+  g.strokeStyle = '#e4e7ec'; g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+  if (!lastTone) return;
+  const { buf, env } = lastTone, n = buf.length, step = n / W;
+  g.fillStyle = 'rgba(59,108,246,.2)'; g.beginPath(); g.moveTo(0, H / 2);
+  for (let x = 0; x < W; x++) g.lineTo(x, H / 2 - env[Math.floor(x * step)] * (H / 2 - 6)); g.lineTo(W, H / 2);
+  for (let x = W - 1; x >= 0; x--) g.lineTo(x, H / 2 + env[Math.floor(x * step)] * (H / 2 - 6)); g.fill();
+  g.strokeStyle = '#3b6cf6'; g.beginPath();
+  for (let x = 0; x < W; x++) { let mn = 1, mx = -1; for (let i = Math.floor(x * step); i < Math.floor((x + 1) * step) && i < n; i++) { mn = Math.min(mn, buf[i]); mx = Math.max(mx, buf[i]); }
+    if (mx >= mn) { g.moveTo(x, H / 2 - mx * 3.5 * (H / 2)); g.lineTo(x, H / 2 - mn * 3.5 * (H / 2)); } }
+  g.stroke();
+}
+
+// ---------- speech engine state ----------
+const E = { active:false, startAt:0, lastSpeechAt:0, spoken:false, bL:false, aL:false, wordsSince:0, chimes:0, words:0, minutes:0, mileTimer:null, mileNext:0, stamps:0, lastStamp:'',
+            strip:[], slide:-1, slides:[], profile:{ terms:[], corr:DEFAULT_CORR } };
+const speak = t => { if (!$('cues').checked) return; cueUntil = performance.now() + t.length * 75 + 1500; try { speechSynthesis.cancel(); speechSynthesis.speak(new SpeechSynthesisUtterance(t)); } catch {} };
+
+// Each practice session is an Anbaric job: recording -> scoring -> completed. Failures never interrupt practice.
+let sessionId = null, sessionStart = null;
+function beginSession(project) {
+  sessionStart = fetch('api/sessions', { method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({ title: project ? project.title : 'Free speech', mode: project ? 'guided' : 'free', projectId: project ? project.id : undefined }) })
+    .then(r => r.json()).then(j => { sessionId = j.id; }).catch(() => {});
+}
+function endSession() {
+  const started = sessionStart; sessionStart = null;
+  const transcript = finalText.trim(), project = E.project, startedAt = E.startAt, endedAt = Date.now();
+  const stats = { words:E.words || 0, chimes:E.chimes || 0, stamps:E.stamps || 0, transcript };
+  // keep the recording locally right away (guided sessions only) so it shows under its project
+  const rec = project && transcript ? { id:'r' + endedAt, projectId:project.id, title:project.title, startedAt, endedAt, transcript, words:stats.words } : null;
+  if (rec) { recordings.push(rec); saveRecordings(); }
+  if (!started) return;
+  started.then(() => { const id = sessionId; sessionId = null; if (!id) return; if (rec) { rec.jobId = id; saveRecordings(); }
+    fetch('api/sessions/' + id + '/finish', { method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(stats) }).catch(() => {}); });
+}
+function startEngine(project) {
+  E.project = project || null; beginSession(project);
+  E.active = true; E.startAt = Date.now(); E.spoken = false; E.bL = E.aL = false; E.wordsSince = 0; E.chimes = 0; E.words = 0; E.minutes = 0; E.stamps = 0; E.lastStamp = ''; E.strip = []; E.slide = -1;
+  E.lastSpeechAt = now();
+  if (project) { E.profile = { terms:project.terms || [], corr:DEFAULT_CORR }; E.slides = paras(project.text).map(p => (p.match(/[^.!?]+/) || [p])[0].trim().replace(/^(.{70}).+$/, '$1…')); }
+  else E.slides = [];
+  renderSlides(); scheduleMile(); $('sug').innerHTML = '<div class="small">No suggestions yet.</div>';
+}
+function stopEngine() { if (E.active) endSession(); E.active = false; clearTimeout(E.mileTimer); E.mileTimer = null; }
+function scheduleMile() {
+  clearTimeout(E.mileTimer); const ms = CFG.mileMin * 60000; E.mileNext = Date.now() + ms;
+  E.mileTimer = setTimeout(() => {
+    E.minutes += CFG.mileMin; E.stamps++; E.lastStamp = `${E.minutes} minutes. Approximately ${E.words} words.`; speak(E.lastStamp); scheduleMile();
+  }, ms);
+}
+$('mileSel').onchange = e => { CFG.mileMin = +e.target.value; if (E.active) scheduleMile(); };
+
+// §2 pause watcher, polled every 250 ms
+function pauseTick() {
+  const idle = (now() - E.lastSpeechAt) / 1000; let h = 0;
+  if (E.active && E.spoken) {
+    if (idle >= CFG.audience.at && !E.aL) { E.aL = true; h = 2; hum('audience'); }
+    else if (idle >= CFG.breath.at && !E.bL) { E.bL = true; h = 1; hum('breath'); }
+  }
+  E.strip.push({ s:idle < 0.8 && E.spoken, h }); if (E.strip.length > 240) E.strip.shift();
+  return idle;
+}
+
+// ---------- suggestions (§6) ----------
+let sugList = [];
+function computeSuggestions() {
+  const toks = finalText.toLowerCase().split(/[^a-z0-9']+/).filter(Boolean).slice(-14), out = new Map();
+  for (let i = 0; i < toks.length; i++) for (let n = 1; n <= 3 && i + n <= toks.length; n++) {      // exact pass: hash lookup of 1-3 word phrases
+    const key = toks.slice(i, i + n).join(' '), to = E.profile.corr[key];
+    if (to) out.set(key + '>' + to, { heard:key, to, kind:'correction' });
+  }
+  const termsLc = E.profile.terms.map(t => t.toLowerCase());
+  for (const t of toks) {                                                                           // prefix pass
+    if (t.length < 3 || STOP.has(t) || termsLc.includes(t)) continue;
+    const pre = t.slice(0, 4), hit = E.profile.terms.find(x => x.toLowerCase().startsWith(pre));
+    if (hit) out.set(t + '>' + hit, { heard:t, to:hit, kind:'term' });
+  }
+  sugList = [...out.values()].slice(0, 5);
+  $('sug').innerHTML = sugList.length ? sugList.map((s, i) => `<div class="it"><span class="k ${s.kind === 'correction' ? 'c' : ''}">${s.kind}</span><b><s>${esc(s.heard)}</s> → ${esc(s.to)}</b><button data-s="${i}">Apply</button></div>`).join('')
+    : '<div class="small">No suggestions yet.</div>';
+}
+$('sug').onclick = e => {
+  const b = e.target.closest('[data-s]'); if (!b) return; const s = sugList[+b.dataset.s]; if (!s) return;
+  const re = new RegExp('\\b' + s.heard.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/ /g, '\\s+') + '\\b', 'gi'); let last = null, m;
+  while ((m = re.exec(finalText))) last = m;                                                         // replace the LAST occurrence
+  if (last) finalText = finalText.slice(0, last.index) + s.to + finalText.slice(last.index + last[0].length);
+  render(''); computeSuggestions();
+};
+
+// ---------- slide coach (§7) ----------
+function renderSlides() {
+  $('slides').innerHTML = E.slides.map((s, i) => `<div class="${i === E.slide ? 'cur' : ''}"><em>${i + 1}</em><span>${esc(s)}</span></div>`).join('') || '<div class="small">No slides.</div>';
+}
+function coach(tokens) {
+  if (!E.slides.length || !tokens.some(t => t.toLowerCase() === CFG.trigger)) return;
+  E.slide = (E.slide + 1) % E.slides.length; renderSlides(); speak(E.slides[E.slide]);
+}
+
+// ---------- transcription + recognition loop (§1) ----------
+let finalText = '';
+const loop = { state:'idle', results:0, msg:'', last:'' };
+function renderLoop() {
+  $('nL').className = 'nd' + (loop.state === 'listening' ? ' on' : '');
+  $('nR').className = 'nd' + (loop.state === 'result' ? ' on' : '');
+  $('nS').className = 'nd' + (loop.state === 'restart' ? ' on' : loop.state === 'stopped' ? ' err' : '');
+  $('loopTxt').textContent = `${loop.results} results` + (loop.msg ? ' · ' + loop.msg : '') + (loop.last ? ' · last: ' + loop.last : '');
+}
+function render(interim) {
+  const all = (finalText + ' ' + interim).trim();
+  $('ticker').innerHTML = all ? esc(finalText.slice(-300)) + (interim ? ' <span class="interim">' + esc(interim) + '</span>' : '') : '<span class="idle">Waiting for speech…</span>';
+  const tk = $('ticker'); tk.scrollLeft = tk.scrollWidth; requestAnimationFrame(() => { tk.scrollLeft = tk.scrollWidth; });  // always show the newest words
+  $('transcriptFull').textContent = all || 'Nothing yet…';
+  const lt = $('liveTx');                                             // free-speech session: type the words out live
+  if (lt) { lt.innerHTML = all ? esc(finalText) + (interim ? (finalText ? ' ' : '') + '<span class="interim">' + esc(interim) + '</span>' : '') : '<span class="idle">Start speaking — your words will appear here.</span>'; $('script').scrollTop = $('script').scrollHeight; }
+}
+function setStatus(on, text) { $('status').classList.toggle('on', on); $('statusText').textContent = text; }
+
+function onSpeech(finals, interim) {
+  log('transcript update — engine:', engine, '| finals:', finals.length, '| interim:', JSON.stringify(interim).slice(0, 80));
+  E.lastSpeechAt = now(); E.bL = E.aL = false;                                                       // stamp + reset latches
+  if (E.active) E.spoken = true;
+  const iw = (interim.match(/[A-Za-z0-9']+/g) || []).map(norm);
+  for (const f of finals) {
+    const toks = f.split(/[^A-Za-z]+/).filter(Boolean), n = (f.match(/\S+/g) || []).length;
+    finalText += (finalText ? ' ' : '') + f; T.heard.push(...(f.match(/[A-Za-z0-9']+/g) || []).map(norm));
+    if (T.heard.length > 40) T.heard = T.heard.slice(-40);
+    if (E.active) {
+      E.words += n; E.wordsSince += n;                                                               // §3: final results only
+      if (E.wordsSince >= CFG.words) { E.wordsSince = 0; E.chimes++; hum('chime'); }
+      if (page === 'session') coach(toks);
+    }
+  }
+  render(interim);
+  if (page === 'session') track(iw);
+  if (E.active && (finals.length || interim)) computeSuggestions();
+}
+
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let ourAbort = false, rec = null, wantListening = true, retrying = false, lastRecHeard = performance.now();
+function recHeard() { lastRecHeard = performance.now(); W.loudMs = 0; }
+function retryLater(ms) { retrying = true; setTimeout(() => { retrying = false; if (wantListening) startListening(); }, ms); }
+const DBG = []; window.__dbg = DBG;
+const QUIET = /^(ended|recognizer started|audio started|error: no-speech|error: aborted)$/;   // browser housekeeping: logged, never shown to the user
+function dbg(ev) { log('recognizer:', ev); DBG.push(Math.round(performance.now()) + ' ' + ev); if (DBG.length > 60) DBG.shift(); if (!QUIET.test(ev)) { loop.last = ev; renderLoop(); } }
+function micNote(t) { $('micNote').textContent = t; }
+function startListening() {
+  if (!SR) { setStatus(false, 'Speech recognition not supported — use Chrome'); return; }
+  log('starting Chrome SpeechRecognition (continuous, interim, en-US)');
+  rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US';
+  rec.onstart = () => { dbg('recognizer started'); loop.state = 'listening'; renderLoop(); setStatus(true, 'Listening passively…'); };
+  rec.onresult = e => {
+    recHeard(); dbg('result');
+    let interim = ''; const finals = [];
+    for (let i = e.resultIndex; i < e.results.length; i++) { const r = e.results[i]; if (r.isFinal) finals.push(r[0].transcript.trim()); else interim += r[0].transcript; }
+    loop.results += finals.length; if (finals.length) { loop.state = 'result'; renderLoop(); setTimeout(() => { if (loop.state === 'result') { loop.state = 'listening'; renderLoop(); } }, 600); }
+    log('recognizer result — final:', JSON.stringify(finals), 'interim:', JSON.stringify(interim));
+    onSpeech(finals, interim);
+  };
+  rec.onerror = e => {
+    log('recognizer ERROR:', e.error, e.message || '');
+    dbg('error: ' + e.error);
+    if (e.error === 'aborted' && !ourAbort) {                                                         // something other than us cut the recognizer off
+      const t = performance.now(); W.aborts = (W.aborts || []).filter(x => t - x < 20000).concat(t);
+      log('recognizer was ABORTED by the browser/OS, not by this app (' + W.aborts.length + ' in 20 s)');
+      if (W.aborts.length >= 2 && engineMode === 'auto' && engine === 'webspeech') { micNote('Chrome keeps interrupting its speech recognizer — switching to on-device transcription.'); setEngine('whisper'); }
+    }
+    if (e.error === 'no-speech' || e.error === 'aborted') return;                                    // soft: restart silently
+    loop.state = 'stopped'; loop.msg = e.error; renderLoop();
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {                              // permission: wait for a tap
+      wantListening = false; setStatus(false, 'Mic blocked — tap anywhere to allow passive listening');
+      micNote('Allow the microphone for this site (lock icon in the address bar) and for Chrome in macOS System Settings › Privacy & Security › Microphone.');
+    } else if (e.error === 'audio-capture') {                                                        // no usable input device: keep retrying
+      setStatus(false, 'No microphone found — retrying…'); micNote('Chrome can’t open an input device. Check System Settings › Sound › Input, and that no other app holds the mic.'); retryLater(5000);
+    } else if (e.error === 'network') {                                                              // recognizer service unreachable: keep retrying
+      setStatus(false, 'Speech service unreachable — retrying…'); micNote('Chrome’s speech recognition needs internet (and Google Chrome, not Chromium).'); retryLater(4000);
+    } else { wantListening = false; setStatus(false, 'Listening stopped: ' + e.error); }
+  };
+  rec.onaudiostart = () => dbg('audio started');
+  rec.onsoundstart = () => { recHeard(); dbg('sound detected'); };
+  rec.onspeechstart = () => { recHeard(); dbg('speech detected'); };
+  rec.onnomatch = () => dbg('no match');
+  rec.onend = () => { dbg('ended'); if (!wantListening || retrying) return; setTimeout(() => { try { rec.start(); } catch {} }, 250); };
+  try { rec.start(); } catch {}
+}
+
+// ---------- on-device transcription: Whisper (transformers.js) in a worker, fed from the same mic stream ----------
+// No Google service involved, and no recognizer sessions to restart. First use downloads the model (~40 MB, then cached).
+const WORKER_SRC = `
+import { pipeline } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.7.6';
+let asr; const files = {};
+self.onmessage = async ({ data }) => {
+  try {
+    if (data.type === 'load') {
+      asr = await pipeline('automatic-speech-recognition', 'Xenova/whisper-tiny.en', { progress_callback: p => {
+        if (p.status === 'progress' && p.total) { files[p.file] = [p.loaded, p.total]; let l = 0, t = 0; for (const k in files) { l += files[k][0]; t += files[k][1]; } self.postMessage({ type:'progress', pct:Math.round(100 * l / t) }); } } });
+      self.postMessage({ type:'ready' });
+    } else if (data.type === 'run') {
+      const out = await asr(data.audio, { chunk_length_s:30 });
+      self.postMessage({ type:'result', id:data.id, kind:data.kind, utt:data.utt, text:out.text });
+    }
+  } catch (e) { self.postMessage({ type:'error', message:String((e && e.message) || e) }); }
+};`;
+const WH = { chunks:0, lastPct:-1, worker:null, ready:false, active:false, node:null, ctx:null, pre:[], buf:[], speaking:false, silentMs:0, sinceInterim:0, floor:200, utt:0, busy:false, queue:[], jobId:0, text:'' };
+function whLoad() {
+  if (WH.worker) return;
+  log('loading Whisper worker + model (first run downloads ~40 MB)…');
+  WH.worker = new Worker(URL.createObjectURL(new Blob([WORKER_SRC], { type:'text/javascript' })), { type:'module' });
+  WH.worker.onmessage = ({ data }) => {
+    if (data.type === 'progress') { if (data.pct % 10 === 0 && data.pct !== WH.lastPct) { WH.lastPct = data.pct; log('model download', data.pct + '%'); } micNote(`Loading on-device speech model… ${data.pct}%`); setStatus(true, 'Loading on-device model…'); }
+    else if (data.type === 'ready') { log('Whisper model READY'); WH.ready = true; micNote(''); if (WH.active) setStatus(true, 'Listening passively (on-device)…'); whPump(); }
+    else if (data.type === 'result') whResult(data);
+    else if (data.type === 'error') { log('Whisper ERROR:', data.message); WH.busy = false; micNote('On-device transcription error: ' + data.message); dbg('whisper error: ' + data.message); }
+  };
+  WH.worker.onerror = e => { log('Whisper worker onerror:', e.message || e); micNote('On-device model failed to load: ' + (e.message || 'network?')); dbg('whisper worker error'); };
+  WH.worker.postMessage({ type:'load' });
+}
+function whStartCapture() {
+  if (WH.node || !W.stream) { log('on-device capture not started — node:', !!WH.node, 'stream:', !!W.stream); return; }
+  const ctx = new AudioContext({ sampleRate:16000 }); WH.ctx = ctx; ctx.resume().catch(() => {});
+  const src = ctx.createMediaStreamSource(W.stream), node = ctx.createScriptProcessor(4096, 1, 1), mute = ctx.createGain(); mute.gain.value = 0;
+  src.connect(node); node.connect(mute); mute.connect(ctx.destination);
+  node.onaudioprocess = e => whChunk(new Float32Array(e.inputBuffer.getChannelData(0)));
+  WH.node = node;
+}
+function whChunk(x) {
+  if (!WH.active) return;
+  let s = 0; for (let i = 0; i < x.length; i++) s += x[i] * x[i];
+  if (++WH.chunks % 20 === 0) log(`on-device capture alive — ${WH.chunks} chunks, last rms ${Math.round(Math.sqrt(s / x.length) * 32768)}, floor ${Math.round(WH.floor)}, ctx ${WH.ctx.state}`);
+  const rms = Math.sqrt(s / x.length) * 32768, ms = x.length / 16, muted = cueActive();
+  const speech = !muted && rms > Math.max(500, WH.floor * 3);
+  if (!speech && !muted) WH.floor = WH.floor * 0.95 + rms * 0.05;                 // adaptive noise floor
+  if (speech) { E.lastSpeechAt = now(); E.bL = E.aL = false; if (E.active) E.spoken = true; }
+  if (speech) {
+    if (!WH.speaking) { log(`on-device: speech started (utterance ${WH.utt + 1}, rms ${Math.round(rms)}, floor ${Math.round(WH.floor)})`); WH.speaking = true; WH.utt++; WH.buf = WH.pre.slice(); WH.sinceInterim = 0; }
+    WH.buf.push(x); WH.silentMs = 0;
+  } else if (WH.speaking) {
+    WH.buf.push(x); WH.silentMs += ms; if (WH.silentMs >= 900) whFinalize();
+  } else { WH.pre.push(x); if (WH.pre.length > 2) WH.pre.shift(); }
+  if (WH.speaking) {
+    WH.sinceInterim += ms;
+    if (WH.buf.length * ms >= 20000) whFinalize();
+    else if (WH.sinceInterim >= 1400) { WH.sinceInterim = 0; whSubmit('interim'); }   // live, growing transcript of the current utterance
+  }
+}
+function whFinalize() { whSubmit('final'); WH.speaking = false; WH.buf = []; WH.silentMs = 0; }
+function whSubmit(kind) {
+  const n = WH.buf.reduce((a, c) => a + c.length, 0); if (n < 16000 * 0.4) { log('on-device: skipped', kind, '— only', Math.round(n / 16), 'ms of audio'); return; }
+  log(`on-device: sending ${kind} (${(n / 16000).toFixed(1)}s of audio) — model ready: ${WH.ready}, queue: ${WH.queue.length}`);
+  const audio = new Float32Array(n); let o = 0; for (const c of WH.buf) { audio.set(c, o); o += c.length; }
+  if (kind === 'interim') { WH.queue = WH.queue.filter(j => j.kind !== 'interim'); }
+  WH.queue.push({ kind, utt:WH.utt, audio }); whPump();
+}
+function whPump() {
+  if (WH.busy || !WH.ready || !WH.queue.length) return;
+  const i = WH.queue.findIndex(j => j.kind === 'final'), job = WH.queue.splice(i < 0 ? 0 : i, 1)[0];
+  WH.busy = true; WH.worker.postMessage({ type:'run', id:++WH.jobId, kind:job.kind, utt:job.utt, audio:job.audio }, [job.audio.buffer]);
+}
+function whResult(d) {
+  WH.busy = false;
+  const t = (d.text || '').replace(/\[[^\]]*\]|\([^)]*\)|\*[^*]*\*/g, '').replace(/\s+/g, ' ').trim();       // drop [BLANK_AUDIO], (music) ...
+  const ok = t.length > 1 && /[A-Za-z0-9]/.test(t);
+  log(`on-device: ${d.kind} result →`, JSON.stringify(d.text), ok ? '' : '(discarded)');
+  if (d.kind === 'final') { if (ok) { loop.results++; renderLoop(); onSpeech([t], ''); } else render(''); }
+  else if (ok && WH.speaking && d.utt === WH.utt) onSpeech([], t);
+  whPump();
+}
+
+// engine switching: 'webspeech' (Chrome) or 'whisper' (on-device)
+let engine = 'webspeech', engineMode = 'webspeech';          // live Chrome transcription by default; on-device Whisper only when chosen
+try { engineMode = localStorage.getItem('engineModeV2') || 'webspeech'; } catch {}
+async function setEngine(e) {
+  log('setEngine →', e, '(mode:', engineMode + ')');
+  if (e === 'whisper') {
+    engine = 'whisper'; wantListening = false; ourAbort = true; setTimeout(() => { ourAbort = false; }, 1500); try { rec && rec.abort(); } catch {}
+    setStatus(true, WH.ready ? 'Listening passively (on-device)…' : 'Loading on-device model…');
+    await initMic(); if (!W.stream) { micNote('On-device transcription needs microphone access.'); return; }
+    WH.active = true; whLoad(); whStartCapture(); log('on-device engine active; capture node:', !!WH.node);
+  } else {
+    engine = 'webspeech'; WH.active = false; if (!wantListening) { wantListening = true; startListening(); }
+  }
+}
+$('engineSel').value = engineMode;
+$('engineSel').onchange = e => { engineMode = e.target.value; try { localStorage.setItem('engineModeV2', engineMode); } catch {} setEngine(engineMode === 'whisper' ? 'whisper' : 'webspeech'); };
+
+// ---------- passive wake detection (§9) + bluetooth (§10) ----------
+const W = { n:0, peak:0, an:null, buf:null, rms:[], run:0, lastWake:0, rmsNow:0 };
+(function buildSegs() { $('wakeSegs').innerHTML = '<i></i>'.repeat(CFG.wake.frames); })();
+let micBusy = null;
+function initMic() { if (W.an) return Promise.resolve(); return micBusy || (micBusy = initMic2().finally(() => { micBusy = null; })); }
+async function initMic2() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:true });                   // default processing: matches what the recognizer opens, so the two captures don't reconfigure the device
+    const trk = stream.getAudioTracks()[0]; log('getUserMedia OK — device:', trk.label, '| settings:', JSON.stringify(trk.getSettings()), '| muted:', trk.muted, '| state:', trk.readyState);
+    W.stream = stream; const c = new AudioContext(); W.ctx = c; await c.resume().catch(() => {});
+    const src = c.createMediaStreamSource(stream); W.an = c.createAnalyser(); W.an.fftSize = 1024; src.connect(W.an); W.buf = new Float32Array(1024);
+    stream.getAudioTracks()[0].onended = () => { W.an = null; micNote('The microphone was disconnected.'); };
+    log('mic analyser running — AudioContext state:', c.state, 'sampleRate:', c.sampleRate);
+    if (!W.timer) W.timer = setInterval(wakeFrame, 32); listDevices(); micNote('');
+  } catch (e) {
+    const msg = e.name === 'NotAllowedError' ? 'Microphone permission denied — allow it for this site and for Chrome in macOS System Settings › Privacy & Security › Microphone.'
+      : e.name === 'NotFoundError' ? 'No microphone found. Plug one in or pick an input in System Settings › Sound.' : 'Microphone unavailable: ' + (e.message || e.name);
+    log('getUserMedia FAILED:', e.name, e.message); micNote(msg); $('wakeTxt').textContent = msg;
+  }
+}
+function wakeFrame() {
+  if (!W.an) return; if (W.ctx.state !== 'running') W.ctx.resume();                                    // autoplay policy can leave it suspended = all-zero signal
+  W.an.getFloatTimeDomainData(W.buf); let s = 0;
+  if (++W.n % 94 === 0) { log(`mic heartbeat — rms ${Math.round(W.rmsNow)} (peak ${Math.round(W.peak)}) · ctx ${W.ctx.state} · engine ${engine} (mode ${engineMode}) · loudMs ${W.loudMs || 0} · ${Math.round((performance.now() - lastRecHeard) / 1000)}s since Chrome recognizer heard anything · whisper ready ${WH.ready}`); W.peak = 0; } for (const x of W.buf) s += x * x;
+  const rms = Math.sqrt(s / W.buf.length) * 32768; W.rmsNow = rms; W.peak = Math.max(W.peak, rms); W.rms.push(rms);
+  $('lvl').style.width = Math.min(100, Math.sqrt(rms / 6000) * 100) + '%';
+  W.quiet = rms < 0.5 ? (W.quiet || 0) + 1 : 0; if (W.quiet === 160) micNote('Microphone is connected but silent — check the input device and volume in System Settings › Sound › Input.'); else if (W.quiet === 0 && $('micNote').textContent.startsWith('Microphone is connected')) micNote(''); if (W.rms.length > 250) W.rms.shift();
+  // Auto: the mic is clearly hearing speech but Chrome's recognizer reports nothing -> switch to on-device transcription
+  if (engineMode === 'auto' && engine === 'webspeech' && !cueActive()) {
+    W.loudMs = rms > CFG.wake.rms ? (W.loudMs || 0) + 32 : (W.loudMs || 0);
+    if (W.loudMs >= 2500 && performance.now() - lastRecHeard > 8000) { log('AUTO-SWITCH: mic loud for', W.loudMs, 'ms but Chrome recognizer silent for', Math.round((performance.now() - lastRecHeard) / 1000), 's'); micNote('Chrome’s speech recognizer isn’t hearing you — switching to on-device transcription.'); setEngine('whisper'); }
+  }
+  const cooling = Date.now() - W.lastWake < CFG.wake.cooldown * 1000;
+  if (!cooling) {
+    if (rms > CFG.wake.rms) W.run++; else if (rms < CFG.wake.low) W.run = 0;                         // hysteresis band between low and high
+    if (W.run > CFG.wake.frames) { W.run = 0; W.lastWake = Date.now(); onWake(); }
+  } else W.run = 0;
+}
+function onWake() { if (page === 'home') setPage('workspace'); }
+function drawWake() {
+  const cv = $('wakeCv'), g = cv.getContext('2d'), Wd = cv.width, H = cv.height; g.clearRect(0, 0, Wd, H);
+  const max = 8000, y = v => H - Math.min(1, v / max) * (H - 8) - 4;
+  g.strokeStyle = 'rgba(224,162,27,.9)'; g.setLineDash([10, 8]); g.beginPath(); g.moveTo(0, y(CFG.wake.rms)); g.lineTo(Wd, y(CFG.wake.rms)); g.stroke(); g.setLineDash([]);
+  g.fillStyle = '#6b7380'; g.font = '20px system-ui'; g.fillText('threshold 1500', 8, y(CFG.wake.rms) - 6);
+  const n = W.rms.length, step = Wd / 250; g.lineWidth = 4;
+  for (let i = 0; i < n; i++) { g.fillStyle = W.rms[i] > CFG.wake.rms ? '#3b6cf6' : '#b8c3dd'; const h = H - y(W.rms[i]); g.fillRect(i * step, H - h, Math.max(2, step - 1), h); }
+  const f = Math.min(CFG.wake.frames, W.run), cooling = Date.now() - W.lastWake < CFG.wake.cooldown * 1000;
+  document.querySelectorAll('#wakeSegs i').forEach((el, i) => el.classList.toggle('f', i < f));
+  $('wakeSegs').classList.toggle('hot', f >= CFG.wake.frames - 4);
+  $('wakeCd').style.width = (cooling ? 100 - (Date.now() - W.lastWake) / (CFG.wake.cooldown * 10) : 0) + '%';
+  if (W.an) $('wakeTxt').textContent = cooling ? 'Wake event! Cooling down…' : f ? `Sustained sound: ${f}/${CFG.wake.frames} frames` : `Quiet · RMS ${Math.round(W.rmsNow)}`;
+}
+async function listDevices() {
+  try {
+    const ds = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'audioinput');
+    window._inputs = ds.map(d => ({ label:d.label || 'Microphone', bt:/bluetooth|airpods|hands-?free|headset|\bbt\b/i.test(d.label), def:d.deviceId === 'default' }));
+    renderBt();
+  } catch {}
+}
+function renderBt() {
+  const ds = window._inputs || []; const bt = ds.find(d => d.bt);
+  const sel = ds.find(d => d.def) || ds[0], active = !!(bt && sel && sel.bt && E.active);
+  $('btPill').textContent = !bt ? 'No Bluetooth mic' : active ? 'BT mic (active)' : 'BT mic (passive)';
+  $('btPill').className = 'pill' + (active ? ' ok' : bt ? ' on' : '');
+  $('btTxt').textContent = bt ? 'Detected: ' + bt.label : '';
+  $('devs').innerHTML = ds.map(d => `<div class="dev"><b>${esc(d.label)}</b>${d.def ? '<span class="tag">default</span>' : ''}${d.bt ? '<span class="tag up">Bluetooth</span>' : ''}</div>`).join('');
+}
+navigator.mediaDevices && navigator.mediaDevices.addEventListener && navigator.mediaDevices.addEventListener('devicechange', listDevices);
+
+// ---------- pages ----------
+let page = 'home';
+const VIEW = { home:'v-home', list:'v-list', session:'v-session', summary:'v-summary', workspace:'v-workspace' }, CHIP = { home:'Home', list:'Projects', session:'Speech session', summary:'Summary', workspace:'Workspace' };
+function setPage(p) {
+  if ((page === 'session' || page === 'workspace') && p !== page) stopEngine();
+  page = p;
+  for (const [k, id] of Object.entries(VIEW)) $(id).classList.toggle('active', k === p);
+  document.querySelectorAll('.wd').forEach(w => w.classList.toggle('show', w.dataset.pages.split(' ').includes(p)));
+  $('pageChip').textContent = CHIP[p]; $('board').classList.toggle('free', p === 'session' && freeSession);
+  if (p === 'workspace') startEngine(null);
+  if (p === 'list') renderList();
+  if (p === 'home' || p === 'list' || p === 'workspace') { $('transcriptFull').textContent = finalText || 'Nothing yet…'; }
+  drawHum(); renderBt();
+}
+let freeSession = false;
+function openProject(id) {
+  const p = id === 'free' ? FREE : allProjects().find(x => x.id === id); if (!p) return;
+  freeSession = !!p.free; $('v-session').classList.toggle('free', freeSession);
+  $('sTitle').textContent = p.title; $('sumText').textContent = p.summary;
+  finalText = '';
+  if (freeSession) {                                                  // no script: the script box becomes a live, typed transcript
+    T.project = null; T.S = []; T.words = []; T.pos = 0;
+    $('sumChips').innerHTML = '<span class="chip">no script</span><span class="chip">live transcript</span>';
+    $('script').innerHTML = '<div id="liveTx"></div>'; render('');
+  } else {
+    const w = countWords(p.text), n = paras(p.text).length;
+    $('sumChips').innerHTML = `<span class="chip">${w} words</span><span class="chip">~${Math.max(1, Math.round(w / 130))} min</span><span class="chip">${n} sections</span>` + (p.terms || []).slice(0, 4).map(t => `<span class="chip t">${esc(t)}</span>`).join('');
+    render(''); loadScript(p);
+  }
+  setPage('session'); startEngine(p);
+}
+async function openSummary(id) {
+  const r = recordings.find(x => x.id === id); if (!r) return;
+  $('rTitle').textContent = r.title; $('rWhen').textContent = new Date(r.startedAt).toLocaleString([], { dateStyle:'medium', timeStyle:'short' }) + ' · ' + r.words + ' words';
+  $('rVerdict').textContent = 'Summarizing…'; $('sgList').innerHTML = ''; $('sgTranscript').textContent = r.transcript;
+  setPage('summary');
+  try {                                                               // send the transcript to the (mock) summarizer and show whatever JSON it returns
+    const res = await fetch('api/summarize', { method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({ title:r.title, transcript:r.transcript }) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const j = await res.json();
+    if (page !== 'summary' || $('rTitle').textContent !== r.title) return;
+    $('rVerdict').textContent = j.summary || '—';
+    const sg = Array.isArray(j.suggestions) ? j.suggestions : [];
+    $('sgList').innerHTML = sg.length ? sg.map(x => `<li>${esc(x)}</li>`).join('') : '<li style="list-style:none;margin-left:-20px;color:var(--mute)">No suggestions yet.</li>';
+  } catch (e) { $('rVerdict').textContent = 'Couldn’t summarize this recording.'; $('sgList').innerHTML = `<li style="list-style:none;margin-left:-20px;color:var(--mute)">${esc(e.message || e)}</li>`; }
+}
+document.addEventListener('click', e => {
+  const rb = e.target.closest('[data-r]'); if (rb) return openSummary(rb.dataset.r);
+  const g = e.target.closest('[data-go]'); if (g) return setPage(g.dataset.go);
+  const p = e.target.closest('[data-p]'); if (p) openProject(p.dataset.p);
+});
+$('clear').onclick = () => { finalText = ''; T.heard = []; render(''); computeSuggestions(); };
+
+// ---------- main tick ----------
+function drawStrip() {
+  const cv = $('stripCv'), g = cv.getContext('2d'), Wd = cv.width, H = cv.height; g.clearRect(0, 0, Wd, H);
+  const bw = Wd / 240, off = (240 - E.strip.length) * bw;
+  E.strip.forEach((s, i) => {
+    g.fillStyle = s.s ? '#3b6cf6' : '#e4e7ec'; g.fillRect(off + i * bw, s.s ? 14 : 40, Math.max(2, bw - 1), s.s ? H - 28 : 10);
+    if (s.h) { g.fillStyle = s.h === 2 ? '#7c5cf0' : '#e0a21b'; const x = off + i * bw; g.beginPath(); g.moveTo(x, H - 2); g.lineTo(x + 14, H - 2); g.lineTo(x + 7, H - 20); g.fill(); }
+  });
+}
+setInterval(() => {
+  const idle = pauseTick(); if (!(page === 'session' || page === 'workspace')) return;
+  $('idleN').textContent = (E.spoken ? idle : 0).toFixed(1) + 's';
+  const iv = E.spoken ? idle : 0;
+  $('gFill').style.width = Math.min(100, iv / 6 * 100) + '%'; $('gFill').style.background = iv >= CFG.audience.at ? 'var(--violet)' : iv >= CFG.breath.at ? 'var(--warn)' : 'var(--ok)';
+  $('pBreath').className = 'pill' + (E.bL ? ' on' : ''); $('pAud').className = 'pill' + (E.aL ? ' on v' : '');
+  drawStrip();
+  const frac = Math.min(1, E.wordsSince / CFG.words);
+  $('ring').style.strokeDashoffset = 263.9 * (1 - frac); $('ringN').textContent = E.wordsSince; $('chimeN').textContent = E.chimes;
+  const ms = CFG.mileMin * 60000, left = Math.max(0, E.mileNext - Date.now()), el = Math.floor((E.minutes * 60000 + ms - left) / 1000);
+  $('mileClock').textContent = String(Math.floor(el / 60)).padStart(2, '0') + ':' + String(el % 60).padStart(2, '0');
+  $('mileBar').style.width = (100 - left / ms * 100) + '%';
+  $('mileTxt').textContent = E.lastStamp ? `Stamp ${E.stamps}: “${E.lastStamp}”` : `Next stamp in ${Math.ceil(left / 1000)}s · ${E.words} words so far`;
+  renderBt();
+}, 250);
+(function raf() { if (page === 'home' || page === 'list') drawWake(); requestAnimationFrame(raf); })();
+
+// Browsers may require a gesture before mic / audio start.
+document.addEventListener('pointerdown', () => { audio(); initMic(); if (W.ctx) W.ctx.resume(); if (engine === 'webspeech' && !wantListening) { wantListening = true; loop.msg = ''; startListening(); } });
+log('build', BUILD, '| engine mode:', engineMode, '| SpeechRecognition available:', !!SR, '| secure context:', isSecureContext, '| UA:', navigator.userAgent);
+render(''); setPage('home'); renderList(); syncRecordings(); renderLoop(); initMic().finally(() => { log('mic ready:', !!W.stream, '→ starting', engineMode === 'whisper' ? 'on-device engine' : 'Chrome recognizer'); if (engineMode === 'whisper') setEngine('whisper'); else startListening(); });
+</script>
+</body>
+</html>
