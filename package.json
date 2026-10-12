@@ -1,0 +1,23 @@
+{
+  "name": "speechinator",
+  "version": "0.1.0",
+  "description": "Prepare and practice a speech: personalised edit suggestions, live script tracking, pace and pause feedback, and a rubric score.",
+  "type": "module",
+  "main": "src/main.ts",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "dev": "tsx watch src/main.ts",
+    "cache": "tsx scripts/gen-cache.ts",
+    "cache:rubrics": "tsx scripts/gen-rubrics.ts",
+    "cache:all": "npm run cache && npm run cache:rubrics"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "anbaric": "^1.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

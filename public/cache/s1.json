@@ -1,0 +1,63 @@
+{
+  "sampleId": "s1",
+  "textHash": "4ae1aaf734c",
+  "model": "claude-haiku-5-5",
+  "generatedAt": "2026-10-11T23:31:38.782Z",
+  "summary": "The script fits the five-minute limit at roughly 140 words, so no cuts are needed. The main gains are replacing business idioms like \"quarter over quarter\" and \"lock the roadmap\" with literal wording for an international audience, and slowing down the fast delivery with clearer phrasing.",
+  "suggestions": [
+    {
+      "type": "idiom",
+      "original": "where we landed against our OKRs",
+      "replacement": "how we performed against our OKRs",
+      "reason": "Literal wording is clearer for an international audience than 'landed against'."
+    },
+    {
+      "type": "idiom",
+      "original": "grew twelve percent quarter over quarter",
+      "replacement": "grew twelve percent compared with last quarter",
+      "reason": "Spells out the comparison rather than using a business idiom."
+    },
+    {
+      "type": "clarity",
+      "original": "climbed from sixty two to seventy eight percent",
+      "replacement": "rose from 62 to 78 percent",
+      "reason": "Shorter number phrasing is easier to follow when spoken at a fast pace."
+    },
+    {
+      "type": "wording",
+      "original": "Churn stayed flat, which is the metric we still need to move.",
+      "replacement": "Churn stayed flat, so it is the metric we still need to improve.",
+      "reason": "'Move' is vague; 'improve' states the goal directly."
+    },
+    {
+      "type": "wording",
+      "original": "closed the integration with our largest SaaS partner",
+      "replacement": "completed the integration with our largest SaaS partner",
+      "reason": "'Completed' is more direct and avoids the finance-style sense of 'closed'."
+    },
+    {
+      "type": "wording",
+      "original": "Each of these shipped on schedule.",
+      "replacement": "Each of these shipped on time.",
+      "reason": "Simpler phrasing that is easier to follow for mixed business and technical listeners."
+    },
+    {
+      "type": "filler",
+      "original": "I would like your feedback on sequencing",
+      "replacement": "I would value your feedback on the order of work",
+      "reason": "Plainer than 'sequencing' for a mixed business audience."
+    },
+    {
+      "type": "idiom",
+      "original": "before we lock the roadmap on Friday",
+      "replacement": "before we finalize the roadmap on Friday",
+      "reason": "'Finalize' replaces the idiom 'lock' with a literal term."
+    },
+    {
+      "type": "tone",
+      "original": "let's open it up for questions",
+      "replacement": "let's take questions now",
+      "reason": "Direct, literal invitation that suits a reserved, technical tone."
+    }
+  ]
+}

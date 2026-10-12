@@ -1,0 +1,63 @@
+{
+  "sampleId": "s3",
+  "textHash": "366779e030e",
+  "model": "claude-haiku-5-5",
+  "generatedAt": "2026-10-11T23:32:01.527Z",
+  "summary": "The script is well under the 6-minute limit (about one minute spoken). The main gains are a clearer up-front ask, plainer numbers for a finance audience, and a few r/l-avoiding swaps that also remove idiomatic phrasing.",
+  "suggestions": [
+    {
+      "type": "wording",
+      "original": "Thank you for making time today.",
+      "replacement": "Thank you for your time today.",
+      "reason": "Plainer phrasing that is easier for international listeners to follow."
+    },
+    {
+      "type": "clarity",
+      "original": "to explain the reasoning behind each line.",
+      "replacement": "to walk through the basis for each budget item.",
+      "reason": "'Line' can be ambiguous; 'budget item' is clearer for this committee."
+    },
+    {
+      "type": "structure",
+      "original": "We are requesting a total of one point eight million dollars",
+      "replacement": "We are asking the committee to approve a total of $1.8 million",
+      "reason": "Makes the ask explicit and states the figure in numeric form."
+    },
+    {
+      "type": "clarity",
+      "original": "which is a seven percent increase over this year.",
+      "replacement": "which is a seven percent increase over this year, and I will explain why.",
+      "reason": "Signals the reasoning ahead, softening the increase before the justification."
+    },
+    {
+      "type": "wording",
+      "original": "Roughly sixty percent",
+      "replacement": "About sixty percent",
+      "reason": "'About' is plainer and avoids the r and l sounds."
+    },
+    {
+      "type": "wording",
+      "original": "and the remainder is reserved for training and travel.",
+      "replacement": "and the rest goes to training and travel.",
+      "reason": "Plainer than 'remainder' and avoids the r and l sounds."
+    },
+    {
+      "type": "clarity",
+      "original": "which still saves money per unit.",
+      "replacement": "which still reduces our cost per unit.",
+      "reason": "A concrete measure of savings is more persuasive to a finance committee."
+    },
+    {
+      "type": "clarity",
+      "original": "We expect a payback within eighteen months through",
+      "replacement": "We expect the investment to pay for itself within eighteen months through",
+      "reason": "States the payback more clearly, matching the stated priority."
+    },
+    {
+      "type": "tone",
+      "original": "I welcome your questions and any adjustments you recommend.",
+      "replacement": "I welcome your questions, and I would value any adjustments you recommend.",
+      "reason": "Warmer and more inviting, while keeping the formal tone."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+# old experiments, screenshots and third-party docs kept locally, not published
+archive/

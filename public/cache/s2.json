@@ -1,0 +1,63 @@
+{
+  "sampleId": "s2",
+  "textHash": "7da68013255",
+  "model": "claude-haiku-5-5",
+  "generatedAt": "2026-10-11T23:31:48.375Z",
+  "summary": "The script is already within the two-minute limit at roughly 105 words. The main gains are replacing idioms like \"holding up\", \"nudge\" and \"on track\" with literal wording, and swapping a few l- and r-heavy words for easier alternatives.",
+  "suggestions": [
+    {
+      "type": "clarity",
+      "original": "Last week we finished the database migration",
+      "replacement": "Last week we completed the database migration",
+      "reason": "Formal, precise verb suits a technical update; easy to say."
+    },
+    {
+      "type": "clarity",
+      "original": "dropped by about forty percent",
+      "replacement": "dropped by about 40 percent",
+      "reason": "Numeral is quicker to read at a fast pace; wording still sounds natural."
+    },
+    {
+      "type": "wording",
+      "original": "the flaky integration tests",
+      "replacement": "the unstable integration tests",
+      "reason": "Plainer, more literal wording; avoids the l sound in \"flaky\"."
+    },
+    {
+      "type": "wording",
+      "original": "the on call runbook updates",
+      "replacement": "the on-call runbook updates",
+      "reason": "Hyphenated compound reads as one clear term when spoken."
+    },
+    {
+      "type": "wording",
+      "original": "One blocker to flag.",
+      "replacement": "One blocker to raise.",
+      "reason": "Softer, literal phrasing for bad news; avoids the l in \"flag\"."
+    },
+    {
+      "type": "idiom",
+      "original": "that review is holding up the authentication work",
+      "replacement": "that review is delaying the authentication work",
+      "reason": "Literal wording for international listeners; softens the news."
+    },
+    {
+      "type": "idiom",
+      "original": "If someone can nudge the security team",
+      "replacement": "If someone can follow up with the security team",
+      "reason": "Replaces the colloquial \"nudge\" with a literal request."
+    },
+    {
+      "type": "idiom",
+      "original": "stay on track for the release",
+      "replacement": "stay on schedule for the release",
+      "reason": "Literal phrase that international listeners will parse easily."
+    },
+    {
+      "type": "filler",
+      "original": "Next up, the mobile team.",
+      "replacement": "Next, the mobile team.",
+      "reason": "Removes a filler word; the handoff stays clear."
+    }
+  ]
+}

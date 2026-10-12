@@ -1,0 +1,63 @@
+{
+  "sampleId": "s4",
+  "textHash": "51d824b429d",
+  "model": "claude-haiku-5-5",
+  "generatedAt": "2026-10-11T23:32:13.139Z",
+  "summary": "The script fits comfortably within the 10-minute limit at roughly one minute of speech. The main opportunities are replacing words that carry r and l sounds, tightening wording for an international audience, and making the close more concrete.",
+  "suggestions": [
+    {
+      "type": "wording",
+      "original": "Welcome, and thank you for choosing us.",
+      "replacement": "Hello, and thank you for choosing us.",
+      "reason": "Swaps a word with an l sound for an easier opener."
+    },
+    {
+      "type": "wording",
+      "original": "I will walk you through how onboarding works",
+      "replacement": "I will guide you through how onboarding works",
+      "reason": "Avoids the l sound in 'walk' while keeping the same meaning."
+    },
+    {
+      "type": "wording",
+      "original": "Week one is about setup.",
+      "replacement": "Week one focuses on setup.",
+      "reason": "More direct phrasing that is easier for non-native listeners."
+    },
+    {
+      "type": "clarity",
+      "original": "configure single sign on",
+      "replacement": "configure single sign-on",
+      "reason": "The hyphen makes the compound term easier to read aloud."
+    },
+    {
+      "type": "wording",
+      "original": "will be on call the whole time",
+      "replacement": "is on standby throughout",
+      "reason": "Avoids r and l sounds and uses plainer language than 'on call'."
+    },
+    {
+      "type": "wording",
+      "original": "share best practice templates",
+      "replacement": "share proven templates",
+      "reason": "Shorter, with fewer l and r sounds, and clearer for mixed roles."
+    },
+    {
+      "type": "wording",
+      "original": "compare results against the goals you set",
+      "replacement": "compare results with the goals you set",
+      "reason": "'With' is more natural and simpler for international listeners."
+    },
+    {
+      "type": "clarity",
+      "original": "schedule your quarterly check in",
+      "replacement": "schedule your quarterly check-in",
+      "reason": "The hyphen makes the noun form clear to non-native listeners."
+    },
+    {
+      "type": "wording",
+      "original": "Let's get started.",
+      "replacement": "Let's begin.",
+      "reason": "A simpler, more literal closing that is easier to follow."
+    }
+  ]
+}

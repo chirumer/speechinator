@@ -1,0 +1,3757 @@
+{
+ "version": 1,
+ "model": "jev-1.13.0",
+ "generatedAt": "2026-10-11T23:51:48.778Z",
+ "entries": {
+  "ce427481756": {
+   "sampleId": "h1",
+   "transcriptId": "close",
+   "label": "Close to the script",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Hackathon presentation",
+    "audience": "Judges (mixed technical and business)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 3.37,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 3.48,
+       "confidence": 0.64,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.76,
+        "2": 0.24
+       }
+      },
+      "message_clarity": {
+       "rating": 4.64,
+       "confidence": 0.73,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.18,
+        "2": 0.82
+       }
+      },
+      "structure_flow": {
+       "rating": 3.18,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.91,
+        "2": 0.09
+       }
+      },
+      "substance_evidence": {
+       "rating": 1.32,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.84,
+        "1": 0.16,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.98,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.96,
+        "2": 0.02
+       }
+      },
+      "audience_fit": {
+       "rating": 3.64,
+       "confidence": 0.52,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.68,
+        "2": 0.32
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.16,
+       "confidence": 0.74,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.04,
+        "1": 0.83,
+        "2": 0.13
+       }
+      },
+      "ending": {
+       "rating": 4.56,
+       "confidence": 0.67,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.2,
+        "2": 0.79
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.06
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 1.94,
+       "confidence": 0.28,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.56,
+        "1": 0.4,
+        "2": 0.04
+       }
+      },
+      "message_clarity": {
+       "rating": 4.2,
+       "confidence": 0.4,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.4,
+        "2": 0.6
+       }
+      },
+      "structure_flow": {
+       "rating": 3.02,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.97,
+        "2": 0.02
+       }
+      },
+      "substance_evidence": {
+       "rating": 1.24,
+       "confidence": 0.82,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.88,
+        "1": 0.12,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.98,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 2.22,
+       "confidence": 0.37,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.41,
+        "1": 0.58,
+        "2": 0.01
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.1,
+       "confidence": 0.74,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.06,
+        "1": 0.83,
+        "2": 0.11
+       }
+      },
+      "ending": {
+       "rating": 1.32,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.85,
+        "1": 0.14,
+        "2": 0.01
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.28
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.769,
+      "meaningFidelity": 0.657,
+      "wordingFidelity": 0.729,
+      "wordErrorRate": 0.271,
+      "wordEdits": {
+       "substituted": 6,
+       "deleted": 47,
+       "inserted": 2
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 13,
+      "spokenSentences": 11,
+      "omitted": 3,
+      "drifted": 0,
+      "detailChanged": 7,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 1
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Um, hi everyone, so we’re Team.",
+       "spokenIdx": 0,
+       "spoken": "Hi everyone, we’re Team Lumen.",
+       "confidence": 0.73,
+       "stable": true,
+       "preservedScore": 1.35,
+       "preservedConfidence": 0.47,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Basically, we made an app, it’s like a personal trainer for your voice.",
+       "spokenIdx": 1,
+       "spoken": "We made an app, it’s like a personal trainer for your voice.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.37,
+       "preservedConfidence": 0.44,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "So, you know, a lot of people get really nervous speaking, and the problem is practice tools kind of just record you and, like, that’s it.",
+       "spokenIdx": 2,
+       "spoken": "A lot of people get nervous speaking, and the problem is that practice tools just record you and that’s it.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.67,
+       "preservedConfidence": 0.5,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "What we do is, you upload your script, and the app learns about you, like how you talk, what sounds",
+       "spokenIdx": 3,
+       "spoken": "What we do is you upload your script, and the app learns about you, how you talk, what sounds are",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.54,
+       "preservedConfidence": 0.31,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "are hard, your accent and stuff, and what the speech is for, like a lecture or a pitch, and it",
+       "spokenIdx": 4,
+       "spoken": "hard, your accent, and what the speech is for, like a lecture or a pitch, and it changes the words",
+       "confidence": 0.88,
+       "stable": true,
+       "preservedScore": 1.17,
+       "preservedConfidence": 0.58,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "changes the words so it fits you.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.33,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "Then you practice and it shows your pace in real-time, and after that it gives feedback on, um, fillers, pauses, clarity, and a bunch of other things.",
+       "spokenIdx": 6,
+       "spoken": "Then you practice and it shows your pace in real time, and after that it gives feedback on fillers, pauses and clarity.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.02,
+       "preservedConfidence": 0.97,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "We think it’s pretty accurate, I guess.",
+       "spokenIdx": 7,
+       "spoken": "We think it’s accurate.",
+       "confidence": 0.92,
+       "stable": true,
+       "preservedScore": 1,
+       "preservedConfidence": 0.93,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "There’s also a profile where you can tell it things, but you don’t have to, it’s optional, so, yeah.",
+       "spokenIdx": 8,
+       "spoken": "There’s also a profile where you can tell it things, but it’s optional.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.53,
+       "preservedConfidence": 0.3,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "Technically it uses speech recognition and AI, a scoring engine, a database, and, um, whatever.",
+       "spokenIdx": 9,
+       "spoken": "Technically it uses speech recognition, AI, a scoring engine and a database.",
+       "confidence": 0.97,
+       "stable": true,
+       "preservedScore": 1.48,
+       "preservedConfidence": 0.27,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 10,
+       "planned": "It’s a total game changer and we want to take it to the next level.",
+       "spokenIdx": 10,
+       "spoken": "We want to take it to the next level, and I’ll show the demo at the end. Thank you.",
+       "confidence": 0.62,
+       "stable": true,
+       "preservedScore": 1,
+       "preservedConfidence": 0.97,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 11,
+       "planned": "I’ll circle back to the demo at the end if there’s time.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.85,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 12,
+       "planned": "Anyway, that’s it, thanks.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.99,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "19362c776e1": {
+   "sampleId": "h1",
+   "transcriptId": "rough",
+   "label": "Rambling and hesitant",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Hackathon presentation",
+    "audience": "Judges (mixed technical and business)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 2.29,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 1.48,
+       "confidence": 0.62,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.77,
+        "1": 0.21,
+        "2": 0.02
+       }
+      },
+      "message_clarity": {
+       "rating": 3.24,
+       "confidence": 0.82,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.88,
+        "2": 0.12
+       }
+      },
+      "structure_flow": {
+       "rating": 2.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.04,
+        "1": 0.96,
+        "2": 0
+       }
+      },
+      "substance_evidence": {
+       "rating": 1.18,
+       "confidence": 0.88,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.92,
+        "1": 0.08,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.86,
+       "confidence": 0.9,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.07,
+        "1": 0.93,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 1.48,
+       "confidence": 0.64,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.77,
+        "1": 0.22,
+        "2": 0.01
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.94,
+       "confidence": 0.78,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.09,
+        "1": 0.85,
+        "2": 0.06
+       }
+      },
+      "ending": {
+       "rating": 1.02,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.99,
+        "1": 0.01,
+        "2": 0
+       }
+      },
+      "recovery": {
+       "rating": 3.5,
+       "confidence": 0.3,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.53,
+        "2": 0.36
+       }
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 1.98,
+       "confidence": 0.28,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.56,
+        "1": 0.4,
+        "2": 0.04
+       }
+      },
+      "message_clarity": {
+       "rating": 4.2,
+       "confidence": 0.4,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.4,
+        "2": 0.6
+       }
+      },
+      "structure_flow": {
+       "rating": 3.02,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.97,
+        "2": 0.02
+       }
+      },
+      "substance_evidence": {
+       "rating": 1.28,
+       "confidence": 0.79,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.86,
+        "1": 0.14,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.98,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 2.2,
+       "confidence": 0.37,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.41,
+        "1": 0.58,
+        "2": 0.01
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.12,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.05,
+        "1": 0.84,
+        "2": 0.11
+       }
+      },
+      "ending": {
+       "rating": 1.26,
+       "confidence": 0.8,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.88,
+        "1": 0.11,
+        "2": 0.01
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.27
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.769,
+      "meaningFidelity": 0.684,
+      "wordingFidelity": 0.424,
+      "wordErrorRate": 0.576,
+      "wordEdits": {
+       "substituted": 15,
+       "deleted": 84,
+       "inserted": 18
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 13,
+      "spokenSentences": 12,
+      "omitted": 3,
+      "drifted": 0,
+      "detailChanged": 5,
+      "insertions": 2,
+      "itemsNeedingHumanReview": 2
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Um, hi everyone, so we’re Team.",
+       "spokenIdx": 0,
+       "spoken": "Um, hi everyone, so we’re, um, we’re Team, uh, Lumen.",
+       "confidence": 0.79,
+       "stable": true,
+       "preservedScore": 1.87,
+       "preservedConfidence": 0.8,
+       "status": "faithful",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Basically, we made an app, it’s like a personal trainer for your voice.",
+       "spokenIdx": 1,
+       "spoken": "So basically we made an app, it’s like, a trainer thing for your voice I guess.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.51,
+       "preservedConfidence": 0.27,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "So, you know, a lot of people get really nervous speaking, and the problem is practice tools kind of just record you and, like, that’s it.",
+       "spokenIdx": 2,
+       "spoken": "So a lot of people get really nervous speaking, you know, and the problem is, um, the problem is practice tools, they just kind of record you.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.55,
+       "preservedConfidence": 0.32,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "What we do is, you upload your script, and the app learns about you, like how you talk, what sounds",
+       "spokenIdx": 4,
+       "spoken": "What we do is, um, you upload your script and then it learns stuff about you, like your accent and stuff, and it, um, changes the words.",
+       "confidence": 0.9,
+       "stable": true,
+       "preservedScore": 1.15,
+       "preservedConfidence": 0.71,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "are hard, your accent and stuff, and what the speech is for, like a lecture or a pitch, and it",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.73,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "changes the words so it fits you.",
+       "spokenIdx": 4,
+       "spoken": "What we do is, um, you upload your script and then it learns stuff about you, like your accent and stuff, and it, um, changes the words.",
+       "confidence": 0.83,
+       "stable": true,
+       "preservedScore": 1.55,
+       "preservedConfidence": 0.34,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "Then you practice and it shows your pace in real-time, and after that it gives feedback on, um, fillers, pauses, clarity, and a bunch of other things.",
+       "spokenIdx": 6,
+       "spoken": "And it gives feedback, I think, on fillers and like other things.",
+       "confidence": 0.36,
+       "stable": false,
+       "preservedScore": 0.99,
+       "preservedConfidence": 0.98,
+       "status": "detail_changed",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "We think it’s pretty accurate, I guess.",
+       "spokenIdx": 7,
+       "spoken": "It’s pretty accurate I guess.",
+       "confidence": 0.97,
+       "stable": true,
+       "preservedScore": 1.19,
+       "preservedConfidence": 0.71,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "There’s also a profile where you can tell it things, but you don’t have to, it’s optional, so, yeah.",
+       "spokenIdx": 8,
+       "spoken": "Oh and there’s a profile, but you don’t have to.",
+       "confidence": 0.91,
+       "stable": true,
+       "preservedScore": 1,
+       "preservedConfidence": 0.97,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "Technically it uses speech recognition and AI, a scoring engine, a database, and, um, whatever.",
+       "spokenIdx": 9,
+       "spoken": "It uses AI and, um, whatever.",
+       "confidence": 0.39,
+       "stable": true,
+       "preservedScore": 0.87,
+       "preservedConfidence": 0.8,
+       "status": "detail_changed",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 10,
+       "planned": "It’s a total game changer and we want to take it to the next level.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.55,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 11,
+       "planned": "I’ll circle back to the demo at the end if there’s time.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 12,
+       "planned": "Anyway, that’s it, thanks.",
+       "spokenIdx": 11,
+       "spoken": "Anyway, that’s it, thanks.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": [
+      {
+       "spokenIdx": 3,
+       "spoken": "And that’s, yeah.",
+       "restatesPlan": 0.2,
+       "type": "filler_or_hedge",
+       "confidence": 0.92
+      },
+      {
+       "spokenIdx": 5,
+       "spoken": "Then you practice.",
+       "restatesPlan": 0.63,
+       "type": "new_content",
+       "confidence": 0.88
+      }
+     ]
+    },
+    "cached": true
+   }
+  },
+  "9e82679e6de": {
+   "sampleId": "s1",
+   "transcriptId": "close",
+   "label": "Close to the script",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Work presentation (team updates, project reviews, quarterly results)",
+    "audience": "Product and leadership team (mixed technical and business)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 4.39,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 3,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 1,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.78,
+       "confidence": 0.83,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.11,
+        "2": 0.89
+       }
+      },
+      "structure_flow": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.96,
+       "confidence": 0.28,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.52,
+        "2": 0.48
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.68,
+       "confidence": 0.74,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.08,
+        "1": 0.01,
+        "2": 0.91
+       }
+      },
+      "audience_fit": {
+       "rating": 4.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.04,
+        "2": 0.96
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.76,
+       "confidence": 0.41,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.61,
+        "2": 0.39
+       }
+      },
+      "ending": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 1,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.7,
+       "confidence": 0.78,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.15,
+        "2": 0.85
+       }
+      },
+      "structure_flow": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "substance_evidence": {
+       "rating": 4.16,
+       "confidence": 0.39,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.41,
+        "2": 0.59
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.54,
+       "confidence": 0.66,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.01,
+        "2": 0.88
+       }
+      },
+      "audience_fit": {
+       "rating": 4.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.04,
+        "2": 0.96
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.68,
+       "confidence": 0.49,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.66,
+        "2": 0.34
+       }
+      },
+      "ending": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 1,
+      "meaningFidelity": 0.915,
+      "wordingFidelity": 0.869,
+      "wordErrorRate": 0.131,
+      "wordEdits": {
+       "substituted": 7,
+       "deleted": 9,
+       "inserted": 2
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 12,
+      "spokenSentences": 11,
+      "omitted": 0,
+      "drifted": 0,
+      "detailChanged": 1,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Good morning everyone, and thanks for joining the Q3 product roadmap review.",
+       "spokenIdx": 0,
+       "spoken": "Good morning everyone, thanks for joining the Q3 product roadmap review.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.79,
+       "preservedConfidence": 0.69,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Today I want to cover three things: where we landed against our OKRs, what shipped, and what comes next.",
+       "spokenIdx": 1,
+       "spoken": "Today I’ll cover where we landed against our OKRs, what shipped, and what comes next.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.57,
+       "preservedConfidence": 0.35,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "First, the numbers.",
+       "spokenIdx": 2,
+       "spoken": "First the numbers.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.82,
+       "preservedConfidence": 0.73,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "Active users grew twelve percent quarter over quarter, and our onboarding completion rate climbed from sixty two to seventy eight percent.",
+       "spokenIdx": 3,
+       "spoken": "Active users grew twelve percent quarter over quarter, and onboarding completion climbed from sixty two to seventy eight percent.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.6,
+       "preservedConfidence": 0.4,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "Churn stayed flat, which is the metric we still need to move.",
+       "spokenIdx": 4,
+       "spoken": "Churn stayed flat, and that’s the metric we still need to move.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.98,
+       "preservedConfidence": 0.97,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "Second, the highlights.",
+       "spokenIdx": 5,
+       "spoken": "Second, the highlights.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner.",
+       "spokenIdx": 6,
+       "spoken": "We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner, all on schedule.",
+       "confidence": 0.76,
+       "stable": true,
+       "preservedScore": 1.99,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "Each of these shipped on schedule.",
+       "spokenIdx": 6,
+       "spoken": "We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner, all on schedule.",
+       "confidence": 0.64,
+       "stable": true,
+       "preservedScore": 1.22,
+       "preservedConfidence": 0.52,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "Looking ahead, Q4 focuses on retention.",
+       "spokenIdx": 7,
+       "spoken": "Looking ahead, Q4 focuses on retention.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "We will invest in personalization, faster search, and a lifecycle email program.",
+       "spokenIdx": 8,
+       "spoken": "We’ll invest in personalization, faster search and a lifecycle email program.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.99,
+       "preservedConfidence": 0.98,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 10,
+       "planned": "I would like your feedback on sequencing before we lock the roadmap on Friday.",
+       "spokenIdx": 9,
+       "spoken": "I’d like your feedback on sequencing before we lock the roadmap on Friday.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 11,
+       "planned": "Thank you, and let's open it up for questions.",
+       "spokenIdx": 10,
+       "spoken": "Thank you, and let’s open it up for questions.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "6b7f3db6542": {
+   "sampleId": "s1",
+   "transcriptId": "rough",
+   "label": "Skips and rambles",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Work presentation (team updates, project reviews, quarterly results)",
+    "audience": "Product and leadership team (mixed technical and business)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 2.46,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 1.82,
+       "confidence": 0.39,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.59,
+        "1": 0.41,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 3.1,
+       "confidence": 0.8,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.04,
+        "1": 0.87,
+        "2": 0.09
+       }
+      },
+      "structure_flow": {
+       "rating": 3,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.98,
+        "2": 0.01
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.16,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.91,
+        "2": 0.09
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.5,
+       "confidence": 0.62,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.25,
+        "1": 0.75,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 2.16,
+       "confidence": 0.34,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.43,
+        "1": 0.56,
+        "2": 0.01
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.9,
+       "confidence": 0.93,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.05,
+        "1": 0.95,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 1.02,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.99,
+        "1": 0.01,
+        "2": 0
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.19
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 1,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.68,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.16,
+        "2": 0.84
+       }
+      },
+      "structure_flow": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "substance_evidence": {
+       "rating": 4.3,
+       "confidence": 0.47,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.35,
+        "2": 0.65
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.52,
+       "confidence": 0.66,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.01,
+        "2": 0.88
+       }
+      },
+      "audience_fit": {
+       "rating": 4.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.04,
+        "2": 0.96
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.66,
+       "confidence": 0.49,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.66,
+        "2": 0.34
+       }
+      },
+      "ending": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.333,
+      "meaningFidelity": 0.591,
+      "wordingFidelity": 0.153,
+      "wordErrorRate": 0.847,
+      "wordEdits": {
+       "substituted": 50,
+       "deleted": 66,
+       "inserted": 0
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 12,
+      "spokenSentences": 7,
+      "omitted": 8,
+      "drifted": 0,
+      "detailChanged": 3,
+      "insertions": 1,
+      "itemsNeedingHumanReview": 2
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Good morning everyone, and thanks for joining the Q3 product roadmap review.",
+       "spokenIdx": 0,
+       "spoken": "Hi everyone, um, so this is the Q3 roadmap thing.",
+       "confidence": 0.61,
+       "stable": false,
+       "preservedScore": 1.02,
+       "preservedConfidence": 0.88,
+       "status": "detail_changed",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Today I want to cover three things: where we landed against our OKRs, what shipped, and what comes next.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "First, the numbers.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.92,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "Active users grew twelve percent quarter over quarter, and our onboarding completion rate climbed from sixty two to seventy eight percent.",
+       "spokenIdx": 1,
+       "spoken": "Basically users grew a bit, I think twelve percent, and, you know, onboarding got better.",
+       "confidence": 0.71,
+       "stable": true,
+       "preservedScore": 0.99,
+       "preservedConfidence": 0.98,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "Churn stayed flat, which is the metric we still need to move.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.47,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "Second, the highlights.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.89,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner.",
+       "spokenIdx": 3,
+       "spoken": "We shipped a few things, the dashboard and checkout, and some partner stuff.",
+       "confidence": 0.64,
+       "stable": true,
+       "preservedScore": 0.97,
+       "preservedConfidence": 0.94,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "Each of these shipped on schedule.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.98,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "Looking ahead, Q4 focuses on retention.",
+       "spokenIdx": 4,
+       "spoken": "So for Q4 we’re going to focus on retention and, um, other stuff, search and so on.",
+       "confidence": 0.75,
+       "stable": true,
+       "preservedScore": 1.75,
+       "preservedConfidence": 0.61,
+       "status": "faithful",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "We will invest in personalization, faster search, and a lifecycle email program.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.77,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 10,
+       "planned": "I would like your feedback on sequencing before we lock the roadmap on Friday.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.85,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 11,
+       "planned": "Thank you, and let's open it up for questions.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.74,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      }
+     ],
+     "insertions": [
+      {
+       "spokenIdx": 6,
+       "spoken": "Okay, that’s it.",
+       "restatesPlan": 0.1,
+       "type": "other",
+       "confidence": 0.81
+      }
+     ]
+    },
+    "cached": true
+   }
+  },
+  "b60c69fb50c": {
+   "sampleId": "s2",
+   "transcriptId": "close",
+   "label": "Close to the script",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Work presentation (team updates, project reviews, quarterly results)",
+    "audience": "Engineering team (highly technical, casual)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 4.02,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 3.84,
+       "confidence": 0.35,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.57,
+        "2": 0.43
+       }
+      },
+      "message_clarity": {
+       "rating": 4,
+       "confidence": 0.27,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.49,
+        "2": 0.51
+       }
+      },
+      "structure_flow": {
+       "rating": 4.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.04,
+        "2": 0.96
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.06,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.96,
+        "2": 0.03
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.32,
+       "confidence": 0.49,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.12,
+        "1": 0.1,
+        "2": 0.78
+       }
+      },
+      "audience_fit": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.08,
+       "confidence": 0.31,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.46,
+        "1": 0.54,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 4.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.02,
+        "2": 0.97
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.04
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3.92,
+       "confidence": 0.31,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.54,
+        "2": 0.46
+       }
+      },
+      "message_clarity": {
+       "rating": 4.02,
+       "confidence": 0.25,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.48,
+        "2": 0.51
+       }
+      },
+      "structure_flow": {
+       "rating": 4.82,
+       "confidence": 0.88,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.08,
+        "2": 0.92
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.08,
+       "confidence": 0.91,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.94,
+        "2": 0.05
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.28,
+       "confidence": 0.44,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.13,
+        "1": 0.11,
+        "2": 0.76
+       }
+      },
+      "audience_fit": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.24,
+       "confidence": 0.43,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.38,
+        "1": 0.62,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 4.9,
+       "confidence": 0.93,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.03,
+        "2": 0.96
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.04
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 1,
+      "meaningFidelity": 0.998,
+      "wordingFidelity": 0.932,
+      "wordErrorRate": 0.068,
+      "wordEdits": {
+       "substituted": 5,
+       "deleted": 1,
+       "inserted": 1
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 8,
+      "spokenSentences": 8,
+      "omitted": 0,
+      "drifted": 0,
+      "detailChanged": 0,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Quick update from the platform team.",
+       "spokenIdx": 0,
+       "spoken": "Quick update from the platform team.",
+       "confidence": 0.99,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent.",
+       "spokenIdx": 1,
+       "spoken": "Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "This week we are focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates.",
+       "spokenIdx": 2,
+       "spoken": "This week we’re focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "One blocker to flag.",
+       "spokenIdx": 3,
+       "spoken": "One blocker to flag.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "We are waiting on security review for the new token service, and that review is holding up the authentication work.",
+       "spokenIdx": 4,
+       "spoken": "We’re waiting on security review for the new token service, and it’s holding up the authentication work.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.98,
+       "preservedConfidence": 0.97,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "If someone can nudge the security team, that would help us stay on track for the release.",
+       "spokenIdx": 5,
+       "spoken": "If someone can nudge the security team that would help us stay on track for the release.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.98,
+       "preservedConfidence": 0.97,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "That's all from platform.",
+       "spokenIdx": 6,
+       "spoken": "That’s all from platform.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "Next up, the mobile team.",
+       "spokenIdx": 7,
+       "spoken": "Next up, the mobile team.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "4a49f194422": {
+   "sampleId": "s2",
+   "transcriptId": "rough",
+   "label": "Rambling and vague",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Work presentation (team updates, project reviews, quarterly results)",
+    "audience": "Engineering team (highly technical, casual)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 2.4,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 1.72,
+       "confidence": 0.46,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.64,
+        "1": 0.36,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 2.9,
+       "confidence": 0.8,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.09,
+        "1": 0.87,
+        "2": 0.04
+       }
+      },
+      "structure_flow": {
+       "rating": 2.78,
+       "confidence": 0.83,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.89,
+        "2": 0
+       }
+      },
+      "substance_evidence": {
+       "rating": 1.64,
+       "confidence": 0.53,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.69,
+        "1": 0.31,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.46,
+       "confidence": 0.59,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.27,
+        "1": 0.73,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 3.7,
+       "confidence": 0.43,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.62,
+        "2": 0.36
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.7,
+       "confidence": 0.78,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.15,
+        "1": 0.85,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 1.32,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.92,
+        "1": 0,
+        "2": 0.08
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.21
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3.92,
+       "confidence": 0.3,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.53,
+        "2": 0.47
+       }
+      },
+      "message_clarity": {
+       "rating": 4,
+       "confidence": 0.27,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.49,
+        "2": 0.51
+       }
+      },
+      "structure_flow": {
+       "rating": 4.82,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.09,
+        "2": 0.91
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.06,
+       "confidence": 0.91,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.94,
+        "2": 0.04
+       }
+      },
+      "persuasiveness": {
+       "rating": 4.26,
+       "confidence": 0.44,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.13,
+        "1": 0.11,
+        "2": 0.76
+       }
+      },
+      "audience_fit": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.4,
+       "confidence": 0.55,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.3,
+        "1": 0.7,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 4.88,
+       "confidence": 0.9,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.03,
+        "2": 0.95
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.75,
+      "meaningFidelity": 0.526,
+      "wordingFidelity": 0.155,
+      "wordErrorRate": 0.845,
+      "wordEdits": {
+       "substituted": 55,
+       "deleted": 32,
+       "inserted": 0
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 8,
+      "spokenSentences": 5,
+      "omitted": 2,
+      "drifted": 0,
+      "detailChanged": 6,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Quick update from the platform team.",
+       "spokenIdx": 0,
+       "spoken": "Okay so, um, platform update.",
+       "confidence": 0.99,
+       "stable": true,
+       "preservedScore": 1.13,
+       "preservedConfidence": 0.79,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent.",
+       "spokenIdx": 1,
+       "spoken": "We did the migration last week, I think it’s done, and the API is faster, like a lot faster.",
+       "confidence": 0.79,
+       "stable": true,
+       "preservedScore": 1,
+       "preservedConfidence": 0.98,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "This week we are focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates.",
+       "spokenIdx": 2,
+       "spoken": "This week we’ve got the auth thing and some tests that keep breaking, and, uh, the runbook.",
+       "confidence": 0.95,
+       "stable": true,
+       "preservedScore": 1.12,
+       "preservedConfidence": 0.82,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "One blocker to flag.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.87,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "We are waiting on security review for the new token service, and that review is holding up the authentication work.",
+       "spokenIdx": 3,
+       "spoken": "We’re kind of stuck on security though, they haven’t looked at our thing yet, so if someone could ask them.",
+       "confidence": 0.8,
+       "stable": true,
+       "preservedScore": 1,
+       "preservedConfidence": 0.97,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "If someone can nudge the security team, that would help us stay on track for the release.",
+       "spokenIdx": 3,
+       "spoken": "We’re kind of stuck on security though, they haven’t looked at our thing yet, so if someone could ask them.",
+       "confidence": 0.98,
+       "stable": true,
+       "preservedScore": 1.07,
+       "preservedConfidence": 0.88,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "That's all from platform.",
+       "spokenIdx": 4,
+       "spoken": "Yeah. That’s it I guess.",
+       "confidence": 0.81,
+       "stable": true,
+       "preservedScore": 0.99,
+       "preservedConfidence": 0.86,
+       "status": "detail_changed",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "Next up, the mobile team.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "5825b0c4648": {
+   "sampleId": "s3",
+   "transcriptId": "close",
+   "label": "Close to the script",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Sales pitch or client proposal",
+    "audience": "Finance committee (formal, numbers-focused)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 4.34,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 3.02,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.99,
+        "2": 0.01
+       }
+      },
+      "message_clarity": {
+       "rating": 4.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.02,
+        "2": 0.98
+       }
+      },
+      "structure_flow": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "substance_evidence": {
+       "rating": 4.66,
+       "confidence": 0.74,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.17,
+        "2": 0.83
+       }
+      },
+      "persuasiveness": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "audience_fit": {
+       "rating": 4.86,
+       "confidence": 0.9,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.07,
+        "2": 0.93
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.24,
+       "confidence": 0.79,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.86,
+        "2": 0.13
+       }
+      },
+      "ending": {
+       "rating": 4.02,
+       "confidence": 0.27,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.27,
+        "2": 0.62
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 2.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.99,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.02,
+        "2": 0.98
+       }
+      },
+      "structure_flow": {
+       "rating": 4.98,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "substance_evidence": {
+       "rating": 4.62,
+       "confidence": 0.71,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.19,
+        "2": 0.81
+       }
+      },
+      "persuasiveness": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "audience_fit": {
+       "rating": 4.8,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.09,
+        "2": 0.91
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.28,
+       "confidence": 0.78,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.85,
+        "2": 0.15
+       }
+      },
+      "ending": {
+       "rating": 4.14,
+       "confidence": 0.34,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.1,
+        "1": 0.24,
+        "2": 0.66
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 1,
+      "meaningFidelity": 0.987,
+      "wordingFidelity": 0.914,
+      "wordErrorRate": 0.086,
+      "wordEdits": {
+       "substituted": 5,
+       "deleted": 6,
+       "inserted": 0
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 9,
+      "spokenSentences": 9,
+      "omitted": 0,
+      "drifted": 0,
+      "detailChanged": 0,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Thank you for making time today.",
+       "spokenIdx": 0,
+       "spoken": "Thank you for making time today.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "I am here to present our proposed budget for the next fiscal year and to explain the reasoning behind each line.",
+       "spokenIdx": 1,
+       "spoken": "I’m here to present our proposed budget for the next fiscal year and explain the reasoning behind each line.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.92,
+       "preservedConfidence": 0.88,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "We are requesting a total of one point eight million dollars, which is a seven percent increase over this year.",
+       "spokenIdx": 2,
+       "spoken": "We’re requesting a total of one point eight million dollars, a seven percent increase over this year.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.99,
+       "preservedConfidence": 0.98,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is reserved for training and travel.",
+       "spokenIdx": 3,
+       "spoken": "Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is for training and travel.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.88,
+       "preservedConfidence": 0.82,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "The increase is driven by two investments.",
+       "spokenIdx": 4,
+       "spoken": "The increase comes from two investments.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "First, we plan to hire four engineers to support the enterprise roadmap.",
+       "spokenIdx": 5,
+       "spoken": "First, we plan to hire four engineers to support the enterprise roadmap.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit.",
+       "spokenIdx": 6,
+       "spoken": "Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "We expect a payback within eighteen months through reduced vendor spend and faster delivery.",
+       "spokenIdx": 7,
+       "spoken": "We expect payback within eighteen months through lower vendor spend and faster delivery.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.97,
+       "preservedConfidence": 0.95,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "I welcome your questions and any adjustments you recommend.",
+       "spokenIdx": 8,
+       "spoken": "I welcome your questions and any adjustments you recommend.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "ee03e2494b0": {
+   "sampleId": "s3",
+   "transcriptId": "rough",
+   "label": "Vague and hedged",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Sales pitch or client proposal",
+    "audience": "Finance committee (formal, numbers-focused)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 2.36,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 1.18,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.91,
+        "1": 0.09,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 3.22,
+       "confidence": 0.71,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.04,
+        "1": 0.81,
+        "2": 0.15
+       }
+      },
+      "structure_flow": {
+       "rating": 2.92,
+       "confidence": 0.94,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.04,
+        "1": 0.96,
+        "2": 0
+       }
+      },
+      "substance_evidence": {
+       "rating": 2.94,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.03,
+        "1": 0.97,
+        "2": 0
+       }
+      },
+      "persuasiveness": {
+       "rating": 2.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.98,
+        "2": 0
+       }
+      },
+      "audience_fit": {
+       "rating": 1.16,
+       "confidence": 0.9,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.93,
+        "1": 0.07,
+        "2": 0
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.06,
+       "confidence": 0.9,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.93,
+        "2": 0.05
+       }
+      },
+      "ending": {
+       "rating": 1.46,
+       "confidence": 0.64,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.82,
+        "1": 0.12,
+        "2": 0.06
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.16
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 2.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.99,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.94,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.03,
+        "2": 0.97
+       }
+      },
+      "structure_flow": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "substance_evidence": {
+       "rating": 4.58,
+       "confidence": 0.69,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.21,
+        "2": 0.79
+       }
+      },
+      "persuasiveness": {
+       "rating": 5,
+       "confidence": 1,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0,
+        "2": 1
+       }
+      },
+      "audience_fit": {
+       "rating": 4.82,
+       "confidence": 0.86,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.09,
+        "2": 0.91
+       }
+      },
+      "warmth_connection": {
+       "rating": 3.28,
+       "confidence": 0.79,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.86,
+        "2": 0.14
+       }
+      },
+      "ending": {
+       "rating": 4.06,
+       "confidence": 0.3,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.11,
+        "1": 0.25,
+        "2": 0.64
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.111,
+      "meaningFidelity": 0.505,
+      "wordingFidelity": 0.141,
+      "wordErrorRate": 0.859,
+      "wordEdits": {
+       "substituted": 51,
+       "deleted": 59,
+       "inserted": 0
+      },
+      "orderFidelity": null,
+      "plannedSentences": 9,
+      "spokenSentences": 7,
+      "omitted": 8,
+      "drifted": 0,
+      "detailChanged": 1,
+      "insertions": 2,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Thank you for making time today.",
+       "spokenIdx": 0,
+       "spoken": "So, um, thanks for having me.",
+       "confidence": 0.76,
+       "stable": true,
+       "preservedScore": 1.01,
+       "preservedConfidence": 0.77,
+       "status": "detail_changed",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "I am here to present our proposed budget for the next fiscal year and to explain the reasoning behind each line.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.87,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "We are requesting a total of one point eight million dollars, which is a seven percent increase over this year.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.52,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is reserved for training and travel.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.71,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "The increase is driven by two investments.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.99,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "First, we plan to hire four engineers to support the enterprise roadmap.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.97,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "We expect a payback within eighteen months through reduced vendor spend and faster delivery.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.89,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "I welcome your questions and any adjustments you recommend.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.76,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "check"
+      }
+     ],
+     "insertions": [
+      {
+       "spokenIdx": 1,
+       "spoken": "This is the budget for next year.",
+       "restatesPlan": 0.62,
+       "type": "new_content",
+       "confidence": 0.48
+      },
+      {
+       "spokenIdx": 3,
+       "spoken": "Most of it is people and then, you know, infrastructure.",
+       "restatesPlan": 0.7,
+       "type": "new_content",
+       "confidence": 0.95
+      }
+     ]
+    },
+    "cached": true
+   }
+  },
+  "52743d97572": {
+   "sampleId": "s4",
+   "transcriptId": "close",
+   "label": "Close to the script",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Webinar or virtual meeting",
+    "audience": "New customer team (beginners, mixed roles)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 4.14,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 3,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.98,
+        "2": 0.01
+       }
+      },
+      "message_clarity": {
+       "rating": 4.94,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.03,
+        "2": 0.97
+       }
+      },
+      "structure_flow": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.88,
+       "confidence": 0.23,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.03,
+        "1": 0.49,
+        "2": 0.48
+       }
+      },
+      "persuasiveness": {
+       "rating": 3.36,
+       "confidence": 0,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.41,
+        "1": 0,
+        "2": 0.59
+       }
+      },
+      "audience_fit": {
+       "rating": 3.68,
+       "confidence": 0.49,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.66,
+        "2": 0.34
+       }
+      },
+      "warmth_connection": {
+       "rating": 4.36,
+       "confidence": 0.52,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.32,
+        "2": 0.68
+       }
+      },
+      "ending": {
+       "rating": 4.94,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.01,
+        "2": 0.98
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.99,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.94,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.02,
+        "2": 0.98
+       }
+      },
+      "structure_flow": {
+       "rating": 4.96,
+       "confidence": 0.97,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.02,
+        "2": 0.98
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.9,
+       "confidence": 0.17,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.06,
+        "1": 0.43,
+        "2": 0.51
+       }
+      },
+      "persuasiveness": {
+       "rating": 3.44,
+       "confidence": 0,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.39,
+        "1": 0,
+        "2": 0.61
+       }
+      },
+      "audience_fit": {
+       "rating": 3.8,
+       "confidence": 0.39,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.59,
+        "2": 0.41
+       }
+      },
+      "warmth_connection": {
+       "rating": 4.26,
+       "confidence": 0.44,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.37,
+        "2": 0.63
+       }
+      },
+      "ending": {
+       "rating": 4.92,
+       "confidence": 0.93,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.01,
+        "2": 0.97
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 1,
+      "meaningFidelity": 0.986,
+      "wordingFidelity": 0.94,
+      "wordErrorRate": 0.06,
+      "wordEdits": {
+       "substituted": 3,
+       "deleted": 3,
+       "inserted": 1
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 10,
+      "spokenSentences": 9,
+      "omitted": 0,
+      "drifted": 0,
+      "detailChanged": 0,
+      "insertions": 0,
+      "itemsNeedingHumanReview": 0
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Welcome, and thank you for choosing us.",
+       "spokenIdx": 0,
+       "spoken": "Welcome, and thank you for choosing us.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "In the next ten minutes I will walk you through how onboarding works, what you can expect from our team, and how we measure success together.",
+       "spokenIdx": 1,
+       "spoken": "In the next ten minutes I’ll walk you through how onboarding works, what you can expect from our team, and how we measure success together.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "Week one is about setup.",
+       "spokenIdx": 2,
+       "spoken": "Week one is about setup.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "We connect your data sources, configure single sign on, and invite your first group of users.",
+       "spokenIdx": 3,
+       "spoken": "We connect your data sources, configure single sign on, and invite your first group of users.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "Our implementation manager will be on call the whole time.",
+       "spokenIdx": 4,
+       "spoken": "Our implementation manager will be on call the whole time.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "Weeks two and three are about adoption.",
+       "spokenIdx": 5,
+       "spoken": "Weeks two and three are about adoption.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "We run live training sessions, share best practice templates, and review early usage reports with you.",
+       "spokenIdx": 6,
+       "spoken": "We run live training sessions, share best practice templates, and review early usage reports with you.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "By day thirty we hold a success review.",
+       "spokenIdx": 7,
+       "spoken": "By day thirty we hold a success review, compare results against your goals, agree on next steps, and schedule your quarterly check in.",
+       "confidence": 0.69,
+       "stable": true,
+       "preservedScore": 1.99,
+       "preservedConfidence": 0.98,
+       "status": "faithful",
+       "review": "check"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "We compare results against the goals you set, agree on next steps, and schedule your quarterly check in.",
+       "spokenIdx": 7,
+       "spoken": "By day thirty we hold a success review, compare results against your goals, agree on next steps, and schedule your quarterly check in.",
+       "confidence": 0.97,
+       "stable": true,
+       "preservedScore": 1.72,
+       "preservedConfidence": 0.58,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "Let's get started.",
+       "spokenIdx": 8,
+       "spoken": "Let’s get started.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 2,
+       "preservedConfidence": 1,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": []
+    },
+    "cached": true
+   }
+  },
+  "c25687093db": {
+   "sampleId": "s4",
+   "transcriptId": "rough",
+   "label": "Short and rushed",
+   "result": {
+    "model": "jev-1.13.0",
+    "purpose": "Webinar or virtual meeting",
+    "audience": "New customer team (beginners, mixed roles)",
+    "unfilledPlaceholders": [],
+    "labels": {
+     "opening": "Opening",
+     "message_clarity": "Message clarity",
+     "structure_flow": "Structure and flow",
+     "substance_evidence": "Substance and evidence",
+     "persuasiveness": "Persuasiveness",
+     "audience_fit": "Audience fit",
+     "warmth_connection": "Warmth and connection",
+     "ending": "Ending",
+     "recovery": "Recovery (provisional)"
+    },
+    "notScored": {
+     "Voice and authenticity": "needs audio or a human: text cannot show whether it sounded read or spoken",
+     "Presence and composure": "needs audio or video, or a human",
+     "Delivery variety": "needs audio features (pitch, volume, pauses), or a human"
+    },
+    "overall": 2.49,
+    "core": {
+     "actual": {
+      "opening": {
+       "rating": 1.34,
+       "confidence": 0.76,
+       "review": "check",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.84,
+        "1": 0.16,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 3.64,
+       "confidence": 0.49,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.66,
+        "2": 0.33
+       }
+      },
+      "structure_flow": {
+       "rating": 3.06,
+       "confidence": 0.88,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.92,
+        "2": 0.06
+       }
+      },
+      "substance_evidence": {
+       "rating": 2.82,
+       "confidence": 0.59,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.18,
+        "1": 0.73,
+        "2": 0.09
+       }
+      },
+      "persuasiveness": {
+       "rating": 1.22,
+       "confidence": 0.83,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.94,
+        "1": 0.01,
+        "2": 0.05
+       }
+      },
+      "audience_fit": {
+       "rating": 3.32,
+       "confidence": 0.53,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.07,
+        "1": 0.69,
+        "2": 0.24
+       }
+      },
+      "warmth_connection": {
+       "rating": 2.9,
+       "confidence": 0.93,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.05,
+        "1": 0.95,
+        "2": 0
+       }
+      },
+      "ending": {
+       "rating": 1.6,
+       "confidence": 0.56,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.84,
+        "1": 0.03,
+        "2": 0.13
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.15
+      }
+     },
+     "plan": {
+      "opening": {
+       "rating": 3,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.01,
+        "1": 0.99,
+        "2": 0
+       }
+      },
+      "message_clarity": {
+       "rating": 4.94,
+       "confidence": 0.95,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.03,
+        "2": 0.97
+       }
+      },
+      "structure_flow": {
+       "rating": 4.98,
+       "confidence": 0.98,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0,
+        "1": 0.01,
+        "2": 0.99
+       }
+      },
+      "substance_evidence": {
+       "rating": 3.92,
+       "confidence": 0.19,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.06,
+        "1": 0.42,
+        "2": 0.52
+       }
+      },
+      "persuasiveness": {
+       "rating": 3.34,
+       "confidence": 0,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0.41,
+        "1": 0,
+        "2": 0.59
+       }
+      },
+      "audience_fit": {
+       "rating": 3.74,
+       "confidence": 0.43,
+       "review": "human",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.62,
+        "2": 0.38
+       }
+      },
+      "warmth_connection": {
+       "rating": 4.4,
+       "confidence": 0.56,
+       "review": "check",
+       "needsComment": false,
+       "probabilities": {
+        "0": 0,
+        "1": 0.29,
+        "2": 0.71
+       }
+      },
+      "ending": {
+       "rating": 4.92,
+       "confidence": 0.93,
+       "review": "auto",
+       "needsComment": true,
+       "probabilities": {
+        "0": 0.02,
+        "1": 0.01,
+        "2": 0.97
+       }
+      },
+      "recovery": {
+       "rating": null,
+       "note": "n/a: no restart or self-correction detected",
+       "stumbleProbability": 0.03
+      }
+     }
+    },
+    "alignment": {
+     "metrics": {
+      "coverage": 0.4,
+      "meaningFidelity": 0.72,
+      "wordingFidelity": 0.095,
+      "wordErrorRate": 0.905,
+      "wordEdits": {
+       "substituted": 39,
+       "deleted": 66,
+       "inserted": 0
+      },
+      "orderFidelity": 1,
+      "plannedSentences": 10,
+      "spokenSentences": 5,
+      "omitted": 6,
+      "drifted": 0,
+      "detailChanged": 2,
+      "insertions": 1,
+      "itemsNeedingHumanReview": 3
+     },
+     "items": [
+      {
+       "plannedIdx": 0,
+       "planned": "Welcome, and thank you for choosing us.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 1,
+       "planned": "In the next ten minutes I will walk you through how onboarding works, what you can expect from our team, and how we measure success together.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.94,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 2,
+       "planned": "Week one is about setup.",
+       "spokenIdx": 0,
+       "spoken": "Hi, welcome. So onboarding is basically setup in week one, then training, and then we check in at the end of the month.",
+       "confidence": 0.92,
+       "stable": true,
+       "preservedScore": 1.89,
+       "preservedConfidence": 0.82,
+       "status": "faithful",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 3,
+       "planned": "We connect your data sources, configure single sign on, and invite your first group of users.",
+       "spokenIdx": 1,
+       "spoken": "We’ll hook up your data and do the login stuff.",
+       "confidence": 0.47,
+       "stable": true,
+       "preservedScore": 0.99,
+       "preservedConfidence": 0.98,
+       "status": "detail_changed",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 4,
+       "planned": "Our implementation manager will be on call the whole time.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 5,
+       "planned": "Weeks two and three are about adoption.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 6,
+       "planned": "We run live training sessions, share best practice templates, and review early usage reports with you.",
+       "spokenIdx": 2,
+       "spoken": "Um, there’s training and templates and so on.",
+       "confidence": 0.55,
+       "stable": false,
+       "preservedScore": 0.98,
+       "preservedConfidence": 0.95,
+       "status": "detail_changed",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 7,
+       "planned": "By day thirty we hold a success review.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.61,
+       "stable": false,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "human"
+      },
+      {
+       "plannedIdx": 8,
+       "planned": "We compare results against the goals you set, agree on next steps, and schedule your quarterly check in.",
+       "spokenIdx": null,
+       "spoken": null,
+       "confidence": 0.95,
+       "stable": true,
+       "preservedScore": null,
+       "preservedConfidence": null,
+       "status": "omitted",
+       "review": "auto"
+      },
+      {
+       "plannedIdx": 9,
+       "planned": "Let's get started.",
+       "spokenIdx": 4,
+       "spoken": "Alright, let’s go.",
+       "confidence": 1,
+       "stable": true,
+       "preservedScore": 1.9,
+       "preservedConfidence": 0.85,
+       "status": "faithful",
+       "review": "auto"
+      }
+     ],
+     "insertions": [
+      {
+       "spokenIdx": 3,
+       "spoken": "Then a review.",
+       "restatesPlan": 0.68,
+       "type": "new_content",
+       "confidence": 0.72
+      }
+     ]
+    },
+    "cached": true
+   }
+  }
+ }
+}

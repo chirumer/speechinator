@@ -1,0 +1,1344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparation</title>
+<style>
+  :root {
+    color-scheme: light;
+    --cream:#fff6ee; --peach:#ffe3cc; --apricot:#ffc9a0; --orange:#ff9f6b; --orange-d:#f07c3c;
+    --butter:#ffefc9; --blush:#ffd9d2; --sand:#fbe6d2; --sage:#bfe3c6;
+    --ink:#4b3426; --mute:#9c7d69; --card:#fffdfb; --line:#f5d9c3;
+  }
+  * { box-sizing:border-box }
+  html, body { min-height:100% }
+  body {
+    margin:0; color:var(--ink); font:16px/1.5 ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif;
+    background:
+      radial-gradient(900px 500px at 8% -10%, #ffe9d6 0%, transparent 60%),
+      radial-gradient(800px 600px at 105% 10%, #ffe1c8 0%, transparent 55%),
+      radial-gradient(700px 500px at 50% 120%, #ffeedc 0%, transparent 60%), var(--cream);
+    background-attachment:fixed;
+  }
+  .wrap { max-width:1240px; margin:0 auto; padding:28px 28px 120px; min-height:100vh; display:flex; flex-direction:column; gap:22px }
+  header.top { display:flex; align-items:center; gap:14px; flex-wrap:wrap }
+  .logo { font-size:1.6rem; font-weight:800; letter-spacing:-.02em; display:flex; align-items:center; gap:10px }
+  .logo i { width:30px; height:30px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #ffd2ae, var(--orange)); box-shadow:0 4px 12px rgba(255,159,107,.45); display:inline-block }
+  .tabs { margin-left:auto; display:flex; gap:6px; background:rgba(255,255,255,.6); padding:5px; border-radius:99px; box-shadow:0 4px 14px rgba(180,110,60,.1) }
+  .tabs button { border:0; background:none; cursor:pointer; font-weight:800; font-size:.95rem; color:var(--mute); padding:9px 26px; border-radius:99px; transition:all .2s }
+  .tabs button:hover { color:var(--ink) } .tabs button.on { background:linear-gradient(180deg,#ffb085,var(--orange)); color:#fff; box-shadow:0 6px 14px rgba(255,159,107,.4) }
+  .msel { margin-left:auto; display:flex; align-items:center; gap:8px; font-size:.78rem; font-weight:800; color:var(--mute); background:rgba(255,255,255,.6); padding:6px 8px 6px 14px; border-radius:99px; box-shadow:0 4px 14px rgba(180,110,60,.08) }
+  .msel select { font:inherit; font-size:.82rem; font-weight:700; color:var(--ink); border:0; background:#fff; border-radius:99px; padding:6px 12px; cursor:pointer; outline:none }
+  .msel + .tabs { margin-left:0 }
+  .pg[hidden] { display:none !important }
+
+  button { font:inherit }
+  .browse { border:0; cursor:pointer; font-weight:700; color:#fff; background:linear-gradient(180deg,#ffb085,var(--orange)); padding:11px 22px; border-radius:99px; box-shadow:0 8px 18px rgba(255,159,107,.4); transition:transform .15s }
+  .browse:hover { transform:translateY(-1px) } .browse:disabled { opacity:.45; cursor:not-allowed; box-shadow:none; transform:none }
+  .ghost { border:0; cursor:pointer; font-weight:700; font-size:.85rem; color:var(--orange-d); background:var(--peach); padding:8px 14px; border-radius:99px }
+  .ghost:hover { background:var(--apricot); color:#fff }
+  .back { border:0; background:none; cursor:pointer; font-weight:700; color:var(--orange-d); padding:0 }
+  .pill { display:inline-block; font-size:.8rem; font-weight:700; padding:5px 12px; border-radius:99px; background:var(--peach); color:var(--orange-d) }
+  .chip { font-size:.8rem; font-weight:700; padding:5px 12px; border-radius:99px; background:var(--butter); color:#8a6420 }
+  .chip.b { background:var(--blush); color:#a8483a } .chip.c { background:var(--sand); color:#94581f }
+  .stats { display:flex; gap:8px; flex-wrap:wrap }
+  .head2 { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px }
+  .head2 h1 { margin:2px 0 4px; font-size:1.9rem; letter-spacing:-.02em } .head2 p { margin:0; color:var(--mute) }
+  .spchip { background:#fff; border-radius:99px; padding:8px 16px; font-weight:700; font-size:.88rem; box-shadow:0 4px 12px rgba(180,110,60,.1); max-width:340px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+
+  /* ---------- forms ---------- */
+  .form { max-width:800px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:16px }
+  .savecard { background:var(--card); border-radius:26px; padding:20px 22px; box-shadow:0 6px 18px rgba(180,110,60,.08) }
+  .savecard h3 { margin:0 0 2px; font-size:1.05rem } .savecard p { margin:0 0 12px; color:var(--mute); font-size:.88rem } .savecard .btns { display:flex; gap:10px; flex-wrap:wrap }
+  .savecard details { margin-top:14px } .savecard summary { cursor:pointer; font-weight:700; color:var(--orange-d); font-size:.9rem }
+  #jsonView { margin:10px 0 0; max-height:320px; overflow:auto; background:var(--cream); border-radius:16px; padding:14px 16px; font:12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; color:#6a4b38; white-space:pre-wrap; word-break:break-word }
+  .privacy { display:flex; gap:14px; align-items:flex-start; background:var(--butter); border-radius:24px; padding:16px 20px; box-shadow:0 6px 18px rgba(180,110,60,.08) }
+  .privacy .lock { font-size:1.4rem; line-height:1.3 } .privacy b { display:block; margin-bottom:2px } .privacy p { margin:0; color:#7a5f4c; font-size:.92rem }
+  .form .intro h1 { margin:0 0 4px; font-size:2rem; letter-spacing:-.02em } .form .intro p { margin:0; color:var(--mute) }
+  .part { margin:22px 4px 0; display:flex; align-items:center; gap:12px }
+  .part h2 { margin:0; font-size:1.15rem; letter-spacing:-.01em } .part::after { content:''; flex:1; border-bottom:3px dotted var(--apricot); opacity:.7 }
+  .q { background:var(--card); border-radius:26px; padding:20px 22px; box-shadow:0 6px 18px rgba(180,110,60,.08); border:2px solid transparent; scroll-margin-top:90px; transition:border-color .2s }
+  .q.miss { border-color:var(--orange) }
+  .qt { font-weight:800; letter-spacing:-.01em; display:flex; gap:10px }
+  .qn { flex:none; width:26px; height:26px; border-radius:50%; background:var(--peach); color:var(--orange-d); display:flex; align-items:center; justify-content:center; font-size:.78rem }
+  .qh { color:var(--mute); font-size:.85rem; margin:3px 0 0 36px } .opt-tag { font-size:.7rem; font-weight:700; color:var(--mute); background:var(--sand); padding:2px 8px; border-radius:99px; margin-left:8px; vertical-align:middle }
+  .qb { margin:14px 0 0 36px; display:flex; flex-wrap:wrap; gap:9px; align-items:center }
+  .opt { position:relative; cursor:pointer } .opt input { position:absolute; opacity:0; inset:0; cursor:pointer }
+  .opt span { display:inline-block; padding:9px 16px; border-radius:99px; background:#fff; border:2px dotted var(--apricot); font-size:.92rem; font-weight:600; transition:all .15s }
+  .opt:hover span { border-color:var(--orange) }
+  .opt input:checked + span { background:var(--orange); color:#fff; border-style:solid; border-color:var(--orange-d) }
+  .opt input:disabled + span { opacity:.38; cursor:not-allowed }
+  .opt input:focus-visible + span { outline:3px solid rgba(255,159,107,.5); outline-offset:2px }
+  .tin, .psel { font:inherit; font-size:.95rem; color:var(--ink); background:#fff; border:2px dotted var(--apricot); border-radius:16px; padding:11px 16px; outline:none; min-width:0 }
+  .tin:focus, .psel:focus { border-style:solid; border-color:var(--orange-d) }
+  .tin.wide { flex:1; min-width:220px } textarea.tin { width:100%; min-height:90px; resize:vertical; line-height:1.5 }
+  .psel { appearance:none; -webkit-appearance:none; padding-right:40px; cursor:pointer; font-weight:600;
+          background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%23f07c3c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 16px center }
+  .subrow { display:flex; align-items:center; gap:12px; flex-wrap:wrap; width:100%; background:var(--cream); border-radius:16px; padding:8px 12px }
+  .subrow label { font-weight:700; min-width:130px; font-size:.92rem }
+  .langrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; width:100%; background:var(--cream); border-radius:18px; padding:8px 12px }
+  .rate { display:flex; gap:6px } .rate .opt span { padding:6px 12px }
+  .scale { display:flex; gap:8px; align-items:center; flex-wrap:wrap } .scale small { color:var(--mute); font-size:.8rem }
+  .muted { color:var(--mute); font-size:.9rem }
+  .rank { display:flex; align-items:center; gap:10px; width:100% } .rank b { width:28px; height:28px; border-radius:50%; background:var(--orange); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.8rem }
+  .fields { display:grid; grid-template-columns:1fr 1fr; gap:16px 22px; margin-left:36px; margin-top:14px }
+  .fields .f { display:flex; flex-direction:column; gap:6px } .fields .f.full { grid-column:1/-1 }
+  .fields label.l { font-weight:700; font-size:.88rem }
+  @media (max-width:700px) { .fields { grid-template-columns:1fr; margin-left:0 } .qb, .qh { margin-left:0 } }
+
+  /* sticky bar */
+  #bar { position:fixed; left:50%; bottom:18px; z-index:20; transform:translate(-50%, 140%); transition:transform .3s cubic-bezier(.2,.9,.3,1.2); display:flex; align-items:center; gap:16px;
+         background:rgba(255,253,251,.96); backdrop-filter:blur(8px); border-radius:99px; padding:10px 10px 10px 26px; box-shadow:0 14px 40px rgba(180,110,60,.28); width:min(640px, calc(100vw - 32px)) }
+  #bar.show { transform:translate(-50%, 0) }
+  #barMsg { flex:1; min-width:0; color:var(--mute); font-size:.92rem; font-weight:600 } #barMsg b { color:var(--ink) }
+  #barMsg a { color:var(--orange-d); cursor:pointer; text-decoration:underline dotted }
+
+  /* ---------- the dotted drop box ---------- */
+  #drop { position:relative; min-height:520px; border-radius:38px; border:4px dotted var(--apricot); background:rgba(255,253,251,.65); display:flex; flex-direction:column; transition:background .2s, border-color .2s, transform .2s, box-shadow .2s; outline:none }
+  #drop:focus-visible { box-shadow:0 0 0 5px rgba(255,159,107,.35) }
+  #drop.hint { border-color:var(--orange); animation:breathe 1.6s ease-in-out infinite }
+  #drop.over { border-color:var(--orange-d); background:var(--peach); transform:scale(1.008); box-shadow:0 18px 40px rgba(240,124,60,.18); animation:none }
+  @keyframes breathe { 50% { background:rgba(255,227,204,.6) } }
+  #empty { margin:auto; text-align:center; padding:40px 28px; max-width:460px; cursor:pointer }
+  #empty svg { width:150px; height:150px; margin-bottom:6px } #empty h2 { margin:0 0 8px; font-size:1.7rem; letter-spacing:-.02em } #empty p { margin:0; color:var(--mute) }
+  #empty .or { margin-top:18px; display:inline-flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center }
+  #drop.filled #empty { display:none }
+  #editor { display:none; flex:1; flex-direction:column; padding:26px 28px 22px; gap:14px; min-height:0 } #drop.filled #editor { display:flex }
+  #drop.filled { background:var(--card); border-color:var(--apricot) }
+  .ehead { display:flex; gap:12px; align-items:center }
+  #title { flex:1; min-width:0; font:inherit; font-size:1.55rem; font-weight:800; letter-spacing:-.02em; color:var(--ink); background:transparent; border:0; border-bottom:2px dotted transparent; padding:4px 2px; outline:none }
+  #title:hover, #title:focus { border-bottom-color:var(--apricot) }
+  #text { flex:1; min-height:300px; resize:none; border:0; border-radius:22px; background:var(--cream); padding:22px 24px; font:inherit; font-size:1.08rem; line-height:1.75; color:var(--ink); outline:none }
+  #text:focus { box-shadow:inset 0 0 0 2px var(--apricot) }
+  .efoot { display:flex; align-items:center; justify-content:flex-end; gap:14px }
+  #veil { position:absolute; inset:0; border-radius:34px; display:none; align-items:center; justify-content:center; background:rgba(255,227,204,.88); font-size:1.4rem; font-weight:800; color:var(--orange-d); pointer-events:none }
+  #drop.over #veil { display:flex }
+
+  /* popup */
+  #modal { position:fixed; inset:0; z-index:40; display:none; align-items:center; justify-content:center; background:rgba(75,52,38,.35); backdrop-filter:blur(3px); padding:20px }
+  #modal.show { display:flex }
+  #mcard { width:min(560px,100%); max-height:86vh; overflow:auto; border-radius:34px; background:var(--card); padding:26px 26px 22px; box-shadow:0 30px 70px rgba(75,52,38,.35); animation:pop .22s cubic-bezier(.2,.9,.3,1.3) }
+  @keyframes pop { from { transform:scale(.92); opacity:0 } }
+  #mcard h2 { margin:0 0 2px; font-size:1.4rem; display:flex; align-items:center; gap:10px } #mcard .mp { margin:0 0 16px; color:var(--mute); font-size:.9rem }
+  #mlist { display:flex; flex-direction:column; gap:9px }
+  #mlist button { text-align:left; border:2px dotted var(--apricot); background:#fff; border-radius:18px; padding:13px 18px; font-weight:700; color:var(--ink); cursor:pointer; transition:all .15s }
+  #mlist button:hover { border-color:var(--orange-d); background:var(--peach); transform:translateX(3px) } #mlist button.on { background:var(--orange); color:#fff; border-style:solid; border-color:var(--orange-d) }
+  .mclose { float:right; border:0; background:var(--peach); color:var(--orange-d); width:34px; height:34px; border-radius:50%; font-size:1.1rem; font-weight:800; cursor:pointer }
+
+  .tile { border:0; text-align:left; cursor:pointer; border-radius:24px; padding:16px 18px; display:flex; gap:12px; align-items:center; color:var(--ink); font-weight:800; transition:transform .15s, box-shadow .15s }
+  .tile:hover { transform:translateY(-2px); box-shadow:0 10px 22px rgba(180,110,60,.16) } .tile small { display:block; font-weight:600; color:#8c6a52; font-size:.78rem }
+  .tile .ic { width:44px; height:44px; border-radius:15px; background:rgba(255,255,255,.7); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex:none }
+  #mgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px } @media (max-width:520px) { #mgrid { grid-template-columns:1fr } }
+  #mgrid .tile:nth-child(5n+1) { background:var(--peach) } #mgrid .tile:nth-child(5n+2) { background:var(--butter) } #mgrid .tile:nth-child(5n+3) { background:var(--blush) } #mgrid .tile:nth-child(5n+4) { background:var(--sand) } #mgrid .tile:nth-child(5n+5) { background:#ffe7bf }
+  #mback { border:0; background:none; color:var(--orange-d); font-weight:800; cursor:pointer; padding:0; margin:0 0 10px }
+
+  /* ---------- sessions ---------- */
+  .head3 { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap } .head3 h1 { margin:0 0 4px; font-size:1.9rem; letter-spacing:-.02em } .head3 p { margin:0; color:var(--mute) }
+  #sgrid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:18px; margin-top:20px }
+  .scard { position:relative; border-radius:28px; padding:20px 22px; min-height:170px; cursor:pointer; text-align:left; border:3px solid transparent; transition:transform .2s, box-shadow .2s; box-shadow:0 8px 20px rgba(180,110,60,.1); display:flex; flex-direction:column; gap:8px }
+  .scard:hover { transform:translateY(-3px); box-shadow:0 16px 30px rgba(180,110,60,.18); border-color:rgba(255,159,107,.5) }
+  .scard:nth-child(5n+2) { background:var(--peach) } .scard:nth-child(5n+3) { background:var(--butter) } .scard:nth-child(5n+4) { background:var(--blush) } .scard:nth-child(5n+5) { background:var(--sand) } .scard:nth-child(5n+6) { background:#ffe7bf }
+  .scard h3 { margin:0; font-size:1.2rem; letter-spacing:-.01em; padding-right:30px } .scard .sub2 { color:#7a5f4c; font-size:.88rem } .scard .when { margin-top:auto; font-size:.76rem; font-weight:700; color:#8c6a52 }
+  .scard .x { position:absolute; top:14px; right:14px; border:0; width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,.7); color:var(--mute); cursor:pointer; font-weight:800 } .scard .x:hover { background:#fff; color:#b5483a }
+  .scard.new { background:rgba(255,253,251,.6); border:4px dotted var(--apricot); align-items:center; justify-content:center; text-align:center; color:var(--orange-d); font-weight:800; font-size:1.05rem; box-shadow:none }
+  .scard.new:hover { background:var(--peach); border-color:var(--orange-d) } .scard.new .plus { font-size:2.4rem; line-height:1 }
+  /* preparation */
+  .prephead { display:flex; align-items:center; gap:14px; flex-wrap:wrap } .prephead input { font:inherit; font-size:1.7rem; font-weight:800; letter-spacing:-.02em; color:var(--ink); background:transparent; border:0; border-bottom:2px dotted transparent; padding:2px; outline:none; min-width:200px; flex:1 }
+  .prephead input:hover, .prephead input:focus { border-bottom-color:var(--apricot) }
+  #tray { display:flex; gap:12px; overflow-x:auto; padding:4px 2px 10px; scrollbar-width:thin } .trayhead { display:flex; align-items:baseline; gap:10px; margin:4px 4px -6px } .trayhead h2 { margin:0; font-size:1rem } .trayhead span { color:var(--mute); font-size:.85rem }
+  .sample { position:relative; flex:none; width:230px; border-radius:22px; padding:13px 14px 11px 34px; cursor:grab; user-select:none; border:2px solid transparent; transition:transform .18s, box-shadow .18s, border-color .18s; box-shadow:0 6px 16px rgba(180,110,60,.08) }
+  .sample:hover { transform:translateY(-2px) rotate(-.4deg); box-shadow:0 12px 24px rgba(180,110,60,.16); border-color:rgba(255,159,107,.5) } .sample:active { cursor:grabbing } .sample.dragging { opacity:.45; transform:scale(.97) }
+  .sample:nth-child(5n+1) { background:#ffd9b8 } .sample:nth-child(5n+2) { background:var(--peach) } .sample:nth-child(5n+3) { background:var(--butter) } .sample:nth-child(5n+4) { background:var(--blush) } .sample:nth-child(5n+5) { background:var(--sand) }
+  .sample::before { content:''; position:absolute; left:12px; top:50%; width:12px; height:20px; transform:translateY(-50%); background:radial-gradient(circle, rgba(75,52,38,.35) 2px, transparent 2.5px) 0 0/6px 6px }
+  .sample b { display:block; font-size:.92rem; letter-spacing:-.01em } .sample p { margin:2px 0 7px; font-size:.78rem; color:#7a5f4c; line-height:1.35; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden }
+  .sample .meta { display:flex; align-items:center; gap:6px; font-size:.72rem; font-weight:700; color:#8c6a52 }
+  .sample .add { margin-left:auto; border:0; cursor:pointer; font-weight:700; font-size:.72rem; color:var(--orange-d); background:rgba(255,255,255,.7); border-radius:99px; padding:3px 10px } .sample .add:hover { background:#fff }
+  body.dragging-sample #drop:not(.over) { border-color:var(--orange-d); animation:breathe 1s ease-in-out infinite }
+  .prepgrid { display:grid; grid-template-columns:minmax(0,1fr) 380px; gap:24px; align-items:start } @media (max-width:980px) { .prepgrid { grid-template-columns:1fr } }
+  #fpanel { background:var(--card); border-radius:32px; padding:24px 24px 26px; box-shadow:0 10px 30px rgba(180,110,60,.1); display:flex; flex-direction:column; gap:18px; position:sticky; top:16px }
+  #fpanel h2 { margin:0; font-size:1.2rem } #fpanel .sub { margin:-12px 0 0; color:var(--mute); font-size:.85rem }
+  .fld { display:flex; flex-direction:column; gap:6px; scroll-margin-top:90px; border-radius:18px; padding:2px; transition:box-shadow .2s } .fld.miss { box-shadow:0 0 0 3px rgba(255,159,107,.45); padding:8px }
+  .fld > label { font-weight:800; font-size:.9rem } .fld .ask { color:var(--mute); font-size:.78rem; margin-top:-4px } .fld .psel, .fld .tin { width:100% }
+  .row2 { display:flex; gap:8px; align-items:center } .row2 .ghost { flex:none; padding:10px 14px }
+  .hintline { font-size:.8rem; font-weight:700; border-radius:12px; padding:7px 11px; background:var(--cream); color:#8c6a52 } .hintline.ok { background:#e5f5e8; color:#2f7a45 } .hintline.warn { background:var(--blush); color:#a8483a } .hintline.info { background:var(--butter); color:#8a6420 }
+  #prios { display:flex; flex-wrap:wrap; gap:7px } .pchip { display:inline-flex; align-items:center; gap:6px; background:var(--peach); color:var(--orange-d); font-weight:700; font-size:.82rem; padding:6px 8px 6px 13px; border-radius:99px }
+  .pchip button { border:0; background:rgba(255,255,255,.7); width:20px; height:20px; border-radius:50%; cursor:pointer; color:var(--orange-d); font-weight:800; line-height:1; padding:0 }
+  /* ---------- suggestions ---------- */
+  .sgtools { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:16px } .sgtools .sp { flex:1 }
+  .sgsrc { font-size:.8rem; font-weight:700; color:var(--mute); background:rgba(255,255,255,.7); padding:6px 12px; border-radius:99px } .sgsrc.cache { background:#e5f5e8; color:#2f7a45 }
+  .sgwrap { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:22px; align-items:start } @media (max-width:980px) { .sgwrap { grid-template-columns:1fr } }
+  #sgList { display:flex; flex-direction:column; gap:12px }
+  .sg { background:var(--card); border-radius:22px; padding:14px 16px; box-shadow:0 6px 16px rgba(180,110,60,.08); border:2px solid transparent; border-left:6px solid var(--apricot); transition:border-color .2s, opacity .2s, transform .2s }
+  .sg.accepted { border-left-color:#6fbf8a; background:#f6fcf7 } .sg.rejected { border-left-color:#d9cfc6; opacity:.62 } .sg.flash { border-color:var(--orange-d); transform:scale(1.01) }
+  .sgtop { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px } .sgr { color:#7a5f4c; font-size:.88rem; line-height:1.4 }
+  .ty { flex:none; font-size:.66rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:3px 9px; border-radius:99px; background:var(--peach); color:var(--orange-d) }
+  .ty.filler { background:var(--butter); color:#8a6420 } .ty.idiom { background:var(--blush); color:#a8483a } .ty.wording { background:#e3ecff; color:#4a5fa8 } .ty.tone { background:#efe3ff; color:#7a52b3 } .ty.structure, .ty.length { background:var(--sand); color:#94581f }
+  .diff { font-size:.95rem; line-height:1.55; background:var(--cream); border-radius:14px; padding:10px 12px } .diff del { color:#c9604d; background:rgba(232,144,127,.18); text-decoration:line-through; border-radius:5px; padding:0 3px } .diff ins { color:#2f7a45; background:rgba(111,191,138,.22); text-decoration:none; border-radius:5px; padding:0 3px; font-weight:600 } .diff .arr { color:var(--mute); margin:0 4px }
+  .sgbtn { display:flex; gap:8px; margin-top:10px } .sgbtn button { border:0; cursor:pointer; font-weight:800; font-size:.82rem; padding:7px 16px; border-radius:99px; background:var(--peach); color:var(--orange-d); transition:all .15s }
+  .sgbtn .acc:hover, .sg.accepted .acc { background:#6fbf8a; color:#fff } .sgbtn .rej:hover, .sg.rejected .rej { background:#c9b9ab; color:#fff }
+  #sgPreview { position:sticky; top:16px; background:var(--card); border-radius:30px; padding:22px 24px; box-shadow:0 10px 30px rgba(180,110,60,.1); max-height:calc(100vh - 140px); overflow:auto }
+  #sgPreview h3 { margin:0 0 10px; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--mute) }
+  #sgText { white-space:pre-wrap; font-size:1.02rem; line-height:1.8 }
+  #sgText .m { border-radius:6px; cursor:pointer; transition:background .15s } #sgText .m.pend { background:rgba(255,201,160,.55); border-bottom:2px dotted var(--orange-d) } #sgText .m.acc { background:rgba(111,191,138,.28); color:#1f6b3b; font-weight:600 }
+  #sgText .m.del { padding:0 4px; color:#6a9c7b } #sgText .m.hot { box-shadow:0 0 0 3px var(--orange); background:var(--apricot) }
+  #sgState { text-align:center; padding:60px 20px; color:var(--mute) } #sgState b { display:block; color:var(--ink); font-size:1.15rem; margin-bottom:6px }
+  .dots i { display:inline-block; width:10px; height:10px; margin:0 4px; border-radius:50%; background:var(--orange); animation:bounce 1s infinite } .dots i:nth-child(2) { animation-delay:.15s } .dots i:nth-child(3) { animation-delay:.3s }
+  @keyframes bounce { 50% { transform:translateY(-8px); opacity:.5 } }
+  /* ---------- recording controls + summary ---------- */
+  .rbtns { display:flex; gap:8px; flex-wrap:wrap } .rbtns button { flex:1; min-width:110px; border:0; cursor:pointer; font-weight:800; font-size:.95rem; padding:13px 14px; border-radius:99px; transition:transform .15s }
+  .rbtns .browse { padding:14px } .rbtns .pa { background:var(--peach); color:var(--orange-d) } .rbtns .st { background:#444c57; color:#fff } .rbtns .en { flex-basis:100%; background:linear-gradient(180deg,#8fd0a5,#5cb878); color:#fff; box-shadow:0 8px 18px rgba(92,184,120,.35) }
+  .rbtns button:hover { transform:translateY(-1px) }
+  #pastBtn { width:100%; margin-top:12px; padding:10px; text-align:center } #pastBtn:disabled { opacity:.4; cursor:not-allowed; background:#efe6dd; color:#a8978a }
+  #recbadge { display:inline-block; font-size:.7rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:99px; margin-bottom:10px; background:#efe6dd; color:#8c7a6c } #recbadge.rec { background:#ffd9d2; color:#c9604d } #recbadge.pause { background:var(--butter); color:#8a6420 }
+  .smgrid { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:22px; align-items:start } @media (max-width:980px) { .smgrid { grid-template-columns:1fr } }
+  .smmain, .smside { display:flex; flex-direction:column; gap:18px } .smside { position:sticky; top:16px }
+  .scard2 { background:var(--card); border-radius:30px; padding:22px 24px; box-shadow:0 8px 24px rgba(180,110,60,.1) } .scard2 h2 { margin:0 0 4px; font-size:1.1rem } .scard2 > .cap { margin:0 0 14px; color:var(--mute); font-size:.85rem }
+  .ovr { display:flex; align-items:center; gap:22px; flex-wrap:wrap } .ovr svg { flex:none } .ovr .big { font-size:2.6rem; font-weight:800; letter-spacing:-.03em; line-height:1 } .ovr .big small { font-size:1rem; color:var(--mute); font-weight:700 } .ovr .lbl { font-weight:800; font-size:1.1rem; margin-top:4px }
+  .src { display:inline-block; font-size:.74rem; font-weight:800; padding:4px 11px; border-radius:99px; background:var(--cream); color:var(--mute) } .src.saved { background:#e5f5e8; color:#2f7a45 }
+  table.rb { width:100%; border-collapse:collapse; font-size:.9rem } table.rb th { text-align:left; font-size:.7rem; letter-spacing:.07em; text-transform:uppercase; color:var(--mute); padding:0 8px 8px 0 } table.rb td { padding:9px 8px 9px 0; border-top:1px solid #f5ebe1; vertical-align:middle }
+  .meter { position:relative; height:10px; border-radius:10px; background:#f3e7dc; min-width:120px } .meter i { position:absolute; left:0; top:0; bottom:0; border-radius:10px; background:linear-gradient(90deg,var(--apricot),var(--orange-d)) } .meter b { position:absolute; top:-4px; width:3px; height:18px; margin-left:-1px; border-radius:2px; background:var(--ink); opacity:.45 }
+  .num { font-weight:800; font-variant-numeric:tabular-nums } .dl { font-size:.78rem; font-weight:800; padding:2px 8px; border-radius:99px } .dl.up { background:#e5f5e8; color:#2f7a45 } .dl.down { background:var(--blush); color:#a8483a } .dl.flat { background:#f3e7dc; color:var(--mute) }
+  .rv { font-size:.68rem; font-weight:800; padding:2px 8px; border-radius:99px; background:var(--butter); color:#8a6420 } .rv.human { background:var(--blush); color:#a8483a }
+  .tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px } @media (max-width:700px) { .tiles { grid-template-columns:repeat(2,1fr) } }
+  .tile2 { background:var(--cream); border-radius:18px; padding:12px 14px } .tile2 b { display:block; font-size:1.5rem; letter-spacing:-.02em } .tile2 span { font-size:.76rem; color:var(--mute); font-weight:700 }
+  table.al td { font-size:.85rem; line-height:1.45; vertical-align:top } .stt { font-size:.7rem; font-weight:800; padding:2px 9px; border-radius:99px; white-space:nowrap } .stt.faithful { background:#e5f5e8; color:#2f7a45 } .stt.detail_changed { background:var(--butter); color:#8a6420 } .stt.drift, .stt.omitted { background:var(--blush); color:#a8483a }
+  #smPick .msel span { white-space:nowrap } #smPick .msel select { flex:1; min-width:0 }
+  #smTx { width:100%; min-height:230px; max-height:340px; resize:vertical; border:0; border-radius:18px; background:var(--cream); padding:14px 16px; font:inherit; font-size:.92rem; line-height:1.65; color:var(--ink); outline:none }
+  .smload { text-align:center; padding:34px 10px; color:var(--mute) } .smload b { display:block; color:var(--ink); font-size:1.05rem; margin-bottom:4px }
+  .rlist { display:flex; flex-direction:column; gap:8px } .ritem { display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:2px solid transparent; background:var(--cream); border-radius:16px; padding:10px 12px; cursor:pointer; font:inherit; color:var(--ink) } .ritem:hover { border-color:var(--apricot) } .ritem.on { border-color:var(--orange-d); background:#fff }
+  .ritem .rd { flex:1; font-weight:700; font-size:.9rem } .ritem .rd small { display:block; font-weight:600; color:var(--mute); font-size:.76rem } .ritem .sc { font-weight:800; font-size:1.05rem; color:var(--orange-d) }
+  #rmodal { position:fixed; inset:0; z-index:40; display:none; align-items:center; justify-content:center; background:rgba(75,52,38,.35); backdrop-filter:blur(3px); padding:20px } #rmodal.show { display:flex }
+  #rmcard { width:min(520px,100%); max-height:86vh; overflow:auto; border-radius:34px; background:var(--card); padding:26px; box-shadow:0 30px 70px rgba(75,52,38,.35); animation:pop .22s cubic-bezier(.2,.9,.3,1.3) } #rmcard h2 { margin:0 0 2px } #rmcard .mp { margin:0 0 16px; color:var(--mute); font-size:.9rem }
+  /* ---------- record ---------- */
+  .rec { display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:22px; align-items:start }
+  @media (max-width:900px) { .rec { grid-template-columns:1fr } }
+  #rscript { height:calc(100vh - 230px); min-height:380px; overflow:auto; background:var(--card); border-radius:34px; padding:90px 38px 140px; font-size:1.4rem; line-height:1.85; box-shadow:0 10px 30px rgba(180,110,60,.1); scrollbar-width:none;
+             mask-image:linear-gradient(transparent, #000 12%, #000 88%, transparent); -webkit-mask-image:linear-gradient(transparent, #000 12%, #000 88%, transparent) }
+  #rscript::-webkit-scrollbar { display:none } #rscript p { margin:0 0 1.1em }
+  .w { border-radius:7px; cursor:pointer; transition:color .25s, background .25s }
+  .w.done { color:#b9a291 } .w.skip { color:#e0a21b; text-decoration:underline dotted; text-underline-offset:4px }
+  .w.cur { background:var(--apricot); color:var(--ink); font-weight:700; box-shadow:0 0 0 4px var(--apricot) }
+  .rside { display:flex; flex-direction:column; gap:14px; position:sticky; top:20px }
+  .rcard { background:var(--card); border-radius:26px; padding:18px 20px; box-shadow:0 6px 18px rgba(180,110,60,.08) }
+  .rcard h3 { margin:0 0 8px; font-size:.78rem; letter-spacing:.08em; text-transform:uppercase; color:var(--mute) }
+  #recbtn { width:100%; padding:15px; font-size:1.05rem } #recbtn.on { background:linear-gradient(180deg,#ff8a7a,#e5584a); box-shadow:0 8px 18px rgba(229,88,74,.4) }
+  .pbar { height:10px; border-radius:10px; background:var(--peach); overflow:hidden; margin:6px 0 4px } .pbar i { display:block; height:100%; width:0; background:linear-gradient(90deg,var(--apricot),var(--orange-d)); transition:width .3s }
+  .hear { display:inline-block; width:10px; height:10px; border-radius:50%; background:#d9cdc3; margin-right:8px; transition:background .15s } .hear.on { background:#5cb878; box-shadow:0 0 0 5px rgba(92,184,120,.25) }
+  #heard { font-size:.85rem; color:#7a5f4c; min-height:3.2em } #heard b { color:var(--orange-d) }
+  .pacetxt { font-weight:800; font-size:1.02rem; letter-spacing:-.01em; min-height:1.5em; transition:color .3s } .pacetxt.ahead { color:#3f8f5a } .pacetxt.behind { color:#c9604d } .pacetxt small { display:block; font-weight:600; color:var(--mute); font-size:.78rem }
+  .ptrack { position:relative; height:12px; border-radius:12px; background:var(--peach); margin:14px 0 6px } .ptrack i { position:absolute; left:0; top:0; bottom:0; width:0; border-radius:12px; background:linear-gradient(90deg,var(--apricot),var(--orange-d)); transition:width .4s }
+  .ptrack b { position:absolute; top:-5px; width:4px; height:22px; margin-left:-2px; border-radius:3px; background:var(--ink); left:0; transition:left .4s } .ptrack.ahead i { background:linear-gradient(90deg,#bfe3c6,#6fbf8a) } .ptrack.behind i { background:linear-gradient(90deg,#ffd9d2,#e8907f) }
+  .plegend { display:flex; justify-content:space-between; font-size:.7rem; color:var(--mute); font-weight:700; margin-bottom:12px }
+  .rgauge { position:relative; height:12px; border-radius:12px; background:#f3e7dc; margin:20px 0 4px } .rgauge .zone { position:absolute; top:0; bottom:0; border-radius:12px; background:var(--sage); opacity:.85 }
+  .rgauge .needle { position:absolute; top:-5px; width:6px; height:22px; margin-left:-3px; border-radius:4px; background:var(--orange-d); left:0; transition:left .5s; box-shadow:0 2px 6px rgba(240,124,60,.4) }
+  .rglabels { display:flex; justify-content:space-between; font-size:.7rem; color:var(--mute); font-weight:700; margin-bottom:10px }
+  #pausenow { min-height:1.3em; margin:10px 6px 0; font-size:.85rem; color:#d6cbc1; font-variant-numeric:tabular-nums; transition:opacity .3s }
+  .pz { color:#d9cfc6; font-size:.55em; margin-left:3px; font-weight:600; vertical-align:super; user-select:none; white-space:nowrap }
+  .rcard.faint { background:transparent; box-shadow:none; padding:4px 8px; border:0 } .rcard.faint h3 { color:#d6cbc1 } #pauselog { font-size:.8rem; color:#d0c4b9; line-height:1.7; font-variant-numeric:tabular-nums }
+  .kv { display:flex; justify-content:space-between; font-size:.88rem; padding:3px 0 } .kv span:first-child { color:var(--mute) }
+
+  #toast { position:fixed; left:50%; bottom:90px; transform:translate(-50%, 30px); opacity:0; pointer-events:none; z-index:50; background:var(--ink); color:#fff; padding:11px 18px; border-radius:99px; font-size:.9rem; font-weight:600; display:flex; gap:14px; align-items:center; transition:all .25s; box-shadow:0 12px 30px rgba(75,52,38,.3) }
+  #toast.show { opacity:1; transform:translate(-50%, 0); pointer-events:auto } #toast button { border:0; background:none; color:var(--apricot); font:inherit; font-weight:800; cursor:pointer } #toast.err { background:#b5483a }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><i></i>Preparation</div>
+    <label class="msel" title="Which Claude model writes the suggestions. Haiku is the cheapest.">Model <select id="modelSel"></select></label>
+    <nav class="tabs" id="tabs"><button data-tab="profile" type="button">Profile</button><button data-tab="workspace" type="button">Workspace</button></nav>
+  </header>
+
+  <!-- Profile -->
+  <section class="pg" id="pg-profile"><div class="form" id="pform"></div></section>
+
+  <!-- Workspace: sessions -->
+  <section class="pg" id="pg-sessions" hidden>
+    <div class="head3"><div><h1>Sessions</h1><p>Each session is one speech you’re preparing.</p></div></div>
+    <div id="sgrid"></div>
+  </section>
+
+  <!-- Workspace: one session (preparation) -->
+  <section class="pg" id="pg-prep" hidden>
+    <div class="prephead"><button class="back" id="backS" type="button">← Sessions</button><input id="sname" aria-label="Session name" maxlength="80" placeholder="Untitled"></div>
+    <div class="trayhead"><h2>Sample scripts</h2><span>Drag one into the box, or press Add.</span></div>
+    <div id="tray"></div>
+    <div class="prepgrid">
+      <section id="drop" class="hint" tabindex="0" role="button" aria-label="Drop your speech here, or press Enter to choose a file">
+        <div id="empty">
+          <svg viewBox="0 0 150 150" aria-hidden="true">
+            <rect x="30" y="18" width="84" height="108" rx="14" fill="#ffe3cc" stroke="#ffc9a0" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" transform="rotate(-5 72 72)"/>
+            <rect x="38" y="26" width="84" height="108" rx="14" fill="#fffdfb" stroke="#ffc9a0" stroke-width="3"/>
+            <rect x="52" y="46" width="48" height="7" rx="3.5" fill="#ffd9bd"/><rect x="52" y="62" width="56" height="7" rx="3.5" fill="#ffe3cc"/><rect x="52" y="78" width="40" height="7" rx="3.5" fill="#ffe3cc"/>
+            <circle cx="104" cy="108" r="22" fill="#ff9f6b"/><path d="M104 98v20m-9-9 9 9 9-9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h2>Drop your speech here</h2>
+          <p>Drag a sample script from above, drop a <b>.txt</b> or <b>.md</b> file, or paste your text.</p>
+          <div class="or"><button class="browse" id="browse" type="button">Choose a file</button><span class="pill">or press ⌘V to paste</span></div>
+        </div>
+        <div id="editor">
+          <div class="ehead"><div class="stats" style="flex:1"><span class="chip" id="sWords"></span><span class="chip b" id="sTime"></span><span class="chip c" id="sSections"></span></div>
+            <button class="ghost" id="replace" type="button">Replace file</button><button class="ghost" id="clear" type="button">Clear</button></div>
+          <textarea id="text" spellcheck="true" aria-label="Your speech" placeholder="Your speech"></textarea>
+        </div>
+        <div id="veil">Drop to load it here</div>
+        <input type="file" id="file" accept=".txt,.md,.markdown,text/plain,text/markdown" hidden>
+      </section>
+
+      <aside id="fpanel">
+        <h2>Session details</h2><p class="sub">Filled in for you when you add a sample script.</p>
+        <div class="fld" data-k="purpose"><label for="f_purpose">Purpose</label><div class="ask">What kind of speech is this?</div>
+          <div class="row2"><select class="psel" id="f_purpose"></select><button class="ghost" id="browsePurpose" type="button">Browse</button></div></div>
+        <div class="fld" data-k="minutes"><label for="f_minutes">Time limit</label><div class="ask">How long do you have? (minutes)</div>
+          <input class="tin" id="f_minutes" type="number" min="1" max="180" placeholder="e.g. 3"><div class="hintline" id="timeHint" hidden></div></div>
+        <div class="fld" data-k="audience"><label for="f_audience">Audience</label><div class="ask">Who is listening, and how technical or formal are they?</div>
+          <input class="tin" id="f_audience" placeholder="e.g. Judges (mixed technical and business)"></div>
+        <div class="fld" data-k="region"><label for="f_region">Audience region</label><div class="ask">Local, international, or mixed?</div>
+          <select class="psel" id="f_region"><option value="local">Local</option><option value="international">International</option><option value="mixed">Mixed</option></select>
+          <div class="hintline info" id="regionHint" hidden>Cultural-phrase flags are on: we’ll mark phrases that may not travel.</div></div>
+        <div class="fld" data-k="priorities"><label for="f_prio">Purpose priorities</label><div class="ask">What should this speech achieve?</div>
+          <div id="prios"></div><input class="tin" id="f_prio" placeholder="Add a priority and press Enter"></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Workspace: suggestions -->
+  <section class="pg" id="pg-suggest" hidden>
+    <div class="head2">
+      <div><button class="back" id="backP" type="button">← Preparation</button><h1>Suggestions</h1><p id="sgSummary">Reading your script…</p></div>
+      <div class="stats" id="sgChips"></div>
+    </div>
+    <div class="sgtools" id="sgTools" hidden>
+      <button class="ghost" id="accAll" type="button">Accept all</button><button class="ghost" id="rejAll" type="button">Reject all</button><button class="ghost" id="resetAll" type="button">Clear choices</button>
+      <span class="sp"></span><span class="sgsrc" id="sgSrc"></span><button class="ghost" id="regen" type="button">Regenerate</button>
+    </div>
+    <div id="sgState"></div>
+    <div class="sgwrap" id="sgWrap" hidden><div id="sgList"></div><aside id="sgPreview"><h3>Your script with the changes</h3><div id="sgText"></div></aside></div>
+  </section>
+
+  <!-- Workspace: summary of one recording -->
+  <section class="pg" id="pg-summary" hidden>
+    <div class="head2">
+      <div><button class="back" id="backR" type="button">← Practice</button><h1>Summary</h1><p id="smSub"></p></div>
+      <div class="stats" id="smChips"></div>
+    </div>
+    <div class="smgrid">
+      <div class="smmain" id="smMain"></div>
+      <aside class="smside">
+        <div class="scard2"><h2>Speaker transcript</h2><p class="cap" id="smSrc"></p>
+          <div id="smPick" style="margin-bottom:10px" hidden><label class="msel" style="margin:0;display:flex"><span>Try a sample</span><select id="smSample"></select></label></div>
+          <textarea id="smTx" readonly aria-label="Speaker transcript"></textarea></div>
+        <div class="scard2"><h2>Recordings</h2><p class="cap">Everything you've recorded in this session.</p><div class="rlist" id="smRecs"></div></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Workspace: record -->
+  <section class="pg" id="pg-record" hidden>
+    <div class="head2">
+      <div><button class="back" id="back3" type="button">← Suggestions</button><h1 id="rTitle"></h1><p id="rSub"></p></div>
+      <div class="stats" id="rChips"></div>
+    </div>
+    <div class="rec">
+      <div><div id="rscript" aria-label="Your script"></div><div id="pausenow" aria-hidden="true"></div></div>
+      <div class="rside">
+        <div class="rcard" id="rctl"><span id="recbadge">Ready</span><div class="rbtns" id="rbtns"></div>
+          <div style="margin-top:12px;font-size:.88rem"><span class="hear" id="hear"></span><span id="rstat">Press start, then read your script.</span></div>
+          <button class="ghost" id="pastBtn" type="button" disabled>Past recordings</button></div>
+        <div class="rcard" id="pacecard"><h3>Pace</h3>
+          <div class="pacetxt" id="paceTxt">Start reading to see your pace.</div>
+          <div class="ptrack" id="ptrack"><i id="pFill"></i><b id="pExp" title="Where you’d be on schedule"></b></div>
+          <div class="plegend"><span>▮ where you’d be on schedule</span><span id="pTimeLeft">–</span></div>
+          <div class="kv"><span>Last 20 seconds</span><b id="rwpm">–</b></div>
+          <div class="rgauge"><div class="zone" id="rzone"></div><div class="needle" id="rneedle"></div></div>
+          <div class="rglabels"><span>slower</span><span id="rword">steady</span><span>faster</span></div>
+          <div class="kv"><span>Target pace</span><b id="twpm">–</b></div>
+          <div class="kv"><span>Projected finish</span><b id="tproj">–</b></div></div>
+        <div class="rcard"><h3>Progress</h3><div class="pbar"><i id="rbar"></i></div><div class="kv"><span>Position</span><b id="rpct">0%</b></div>
+          <div class="kv"><span>Words skipped</span><b id="skipN">0</b></div><div class="kv"><span>Jumps ahead / back</span><b id="jumpN">0</b></div></div>
+        <div class="rcard"><h3>Heard</h3><div id="heard">—</div></div>
+        <div class="rcard faint"><h3>Pauses</h3><div id="pauselog">—</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="bar" role="status"><div id="barMsg"></div><button class="browse" id="barNext" type="button" hidden>Next →</button></div>
+<div id="modal"><div id="mcard" role="dialog" aria-modal="true"><button class="mclose" id="mclose" type="button" aria-label="Close">✕</button><button id="mback" type="button" hidden>← Categories</button><h2 id="mtitle"></h2><p class="mp" id="msub"></p><div id="mgrid"></div><div id="mlist"></div></div></div>
+<div id="rmodal"><div id="rmcard" role="dialog" aria-modal="true"><button class="mclose" id="rmclose" type="button" aria-label="Close">✕</button><h2>Past recordings</h2><p class="mp">Open one to see its transcript and rubric score.</p><div class="rlist" id="rmList"></div></div></div>
+<div id="toast" role="status"><span id="toastMsg"></span><button id="undo" type="button" hidden>Undo</button></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const log = (...a) => console.log('%c[prep]', 'color:#f07c3c;font-weight:bold', ...a);      // filter the console on "[prep]"
+addEventListener('error', e => log('JS ERROR:', e.message, e.filename + ':' + e.lineno));
+addEventListener('unhandledrejection', e => log('UNHANDLED REJECTION:', e.reason && (e.reason.message || e.reason)));
+const store = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }, del(k) { try { localStorage.removeItem(k); } catch {} } };
+const words = t => (t.match(/\S+/g) || []).length;
+const sections = t => t.split(/\n\s*\n/).filter(s => s.trim()).length;
+
+/* =====================================================================================
+   1. PROFILE — prefilled, scrollable form. The Next button appears (sticky) once everything required is filled.
+   ===================================================================================== */
+const OPT = {
+  q1: [['lisp','Lisp'], ['stutter','Stutter or disfluency'], ['r','Difficulty with “r” sounds'], ['l','Difficulty with “l” sounds'], ['th','Difficulty with “th” sounds'],
+       ['fast','Speak quickly and run words together'], ['soft','Speak softly or have trouble projecting'], ['other','Other'], ['none','None / prefer not to say']],
+  q2: [['none','Don’t avoid them'], ['alt','Suggest alternatives when easy'], ['avoid','Avoid wherever possible']],
+  q7: ['American', 'British', 'Australian', 'Canadian', 'Irish', 'Indian', 'South African', 'No preference'],
+  q8: [['yes','Yes'], ['no','No'], ['international','Only for international audiences']],
+  q9: [['reserved','Reserved and understated'], ['technical','Technical and detailed'], ['warm','Warm and personal'], ['direct','Direct and blunt'], ['formal','Formal and polished'], ['casual','Casual and conversational'], ['humorous','Humorous'], ['story','Storytelling-driven']],
+  q10: [['direct','Directly and plainly'], ['softened','Softened with context'], ['positives','Wrapped in positives'], ['questions','By asking questions'], ['avoid','I tend to avoid it']],
+  q11: [['yes','Yes'], ['no','No']],
+  q12: [['enjoy','I enjoy idioms and figures of speech'], ['some','A few are fine'], ['literal','I’d rather use plain, literal language']],
+  q13: [['fast','Speaking too fast when nervous'], ['trail','Trailing off at the end of sentences'], ['filler','Filler words'], ['pauses','Long pauses or losing my place'], ['upspeak','Upspeak'], ['repeat','Repeating words or phrases'], ['mono','Monotone delivery']],
+  q14: ['Pacing', 'Persuasion', 'Pronunciation', 'Clarity and structure', 'Confidence', 'Filler words', 'Vocal variety', 'Storytelling'],
+  q16: [['visual','Visual cues (pace meter, plus time remaining)'], ['sound','Subtle sound'], ['haptic','Haptic or vibration'], ['minimal','Minimal, only if I’m far off'], ['none','None live, review after']],
+  q17: [['gentle','Gentler feedback tone'], ['pauses','Longer pauses before the app responds'], ['noscore','No scoring or grades, just notes'], ['captions','Captions and transcripts always on'], ['other','Other']],
+  q19: [['yes','Yes'], ['ask','Yes, but ask me first'], ['no','No']],
+  q20: [['device','Device only'], ['sync','Sync to my account']],
+};
+const lab = (k, v) => (OPT[k].find(o => o[0] === v) || [])[1] || v;
+const SOUND_ITEMS = ['lisp', 'stutter', 'r', 'l', 'th'];
+const PREFILL = {
+  q1:['r','l'], q1other:'', q2:{ r:'alt', l:'alt' }, q3:'really, problem, real-time', q4:'Team Lumen, React',
+  q5:'Japanese', q6:[{ lang:'English', level:3 }], q7:'American', q8:'international',
+  q9:['reserved','technical','warm'], q10:'softened', q11:'no', q12:'literal',
+  q13:['fast','trail'], q14:['Pacing','Persuasion','Pronunciation'], q15:4,
+  q16:['visual'], q17:['gentle'], q17other:'', q18:'',                       // Q18 is never prefilled
+  q19:'ask', q20:'device', q11Touched:false, q14Touched:false,
+};
+let P = Object.assign(structuredClone(PREFILL), store.get('prep.profile', {}));
+
+function profileMissing() {
+  const m = [], has = k => P[k] && P[k].length;
+  if (!has('q1') || (P.q1.includes('other') && !P.q1other.trim())) m.push([1, 'Tell us about how you speak (or pick “None”)']);
+  for (const k of P.q1.filter(x => SOUND_ITEMS.includes(x))) if (!P.q2[k]) { m.push([2, 'Choose how much to avoid ' + lab('q1', k)]); break; }
+  if (!P.q5.trim()) m.push([5, 'Your first language']);
+  if (P.q6.some(r => !r.lang.trim() || !r.level)) m.push([6, 'Finish each language row (or remove it)']);
+  if (!P.q7) m.push([7, 'Your variety of English']);
+  if (!P.q8) m.push([8, 'Flagging regional phrases']);
+  if (!has('q9')) m.push([9, 'Pick up to 3 styles']);
+  if (!P.q10) m.push([10, 'How you deliver bad news']);
+  if (!P.q11) m.push([11, 'Formality adjustments']);
+  if (!P.q12) m.push([12, 'Idioms and figures of speech']);
+  if (P.q14.filter(Boolean).length < 3 || new Set(P.q14).size < 3) m.push([14, 'Rank three different things to improve']);
+  if (!P.q15) m.push([15, 'How nervous you feel']);
+  if (!has('q16') || false) m.push([16, 'How live feedback should be delivered']);
+  if (!P.q19) m.push([19, 'Learning from your sessions']);
+  if (!P.q20) m.push([20, 'Where to store your profile']);
+  return m;
+}
+
+const qblock = (n, title, hint, body, optional) => `<div class="q" data-n="${n}"><div class="qt"><span class="qn">${n}</span><span>${title}${optional ? '<span class="opt-tag">optional</span>' : ''}</span></div>${hint ? `<div class="qh">${hint}</div>` : ''}<div class="qb">${body}</div></div>`;
+const checks = (q, key, type = 'checkbox') => OPT[key || q].map(([v, l]) => `<label class="opt"><input type="${type}" data-q="${q}" data-v="${v}"><span>${esc(l)}</span></label>`).join('');
+const selectHtml = (q, key, ph) => `<select class="psel" data-q="${q}"><option value="">${ph || 'Choose…'}</option>${OPT[key || q].map(o => Array.isArray(o) ? `<option value="${o[0]}">${esc(o[1])}</option>` : `<option>${esc(o)}</option>`).join('')}</select>`;
+
+function buildProfile() {
+  $('pform').innerHTML = `
+  <aside class="privacy" role="note"><span class="lock" aria-hidden="true">🔒</span><div><b>Privacy notice</b><p>Your recorded practice sessions are used to improve the suggestions this tool gives you. You can change what we may learn from in question 19, and where your profile is stored in question 20.</p></div></aside>
+  <div class="part"><h2>Part 1: About your voice</h2></div>
+  ${qblock(1, 'Is there anything about how you speak that you’d like us to account for?', '', checks('q1') + '<input class="tin wide" data-q="q1other" placeholder="Tell us more" id="q1other" hidden>')}
+  ${qblock(2, 'For the ones you selected, how much should we avoid them?', '', '<div id="q2body" style="width:100%;display:flex;flex-direction:column;gap:8px"></div>')}
+  ${qblock(3, 'Are there specific words or sounds you always stumble on?', 'Separate with commas.', '<input class="tin wide" data-q="q3" placeholder="e.g. really, problem">', true)}
+  ${qblock(4, 'Are there words you love using or never want replaced?', 'Separate with commas.', '<input class="tin wide" data-q="q4" placeholder="e.g. product names">', true)}
+  <div class="part"><h2>Part 2: Language background</h2></div>
+  ${qblock(5, 'What’s your first language?', '', '<input class="tin wide" data-q="q5" placeholder="e.g. Japanese" list="langs">')}
+  ${qblock(6, 'Which other languages do you speak, and how comfortable are you speaking each in public?', '1 = not comfortable, 5 = very comfortable', '<div id="q6body" style="width:100%;display:flex;flex-direction:column;gap:8px"></div><button class="ghost" id="addlang" type="button">+ Add a language</button>')}
+  ${qblock(7, 'Which variety of English do you speak or want to present in?', '', selectHtml('q7'))}
+  ${qblock(8, 'Do you want us to flag phrases that may not be understood outside your region?', '', selectHtml('q8'))}
+  <div class="part"><h2>Part 3: Speaking style</h2></div>
+  ${qblock(9, 'How would you describe your natural style?', 'Up to 3.', checks('q9'))}
+  ${qblock(10, 'How do you usually deliver criticism or bad news?', '', selectHtml('q10'))}
+  ${qblock(11, 'Do you want us to adjust your wording for formality levels?', '', checks('q11', 'q11', 'radio'))}
+  ${qblock(12, 'How do you feel about idioms and figures of speech?', '', selectHtml('q12'))}
+  <div class="part"><h2>Part 4: Delivery habits</h2></div>
+  ${qblock(13, 'Which of these do you notice in yourself?', '', checks('q13'), true)}
+  ${qblock(14, 'What do you most want to improve?', 'Rank your top 3.', [0, 1, 2].map(i => `<div class="rank"><b>${i + 1}</b><select class="psel" data-q="q14" data-i="${i}" style="flex:1"><option value="">Choose…</option>${OPT.q14.map(o => `<option>${esc(o)}</option>`).join('')}</select></div>`).join(''))}
+  ${qblock(15, 'How nervous do you usually feel when speaking publicly?', '', '<div class="scale"><small>1 · calm</small>' + [1, 2, 3, 4, 5].map(n => `<label class="opt"><input type="radio" name="q15" data-q="q15" data-v="${n}"><span>${n}</span></label>`).join('') + '<small>5 · very nervous</small></div>')}
+  <div class="part"><h2>Part 5: Accessibility and preferences</h2></div>
+  ${qblock(16, 'How should live feedback be delivered?', '', checks('q16'))}
+  ${qblock(17, 'Do you want any of these accommodations?', '', checks('q17') + '<input class="tin wide" data-q="q17other" placeholder="Tell us more" id="q17other" hidden>', true)}
+  ${qblock(18, 'Is there any hearing, vision, or neurodivergence-related need we should know about?', 'Only if you want to share. We never fill this in for you.', '<textarea class="tin" data-q="q18" placeholder="Optional"></textarea>', true)}
+  <div class="part"><h2>Part 6: Consent</h2></div>
+  ${qblock(19, 'May we learn from your practice sessions to refine your profile?', '', selectHtml('q19'))}
+  ${qblock(20, 'Store my profile on this device only, or sync to my account?', '', checks('q20', 'q20', 'radio'))}
+  <div class="savecard" id="savecard"><h3>Your details as JSON</h3><p id="saveNote"></p>
+    <div class="btns"><button class="browse" id="dlJson" type="button">Download JSON</button><button class="ghost" id="loadJson" type="button">Load from JSON</button><input type="file" id="jsonFile" accept="application/json,.json" hidden></div>
+    <details id="jsonDetails"><summary>View the JSON</summary><pre id="jsonView"></pre></details></div>
+  <datalist id="langs"><option>English<option>Japanese<option>Spanish<option>French<option>German<option>Mandarin Chinese<option>Hindi<option>Korean<option>Portuguese<option>Arabic</datalist>`;
+  buildLangRows();
+}
+function buildLangRows() {
+  $('q6body').innerHTML = P.q6.map((r, i) => `<div class="langrow"><input class="tin" data-lang="${i}" list="langs" placeholder="Language" value="${esc(r.lang)}" style="width:190px">
+    <div class="rate">${[1, 2, 3, 4, 5].map(n => `<label class="opt"><input type="radio" name="lv${i}" data-lvl="${i}" data-v="${n}" ${r.level === n ? 'checked' : ''}><span>${n}</span></label>`).join('')}</div>
+    <span class="muted">${r.level ? r.level + ' out of 5' : 'pick 1–5'}</span><button class="ghost" data-rm="${i}" type="button" style="margin-left:auto">Remove</button></div>`).join('') || '<span class="muted">No other languages.</span>';
+}
+function syncProfile() {
+  const f = $('pform'); if (!f.firstChild) return;
+  f.querySelectorAll('input[data-q][type=checkbox]').forEach(i => { i.checked = P[i.dataset.q].includes(i.dataset.v); });
+  f.querySelectorAll('input[data-q][type=radio]').forEach(i => { i.checked = String(P[i.dataset.q]) === i.dataset.v; });
+  f.querySelectorAll('input.tin[data-q], textarea[data-q]').forEach(i => { if (document.activeElement !== i) i.value = P[i.dataset.q] ?? ''; });
+  f.querySelectorAll('select[data-q]').forEach(s => { s.value = s.dataset.i != null ? (P.q14[+s.dataset.i] || '') : (P[s.dataset.q] || ''); });
+  $('q1other').hidden = !P.q1.includes('other'); $('q17other').hidden = !P.q17.includes('other');
+  f.querySelectorAll('input[data-q=q9]').forEach(i => { i.disabled = !i.checked && P.q9.length >= 3; });
+  const items = P.q1.filter(x => SOUND_ITEMS.includes(x));                                          // Q2 only asks about what was selected in Q1
+  $('q2body').innerHTML = items.length ? items.map(k => `<div class="subrow"><label>${esc(lab('q1', k))}</label><select class="psel" data-q2="${k}">${OPT.q2.map(o => `<option value="${o[0]}" ${P.q2[k] === o[0] ? 'selected' : ''}>${esc(o[1])}</option>`).join('')}</select></div>`).join('')
+    : '<span class="muted">Nothing to set. You didn’t pick any speech sounds above.</span>';
+}
+function renderProfileBar() {
+  const miss = profileMissing(); f_mark(miss); $('barNext').textContent = 'Next →'; renderJson();
+  setBar('profile', miss.length ? `<b>${miss.length}</b> required ${miss.length === 1 ? 'question' : 'questions'} left · <a data-jump="${miss[0][0]}">go to question ${miss[0][0]}</a>` : '<b>All set.</b> You can change anything above.', !miss.length);
+}
+function f_mark(miss) { document.querySelectorAll('#pform .q').forEach(q => q.classList.toggle('miss', miss.some(m => m[0] === +q.dataset.n) && q.dataset.touched === '1')); }
+function profileChanged(touchedQ) {
+  store.set('prep.profile', P); syncProfile();
+  if (touchedQ) { const q = $('pform').querySelector(`.q[data-n="${touchedQ}"]`); if (q) q.dataset.touched = '1'; }
+  renderProfileBar();
+}
+/* ---------- your details as JSON ---------- */
+const DETAILS_VERSION = 1;
+function detailsJSON(withScripts = true) {
+  const pr = P, q1 = pr.q1.slice();
+  return {
+    version:DETAILS_VERSION, exportedAt:new Date().toISOString(),
+    profile:{
+      voice:{ speechPatterns:q1, otherPattern:q1.includes('other') ? pr.q1other : '', avoidance:Object.fromEntries(Object.entries(pr.q2).filter(([k]) => q1.includes(k))),
+              stumbleWords:splitList(pr.q3), preferredWords:splitList(pr.q4) },
+      language:{ firstLanguage:pr.q5, otherLanguages:pr.q6.map(r => ({ language:r.lang, comfortOutOf5:r.level })), englishVariety:pr.q7, flagRegionalPhrases:pr.q8 },
+      style:{ natural:pr.q9, badNews:pr.q10, adjustFormality:pr.q11, idioms:pr.q12 },
+      delivery:{ habits:pr.q13, improveRanking:pr.q14.filter(Boolean), nervousnessOutOf5:pr.q15 },
+      accessibility:{ liveFeedback:pr.q16, accommodations:pr.q17, accommodationsOther:pr.q17.includes('other') ? pr.q17other : '', needsNote:pr.q18 },
+      consent:{ learnFromSessions:pr.q19, storage:pr.q20 },
+    },
+    sessions:(typeof SS === 'undefined' ? [] : SS).map(x => ({
+      id:x.id, name:x.name, created:new Date(x.created).toISOString(), updated:new Date(x.updated).toISOString(),
+      purpose:x.f.purpose, timeLimitMinutes:+x.f.minutes || null, audience:x.f.audience, audienceRegion:x.f.region, priorities:x.f.priorities,
+      script:x.speech && x.speech.text ? { words:words(x.speech.text), sample:x.speech.sample || null, ...(withScripts ? { text:x.speech.text } : {}) } : null,
+      recordings:withScripts ? (x.recordings || []) : (x.recordings || []).map(r => ({ id:r.id, startedAt:r.startedAt, durationSec:r.durationSec, words:r.stats && r.stats.words, overall:r.rubric && r.rubric.data ? r.rubric.data.overall : null })) })),
+  };
+}
+const splitList = t => String(t || '').split(',').map(x => x.trim()).filter(Boolean);
+function loadDetails(o) {                                          // validates, then replaces the profile and merges the sessions
+  if (!o || typeof o !== 'object' || !o.profile || typeof o.profile !== 'object') throw new Error('This doesn’t look like a details file.');
+  if (o.version > DETAILS_VERSION) throw new Error('This file is from a newer version.');
+  const p = o.profile, v = p.voice || {}, l = p.language || {}, st = p.style || {}, d = p.delivery || {}, a = p.accessibility || {}, c = p.consent || {};
+  const arr = x => Array.isArray(x) ? x.filter(i => typeof i === 'string') : [], str = x => typeof x === 'string' ? x : '';
+  const n = Object.assign(structuredClone(PREFILL), {
+    q1:arr(v.speechPatterns), q1other:str(v.otherPattern), q2:v.avoidance && typeof v.avoidance === 'object' ? Object.fromEntries(Object.entries(v.avoidance).filter(([, x]) => typeof x === 'string')) : {},
+    q3:arr(v.stumbleWords).join(', '), q4:arr(v.preferredWords).join(', '),
+    q5:str(l.firstLanguage), q6:(Array.isArray(l.otherLanguages) ? l.otherLanguages : []).map(r => ({ lang:str(r.language), level:+r.comfortOutOf5 || 0 })), q7:str(l.englishVariety), q8:str(l.flagRegionalPhrases),
+    q9:arr(st.natural), q10:str(st.badNews), q11:str(st.adjustFormality), q12:str(st.idioms),
+    q13:arr(d.habits), q14:arr(d.improveRanking).concat(['', '', '']).slice(0, 3), q15:+d.nervousnessOutOf5 || 0,
+    q16:arr(a.liveFeedback), q17:arr(a.accommodations), q17other:str(a.accommodationsOther), q18:str(a.needsNote), q19:str(c.learnFromSessions), q20:str(c.storage),
+    q11Touched:true, q14Touched:true,
+  });
+  P = n; store.set('prep.profile', P);
+  let added = 0;
+  for (const x of Array.isArray(o.sessions) ? o.sessions : []) {
+    if (!x || typeof x.id !== 'string') continue;
+    const s = { id:x.id, name:str(x.name) || 'Untitled', nameTouched:true, created:Date.parse(x.created) || Date.now(), updated:Date.parse(x.updated) || Date.now(), showMiss:false,
+      speech:x.script && typeof x.script.text === 'string' ? { text:x.script.text, sample:x.script.sample || null } : null,
+      recordings:(Array.isArray(x.recordings) ? x.recordings : []).filter(r => r && typeof r.id === 'string' && typeof r.transcript === 'string'),
+      f:{ purpose:str(x.purpose), minutes:+x.timeLimitMinutes || '', audience:str(x.audience), region:str(x.audienceRegion) || 'local', priorities:arr(x.priorities), touched:{ minutes:true, priorities:true } } };
+    const i = SS.findIndex(y => y.id === s.id); if (i >= 0) SS[i] = s; else { SS.push(s); added++; }
+  }
+  saveSS(); return added;
+}
+function renderJson() {
+  const note = P.q20 === 'sync' ? 'You chose to sync to your account. Syncing isn’t connected yet, so your details are kept on this device and can be saved to a file below.' : 'Saved on this device automatically. Download a copy to keep it or move it to another device.';
+  $('saveNote').textContent = note; if ($('jsonDetails').open) $('jsonView').textContent = JSON.stringify(detailsJSON(false), null, 2);
+}
+$('pform').addEventListener('click', e => {
+  if (e.target.id === 'dlJson') {
+    const blob = new Blob([JSON.stringify(detailsJSON(true), null, 2)], { type:'application/json' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'preparation-details-' + new Date().toISOString().slice(0, 10) + '.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); log('downloaded details JSON');
+  }
+  if (e.target.id === 'loadJson') $('jsonFile').click();
+});
+$('pform').addEventListener('toggle', e => { if (e.target.id === 'jsonDetails') renderJson(); }, true);
+$('pform').addEventListener('change', async e => {
+  if (e.target.id !== 'jsonFile') return; const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  try { const added = loadDetails(JSON.parse(await f.text())); buildProfile(); syncProfile(); renderProfileBar(); toast(`Loaded your details${added ? ` and ${added} session${added > 1 ? 's' : ''}` : ''}`); log('loaded details JSON, sessions added:', added); }
+  catch (err) { toast(err.message || 'That file couldn’t be read.', null, true); log('details JSON failed:', err.message); }
+});
+$('pform').addEventListener('input', e => {
+  const t = e.target, q = t.dataset.q;
+  if (t.dataset.lang != null) { P.q6[+t.dataset.lang].lang = t.value; return profileChanged(6); }
+  if (q && t.matches('input.tin, textarea')) { P[q] = t.value; return profileChanged(+q.replace(/\D/g, '') || null); }
+});
+$('pform').addEventListener('change', e => {
+  const t = e.target, q = t.dataset.q, n = q ? +q.replace(/\D/g, '') : null;
+  if (t.dataset.q2) { P.q2[t.dataset.q2] = t.value; return profileChanged(2); }
+  if (t.dataset.lvl != null) { P.q6[+t.dataset.lvl].level = +t.dataset.v; buildLangRows(); return profileChanged(6); }
+  if (!q) return;
+  if (t.type === 'checkbox') {
+    const set = new Set(P[q]), v = t.dataset.v; t.checked ? set.add(v) : set.delete(v);
+    if ((q === 'q1' || q === 'q16') && v === 'none' && t.checked) { set.clear(); set.add('none'); }
+    else if ((q === 'q1' || q === 'q16') && v !== 'none') set.delete('none');
+    if (q === 'q9' && set.size > 3) set.delete(v);
+    P[q] = [...set];
+    if (q === 'q1') P.q2 = Object.fromEntries(SOUND_ITEMS.filter(k => P.q1.includes(k)).map(k => [k, P.q2[k] || 'alt']));   // new selections default to the gentle option
+  } else if (t.type === 'radio') P[q] = q === 'q15' ? +t.dataset.v : t.dataset.v;
+  else if (t.tagName === 'SELECT') {
+    if (q === 'q14') { P.q14[+t.dataset.i] = t.value; P.q14Touched = true; } else P[q] = t.value;
+  }
+  if (q === 'q11') P.q11Touched = true;
+  profileChanged(n);
+});
+$('pform').addEventListener('click', e => {
+  if (e.target.id === 'addlang') { P.q6.push({ lang:'', level:0 }); buildLangRows(); profileChanged(6); }
+  const rm = e.target.closest('[data-rm]'); if (rm) { P.q6.splice(+rm.dataset.rm, 1); buildLangRows(); profileChanged(6); }
+});
+
+/* ---------- sticky bar (profile + session pages) ---------- */
+let barNext = null;
+function setBar(page, msg, ready) {
+  const show = page === currentPage; $('bar').classList.toggle('show', show);
+  $('barMsg').innerHTML = msg; $('barNext').hidden = !ready; barNext = ready ? () => go(page === 'profile' ? 'workspace' : page === 'prep' ? 'workspace/' + curId + '/suggestions' : 'workspace/' + curId + '/record') : null;
+}
+$('barNext').onclick = () => barNext && barNext();
+$('bar').addEventListener('click', e => {
+  const a = e.target.closest('[data-jump]'); if (!a) return; const k = a.dataset.jump;
+  if (currentPage === 'profile') { const q = document.querySelector(`#pform .q[data-n="${k}"]`); if (q) { q.dataset.touched = '1'; q.scrollIntoView({ behavior:'smooth', block:'center' }); renderProfileBar(); } return; }
+  const s = cur(); if (s) { s.showMiss = true; renderPrepBar(); }
+  const el = k === 'speech' ? $('drop') : document.querySelector(`.fld[data-k="${k}"]`); if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+});
+
+/* =====================================================================================
+   Speech types (the purpose choices) and defaults by purpose
+   ===================================================================================== */
+const CATS = [
+  { id:'professional', name:'Professional', icon:'💼', blurb:'Meetings, pitches, interviews and talks you give at work.', types:[
+    'Work presentation (team updates, project reviews, quarterly results)', 'Keynote or conference talk', 'Sales pitch or client proposal', 'Investor or startup pitch', 'Hackathon presentation',
+    'Job interview (including “tell me about yourself”)', 'All-hands or executive briefing', 'Webinar or virtual meeting'] },
+  { id:'academic', name:'Academic', icon:'🎓', blurb:'Teaching, defending and presenting research.', types:[
+    'Lecture or class teaching', 'Thesis or dissertation defense', 'Research conference talk or poster pitch', 'Student presentation or class debate', 'Scholarship or admissions interview'] },
+  { id:'personal', name:'Personal and social', icon:'💐', blurb:'Toasts, tributes and words for the people in your life.', types:[
+    'Wedding toast or best man/maid of honor speech', 'Eulogy or memorial tribute', 'Birthday, retirement, or farewell speech', 'Graduation or valedictorian speech', 'Award acceptance speech', 'Community or town hall remarks'] },
+  { id:'persuasion', name:'Persuasion and public speaking', icon:'📣', blurb:'Win people over: debates, campaigns, appeals and stories.', types:[
+    'Debate or Model UN', 'Toastmasters-style prepared and impromptu speeches', 'Political or campaign speech', 'Advocacy or fundraising appeal', 'TED-style talk or storytelling (e.g. open mic, The Moth)'] },
+  { id:'drills', name:'Skill-focused drills', icon:'🎯', blurb:'Short exercises to sharpen one skill at a time.', types:[
+    'Impromptu speaking (random topic, 60 seconds)', 'Elevator pitch (30 to 60 seconds)', 'Handling Q&A and tough questions', 'Pacing and filler-word reduction', 'Opening hooks and strong closings'] },
+];
+const catOf = p => CATS.find(c => c.types.includes(p));
+const shortPurpose = p => (p || '').replace(/\s*\(.*$/, '');
+const TIME_BY = [[/hackathon/i, 3], [/elevator/i, 1], [/impromptu/i, 1], [/keynote/i, 20], [/interview/i, 3], [/investor/i, 5], [/sales pitch/i, 10], [/lecture/i, 30], [/thesis|dissertation/i, 20],
+                 [/wedding/i, 3], [/eulogy/i, 5], [/debate/i, 4], [/ted-style/i, 12], [/q&a/i, 5], [/hooks/i, 2], [/pacing/i, 3]];
+const TIME_CAT = { professional:10, academic:15, personal:4, persuasion:6, drills:2 };
+const PRIO_BY = [
+  [/hackathon/i, ['Hook', 'One clear problem', 'Live demo', 'Memorable close']], [/investor/i, ['Problem', 'Traction', 'Market size', 'The ask']], [/sales pitch/i, ['Understand the need', 'Show the value', 'Proof', 'Clear ask']],
+  [/keynote/i, ['Strong opening', 'One big idea', 'Stories', 'Call to action']], [/work presentation/i, ['Key update', 'Impact', 'Risks', 'Next steps']], [/interview/i, ['Concise answers', 'Specific examples', 'Enthusiasm', 'Good questions']],
+  [/lecture/i, ['Learning goal', 'Examples', 'Check understanding', 'Recap']], [/thesis|dissertation/i, ['Research question', 'Method', 'Findings', 'Defend the claims']], [/wedding/i, ['Warm opening', 'Personal story', 'A touch of humor', 'Heartfelt close']],
+  [/eulogy/i, ['Honor their life', 'A story that captures them', 'Comfort', 'Gentle close']], [/debate/i, ['Clear position', 'Strong evidence', 'Rebuttals', 'Close with impact']], [/ted-style/i, ['Hook', 'One idea', 'Story', 'Takeaway']],
+];
+const PRIO_CAT = { professional:['Clear message', 'Key points', 'Next steps'], academic:['Clear structure', 'Evidence', 'Recap'], personal:['Warm opening', 'Personal touch', 'Heartfelt close'], persuasion:['Hook', 'Strong argument', 'Call to action'], drills:['Focus on the skill', 'Stay on time'] };
+function defaultsFor(purpose) {
+  const c = catOf(purpose); if (!c) return { minutes:'', priorities:[] };
+  return { minutes:(TIME_BY.find(x => x[0].test(purpose)) || [0, TIME_CAT[c.id]])[1], priorities:(PRIO_BY.find(x => x[0].test(purpose)) || [0, PRIO_CAT[c.id]])[1].slice() };
+}
+
+/* =====================================================================================
+   Sample scripts (each also sets the session fields)
+   ===================================================================================== */
+const SAMPLES = [
+  { id:'h1', title:'Hackathon Script', blurb:'A quick team pitch for a voice-coaching app. Rough and full of filler.',
+    f:{ purpose:'Hackathon presentation', minutes:3, audience:'Judges (mixed technical and business)', region:'international', priorities:['Hook', 'One clear problem', 'Live demo', 'Memorable close'] },
+    text:`Um, hi everyone, so we’re Team. Basically, we made an app, it’s like a personal trainer for your voice.
+
+So, you know, a lot of people get really nervous speaking, and the problem is practice tools kind of just record you and, like, that’s it.
+
+What we do is, you upload your script, and the app learns about you, like how you talk, what sounds are hard, your accent and stuff, and what the speech is for, like a lecture or a pitch, and it changes the words so it fits you.
+
+Then you practice and it shows your pace in real-time, and after that it gives feedback on, um, fillers, pauses, clarity, and a bunch of other things.
+
+We think it’s pretty accurate, I guess.
+
+There’s also a profile where you can tell it things, but you don’t have to, it’s optional, so, yeah.
+
+Technically it uses speech recognition and AI, a scoring engine, a database, and, um, whatever.
+
+It’s a total game changer and we want to take it to the next level.
+
+I’ll circle back to the demo at the end if there’s time.
+
+Anyway, that’s it, thanks.` },
+  { id:'s1', title:'Q3 Product Roadmap Review', blurb:'Quarterly results against OKRs, what shipped, and the Q4 retention plan.',
+    f:{ purpose:'Work presentation (team updates, project reviews, quarterly results)', minutes:5, audience:'Product and leadership team (mixed technical and business)', region:'local', priorities:['Key results', 'What shipped', 'What’s next', 'Ask for feedback'] },
+    text:`Good morning everyone, and thanks for joining the Q3 product roadmap review. Today I want to cover three things: where we landed against our OKRs, what shipped, and what comes next.
+
+First, the numbers. Active users grew twelve percent quarter over quarter, and our onboarding completion rate climbed from sixty two to seventy eight percent. Churn stayed flat, which is the metric we still need to move.
+
+Second, the highlights. We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner. Each of these shipped on schedule.
+
+Looking ahead, Q4 focuses on retention. We will invest in personalization, faster search, and a lifecycle email program. I would like your feedback on sequencing before we lock the roadmap on Friday. Thank you, and let's open it up for questions.` },
+  { id:'s2', title:'Weekly Engineering Standup', blurb:'Platform status: migration done, three focus items, one blocker.',
+    f:{ purpose:'Work presentation (team updates, project reviews, quarterly results)', minutes:2, audience:'Engineering team (highly technical, casual)', region:'local', priorities:['Last week’s progress', 'This week’s focus', 'Flag blockers'] },
+    text:`Quick update from the platform team. Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent.
+
+This week we are focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates.
+
+One blocker to flag. We are waiting on security review for the new token service, and that review is holding up the authentication work. If someone can nudge the security team, that would help us stay on track for the release.
+
+That's all from platform. Next up, the mobile team.` },
+  { id:'s3', title:'Budget Proposal for Finance', blurb:'A 1.8 million dollar request, seven percent up, with an eighteen month payback.',
+    f:{ purpose:'Sales pitch or client proposal', minutes:6, audience:'Finance committee (formal, numbers-focused)', region:'local', priorities:['Clear ask', 'Justify the numbers', 'Show the payback', 'Invite questions'] },
+    text:`Thank you for making time today. I am here to present our proposed budget for the next fiscal year and to explain the reasoning behind each line.
+
+We are requesting a total of one point eight million dollars, which is a seven percent increase over this year. Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is reserved for training and travel.
+
+The increase is driven by two investments. First, we plan to hire four engineers to support the enterprise roadmap. Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit.
+
+We expect a payback within eighteen months through reduced vendor spend and faster delivery. I welcome your questions and any adjustments you recommend.` },
+  { id:'s4', title:'Customer Onboarding Pitch', blurb:'A thirty day plan: setup, adoption, then a success review.',
+    f:{ purpose:'Webinar or virtual meeting', minutes:10, audience:'New customer team (beginners, mixed roles)', region:'international', priorities:['Set expectations', 'Walk through the 30 days', 'Build trust', 'Agree next steps'] },
+    text:`Welcome, and thank you for choosing us. In the next ten minutes I will walk you through how onboarding works, what you can expect from our team, and how we measure success together.
+
+Week one is about setup. We connect your data sources, configure single sign on, and invite your first group of users. Our implementation manager will be on call the whole time.
+
+Weeks two and three are about adoption. We run live training sessions, share best practice templates, and review early usage reports with you.
+
+By day thirty we hold a success review. We compare results against the goals you set, agree on next steps, and schedule your quarterly check in. Let's get started.` },
+];
+/* Sample speaker transcripts for the demo scripts: stand-ins for "what was actually said", for trying the summary without recording */
+const SPEAKER_SAMPLES = {
+  h1: [
+    { id:'close', label:'Close to the script', text:`Hi everyone, we’re Team Lumen. We made an app, it’s like a personal trainer for your voice.
+
+A lot of people get nervous speaking, and the problem is that practice tools just record you and that’s it.
+
+What we do is you upload your script, and the app learns about you, how you talk, what sounds are hard, your accent, and what the speech is for, like a lecture or a pitch, and it changes the words so it fits you.
+
+Then you practice and it shows your pace in real time, and after that it gives feedback on fillers, pauses and clarity.
+
+We think it’s accurate.
+
+There’s also a profile where you can tell it things, but it’s optional.
+
+Technically it uses speech recognition, AI, a scoring engine and a database.
+
+We want to take it to the next level, and I’ll show the demo at the end. Thank you.` },
+    { id:'rough', label:'Rambling and hesitant', text:`Um, hi everyone, so we’re, um, we’re Team, uh, Lumen. So basically we made an app, it’s like, a trainer thing for your voice I guess. So a lot of people get really nervous speaking, you know, and the problem is, um, the problem is practice tools, they just kind of record you. And that’s, yeah. What we do is, um, you upload your script and then it learns stuff about you, like your accent and stuff, and it, um, changes the words. Then you practice. And it gives feedback, I think, on fillers and like other things. It’s pretty accurate I guess. Oh and there’s a profile, but you don’t have to. It uses AI and, um, whatever. It’s a total game changer. Anyway, that’s it, thanks.` },
+  ],
+  s1: [
+    { id:'close', label:'Close to the script', text:`Good morning everyone, thanks for joining the Q3 product roadmap review. Today I’ll cover where we landed against our OKRs, what shipped, and what comes next. First the numbers. Active users grew twelve percent quarter over quarter, and onboarding completion climbed from sixty two to seventy eight percent. Churn stayed flat, and that’s the metric we still need to move. Second, the highlights. We launched the new analytics dashboard, rebuilt the mobile checkout flow, and closed the integration with our largest SaaS partner, all on schedule. Looking ahead, Q4 focuses on retention. We’ll invest in personalization, faster search and a lifecycle email program. I’d like your feedback on sequencing before we lock the roadmap on Friday. Thank you, and let’s open it up for questions.` },
+    { id:'rough', label:'Skips and rambles', text:`Hi everyone, um, so this is the Q3 roadmap thing. Basically users grew a bit, I think twelve percent, and, you know, onboarding got better. Churn is still, yeah, flat. We shipped a few things, the dashboard and checkout, and some partner stuff. So for Q4 we’re going to focus on retention and, um, other stuff, search and so on. Let me know what you think. Okay, that’s it.` },
+  ],
+  s2: [
+    { id:'close', label:'Close to the script', text:`Quick update from the platform team. Last week we finished the database migration to the new cluster, and latency on the main API dropped by about forty percent. This week we’re focused on three items: the authentication refactor, the flaky integration tests in the build pipeline, and the on call runbook updates. One blocker to flag. We’re waiting on security review for the new token service, and it’s holding up the authentication work. If someone can nudge the security team that would help us stay on track for the release. That’s all from platform. Next up, the mobile team.` },
+    { id:'rough', label:'Rambling and vague', text:`Okay so, um, platform update. We did the migration last week, I think it’s done, and the API is faster, like a lot faster. This week we’ve got the auth thing and some tests that keep breaking, and, uh, the runbook. We’re kind of stuck on security though, they haven’t looked at our thing yet, so if someone could ask them. Yeah. That’s it I guess.` },
+  ],
+  s3: [
+    { id:'close', label:'Close to the script', text:`Thank you for making time today. I’m here to present our proposed budget for the next fiscal year and explain the reasoning behind each line. We’re requesting a total of one point eight million dollars, a seven percent increase over this year. Roughly sixty percent covers headcount, twenty five percent covers infrastructure and tooling, and the remainder is for training and travel. The increase comes from two investments. First, we plan to hire four engineers to support the enterprise roadmap. Second, we need to renew our cloud contracts at higher volume tiers, which still saves money per unit. We expect payback within eighteen months through lower vendor spend and faster delivery. I welcome your questions and any adjustments you recommend.` },
+    { id:'rough', label:'Vague and hedged', text:`So, um, thanks for having me. This is the budget for next year. It’s a bit more than this year, about one point eight million I think. Most of it is people and then, you know, infrastructure. We want to hire some engineers and the cloud costs are going up but it’s, like, worth it. We think it pays back at some point. So yeah, any questions?` },
+  ],
+  s4: [
+    { id:'close', label:'Close to the script', text:`Welcome, and thank you for choosing us. In the next ten minutes I’ll walk you through how onboarding works, what you can expect from our team, and how we measure success together. Week one is about setup. We connect your data sources, configure single sign on, and invite your first group of users. Our implementation manager will be on call the whole time. Weeks two and three are about adoption. We run live training sessions, share best practice templates, and review early usage reports with you. By day thirty we hold a success review, compare results against your goals, agree on next steps, and schedule your quarterly check in. Let’s get started.` },
+    { id:'rough', label:'Short and rushed', text:`Hi, welcome. So onboarding is basically setup in week one, then training, and then we check in at the end of the month. We’ll hook up your data and do the login stuff. Um, there’s training and templates and so on. Then a review. Alright, let’s go.` },
+  ],
+};
+$('tray').innerHTML = SAMPLES.map(s => `<div class="sample" draggable="true" data-id="${s.id}">
+  <b>${esc(s.title)}</b><p>${esc(s.blurb)}</p>
+  <div class="meta"><span>${words(s.text)} words</span>·<span>${s.f.minutes} min</span><button class="add" type="button" data-add="${s.id}">Add</button></div></div>`).join('');
+
+/* =====================================================================================
+   Sessions (Workspace)
+   ===================================================================================== */
+let SS = store.get('prep.sessions', []), curId = null;
+const saveSS = () => store.set('prep.sessions', SS);
+const cur = () => SS.find(x => x.id === curId);
+const blankFields = () => ({ purpose:'', minutes:'', audience:'', region:'local', priorities:[], touched:{} });
+const stamp = t => new Date(t).toLocaleString([], { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+function newSession() {
+  const s = { id:'s' + Date.now().toString(36), name:'Untitled', nameTouched:false, created:Date.now(), updated:Date.now(), speech:null, f:blankFields() };
+  SS.unshift(s); saveSS(); log('new session', s.id); go('workspace/' + s.id);
+}
+function renderSessions() {
+  $('sgrid').innerHTML = '<button class="scard new" id="newS" type="button"><span class="plus">＋</span>New session</button>' + SS.map(s => `<div class="scard" data-id="${s.id}" tabindex="0" role="button">
+    <button class="x" data-del="${s.id}" type="button" aria-label="Delete session">✕</button><h3>${esc(s.name || 'Untitled')}</h3>
+    <div class="sub2">${s.speech && s.speech.text ? words(s.speech.text) + ' words' : 'No script yet'}</div>
+    <div class="stats">${s.f.purpose ? `<span class="chip">${esc(shortPurpose(s.f.purpose))}</span>` : ''}${s.f.minutes ? `<span class="chip b">${s.f.minutes} min</span>` : ''}${(s.recordings || []).length ? `<span class="chip c">${s.recordings.length} recording${s.recordings.length > 1 ? 's' : ''}</span>` : ''}</div>
+    <div class="when">Updated ${stamp(s.updated)}</div></div>`).join('');
+}
+$('sgrid').addEventListener('click', e => {
+  if (e.target.closest('#newS')) return newSession();
+  const d = e.target.closest('[data-del]');
+  if (d) { e.stopPropagation(); const i = SS.findIndex(x => x.id === d.dataset.del), gone = SS.splice(i, 1)[0]; saveSS(); renderSessions(); toast(`Deleted “${gone.name}”`, () => { SS.splice(i, 0, gone); saveSS(); renderSessions(); }); return; }
+  const c = e.target.closest('.scard[data-id]'); if (c) go('workspace/' + c.dataset.id);
+});
+$('sgrid').addEventListener('keydown', e => { if (e.key === 'Enter') { const c = e.target.closest('.scard[data-id]'); if (c) go('workspace/' + c.dataset.id); } });
+
+/* =====================================================================================
+   Preparation: the script (dotted drop box) + session fields
+   ===================================================================================== */
+const touch = () => { const s = cur(); if (s) { s.updated = Date.now(); saveSS(); } };
+$('sname').oninput = e => { const s = cur(); s.name = e.target.value; s.nameTouched = true; touch(); };
+function renderSpeech() {
+  const s = cur(), drop = $('drop'), has = !!(s && s.speech && s.speech.text);
+  drop.classList.toggle('filled', has); drop.classList.toggle('hint', !has);
+  if (!has) { $('text').value = ''; return; }
+  if ($('text').value !== s.speech.text) $('text').value = s.speech.text;
+  const w = words(s.speech.text), n = s.speech.text.split(/\n\s*\n/).filter(x => x.trim()).length, m = w / 130;
+  $('sWords').textContent = w + ' words';
+  $('sTime').textContent = '~' + (m < 1 ? Math.max(1, Math.round(m * 60)) + ' sec' : m.toFixed(m < 10 ? 1 : 0) + ' min') + ' spoken';
+  $('sSections').textContent = n + (n === 1 ? ' section' : ' sections');
+}
+function snapshot() { const s = cur(); return structuredClone({ speech:s.speech, f:s.f, name:s.name, nameTouched:s.nameTouched }); }
+function restore(snap) { Object.assign(cur(), structuredClone(snap)); touch(); renderPrep(); }
+function loadSpeech(text, how, sample, fileName) {
+  const s = cur(), snap = snapshot(), hadScript = !!(s.speech && s.speech.text);
+  s.speech = { text, sample:sample ? sample.id : null };
+  if (sample) s.f = Object.assign(structuredClone(sample.f), { touched:{} });                       // a sample sets every session field
+  else if (!(+s.f.minutes > 0)) s.f.minutes = Math.max(1, Math.round(words(text) / 130));
+  if (!s.nameTouched) s.name = sample ? sample.title : (fileName || 'Pasted speech');
+  touch(); renderPrep(); log(how, sample ? 'sample ' + sample.id : fileName || 'pasted text', '→ session', s.id);
+  toast(`${how} “${sample ? sample.title : fileName || 'Pasted speech'}”`, hadScript || sample ? () => restore(snap) : null);
+}
+$('text').oninput = e => { const s = cur(); s.speech = Object.assign(s.speech || {}, { text:e.target.value }); touch(); renderSpeech(); renderPrepBar(); renderTimeHint(); };
+$('clear').onclick = () => { const snap = snapshot(), s = cur(); s.speech = null; touch(); renderPrep(); toast('Cleared the script', () => restore(snap)); };
+
+let toastTimer;
+function toast(msg, undo, err) {
+  $('toastMsg').textContent = msg; $('toast').classList.toggle('err', !!err); $('toast').classList.add('show');
+  $('undo').hidden = !undo; $('undo').onclick = () => { undo(); $('toast').classList.remove('show'); };
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.remove('show'), undo ? 6000 : 3500);
+}
+const isTextFile = f => /\.(txt|md|markdown|text)$/i.test(f.name) || (f.type || '').startsWith('text/');
+async function fromFile(f) {
+  if (!isTextFile(f)) return toast('Please use a .txt or .md file.', null, true);
+  if (f.size > 1.5e6) return toast('That file is too large (limit 1.5 MB).', null, true);
+  const text = (await f.text()).replace(/\r\n/g, '\n').trim();
+  if (!text) return toast('That file is empty.', null, true);
+  loadSpeech(text, 'Loaded', null, f.name.replace(/\.[^.]+$/, ''));
+}
+function fromSample(id) { const x = SAMPLES.find(y => y.id === id); if (x) loadSpeech(x.text, 'Added', x); }
+function handleDrop(dt) {
+  const sample = dt.getData('application/x-sample'); if (sample) return fromSample(sample);
+  if (dt.files && dt.files.length) return fromFile(dt.files[0]);
+  const t = (dt.getData('text/plain') || '').trim(); if (t) loadSpeech(t, 'Loaded', null, null);
+}
+const drop = $('drop'); let depth = 0;
+drop.addEventListener('dragenter', e => { e.preventDefault(); depth++; drop.classList.add('over'); });
+drop.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+drop.addEventListener('dragleave', () => { if (--depth <= 0) { depth = 0; drop.classList.remove('over'); } });
+drop.addEventListener('drop', e => { e.preventDefault(); depth = 0; drop.classList.remove('over'); document.body.classList.remove('dragging-sample'); handleDrop(e.dataTransfer); });
+addEventListener('dragover', e => e.preventDefault()); addEventListener('drop', e => e.preventDefault());
+$('browse').onclick = e => { e.stopPropagation(); $('file').click(); };
+$('replace').onclick = () => $('file').click();
+$('empty').onclick = () => $('file').click();
+drop.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target === drop) { e.preventDefault(); $('file').click(); } });
+$('file').onchange = e => { const f = e.target.files[0]; e.target.value = ''; if (f) fromFile(f); };
+addEventListener('paste', e => {
+  if (currentPage !== 'prep' || ['TEXTAREA', 'INPUT', 'SELECT'].includes(document.activeElement.tagName)) return;
+  const t = (e.clipboardData.getData('text/plain') || '').trim(); if (t) { e.preventDefault(); loadSpeech(t, 'Loaded', null, null); }
+});
+$('tray').addEventListener('dragstart', e => {
+  const card = e.target.closest('.sample'); if (!card) return; const x = SAMPLES.find(y => y.id === card.dataset.id);
+  e.dataTransfer.setData('application/x-sample', x.id); e.dataTransfer.setData('text/plain', x.text); e.dataTransfer.effectAllowed = 'copy';
+  card.classList.add('dragging'); document.body.classList.add('dragging-sample');
+});
+$('tray').addEventListener('dragend', () => { document.querySelectorAll('.sample.dragging').forEach(c => c.classList.remove('dragging')); document.body.classList.remove('dragging-sample'); });
+$('tray').addEventListener('click', e => { const b = e.target.closest('[data-add]'); if (b) fromSample(b.dataset.add); });
+
+/* ---------- session fields ---------- */
+$('f_purpose').innerHTML = '<option value="">Choose a purpose…</option>' + CATS.map(c => `<optgroup label="${esc(c.name)}">${c.types.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}</optgroup>`).join('');
+function setPurpose(p) {
+  const s = cur(), f = s.f; f.purpose = p; const d = defaultsFor(p);                                    // time limit and priorities default by purpose, until you edit them
+  if (p && !f.touched.minutes && d.minutes) f.minutes = d.minutes;
+  if (p && !f.touched.priorities && d.priorities.length) f.priorities = d.priorities;
+  if (!P.q14Touched && /hackathon|investor|sales|campaign|advocacy|debate|ted-style/i.test(p) && !P.q14.includes('Persuasion')) { P.q14[2] = 'Persuasion'; store.set('prep.profile', P); }   // persuasion moves into your top three
+  touch(); renderFields(); renderPrepBar(); log('purpose →', p, '| defaults:', JSON.stringify(d));
+}
+function renderPrios() {
+  const f = cur().f; $('prios').innerHTML = f.priorities.map((p, i) => `<span class="pchip">${esc(p)}<button type="button" data-rmp="${i}" aria-label="Remove ${esc(p)}">×</button></span>`).join('') || '<span class="muted">None yet.</span>';
+}
+function renderTimeHint() {
+  const s = cur(), el = $('timeHint'), m = +s.f.minutes;
+  if (!s.speech || !s.speech.text || !(m > 0)) { el.hidden = true; return; }
+  const spoken = words(s.speech.text) / 130, fmt = x => x < 1 ? Math.max(1, Math.round(x * 60)) + ' sec' : x.toFixed(1).replace('.0', '') + ' min';
+  el.hidden = false;
+  if (spoken > m) { el.className = 'hintline warn'; el.textContent = `Your script runs about ${fmt(spoken)}, which is ${fmt(spoken - m)} over.`; }
+  else if (spoken < m * 0.5) { el.className = 'hintline info'; el.textContent = `About ${fmt(spoken)} spoken. You have room to spare.`; }
+  else { el.className = 'hintline ok'; el.textContent = `About ${fmt(spoken)} spoken. Fits your limit.`; }
+}
+function renderFields() {
+  const f = cur().f;
+  $('f_purpose').value = f.purpose || ''; if (document.activeElement !== $('f_minutes')) $('f_minutes').value = f.minutes ?? '';
+  if (document.activeElement !== $('f_audience')) $('f_audience').value = f.audience || ''; $('f_region').value = f.region || 'local';
+  $('regionHint').hidden = f.region === 'local'; renderPrios(); renderTimeHint();
+}
+$('f_purpose').onchange = e => setPurpose(e.target.value);
+$('f_minutes').oninput = e => { const f = cur().f; f.minutes = +e.target.value || ''; f.touched.minutes = true; touch(); renderTimeHint(); renderPrepBar(); };
+$('f_audience').oninput = e => { cur().f.audience = e.target.value; touch(); renderPrepBar(); };
+$('f_region').onchange = e => { cur().f.region = e.target.value; touch(); renderFields(); renderPrepBar(); };
+$('f_prio').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return; e.preventDefault(); const v = e.target.value.trim(); if (!v) return;
+  const f = cur().f; if (!f.priorities.includes(v)) f.priorities.push(v); f.touched.priorities = true; e.target.value = ''; touch(); renderPrios(); renderPrepBar();
+});
+$('prios').addEventListener('click', e => { const b = e.target.closest('[data-rmp]'); if (!b) return; const f = cur().f; f.priorities.splice(+b.dataset.rmp, 1); f.touched.priorities = true; touch(); renderPrios(); renderPrepBar(); });
+
+/* purpose popup: categories first, then the types inside one */
+function modalCats() {
+  $('mback').hidden = true; $('mtitle').textContent = 'What kind of speech is it?'; $('msub').textContent = 'Pick a category.'; $('mlist').innerHTML = '';
+  $('mgrid').style.display = ''; $('mgrid').innerHTML = CATS.map(c => `<button class="tile" type="button" data-cat="${c.id}"><span class="ic">${c.icon}</span><span>${esc(c.name)}<small>${c.types.length} types</small></span></button>`).join('');
+}
+function modalTypes(id) {
+  const c = CATS.find(x => x.id === id), now = cur().f.purpose;
+  $('mback').hidden = false; $('mtitle').textContent = c.icon + ' ' + c.name; $('msub').textContent = 'Choose the type that fits best.'; $('mgrid').style.display = 'none';
+  $('mlist').innerHTML = c.types.map(t => `<button type="button" data-t="${esc(t)}" class="${t === now ? 'on' : ''}">${esc(t)}</button>`).join('');
+}
+const openModal = () => { modalCats(); $('modal').classList.add('show'); };
+const closeModal = () => $('modal').classList.remove('show');
+$('browsePurpose').onclick = openModal;
+$('mgrid').addEventListener('click', e => { const t = e.target.closest('[data-cat]'); if (t) modalTypes(t.dataset.cat); });
+$('mlist').addEventListener('click', e => { const b = e.target.closest('[data-t]'); if (b) { setPurpose(b.dataset.t); closeModal(); } });
+$('mback').onclick = modalCats; $('mclose').onclick = closeModal; $('modal').addEventListener('click', e => { if (e.target === $('modal')) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function prepMissing(s) {
+  const m = [], f = s.f;
+  if (!(s.speech && s.speech.text.trim())) m.push(['speech', 'your script']);
+  if (!f.purpose) m.push(['purpose', 'purpose']);
+  if (!(+f.minutes > 0)) m.push(['minutes', 'time limit']);
+  if (!String(f.audience).trim()) m.push(['audience', 'audience']);
+  if (!f.region) m.push(['region', 'audience region']);
+  if (!f.priorities.length) m.push(['priorities', 'purpose priorities']);
+  return m;
+}
+function renderPrepBar() {
+  const s = cur(); if (!s) return; const m = prepMissing(s);
+  document.querySelectorAll('.fld').forEach(el => el.classList.toggle('miss', !!s.showMiss && m.some(x => x[0] === el.dataset.k)));
+  setBar('prep', m.length ? `<b>${m.length}</b> to go · <a data-jump="${m[0][0]}">${esc(m[0][1])}</a>` : '<b>Ready.</b> Next: see suggestions for your script.', !m.length);
+  $('barNext').textContent = 'Next →';
+}
+function renderPrep() { const s = cur(); $('sname').value = s.name === 'Untitled' && !s.nameTouched ? '' : s.name; $('sname').placeholder = 'Untitled'; renderSpeech(); renderFields(); renderPrepBar(); }
+
+/* =====================================================================================
+   Model selector + LLM suggestions (accept / reject each edit, or all at once)
+   ===================================================================================== */
+const MODEL_LIST = [['claude-haiku-5-5', 'Haiku 5.5 · cheapest', '$0.10 / $0.50'], ['claude-sonnet-5-5', 'Sonnet 5.5', '$2 / $10'], ['claude-opus-5-5', 'Opus 5.5', '$4 / $20'], ['claude-fable-5-1', 'Fable 5.1', '$10 / $50']];
+let model = store.get('prep.model', MODEL_LIST[0][0]); if (!MODEL_LIST.some(m => m[0] === model)) model = MODEL_LIST[0][0];
+$('modelSel').innerHTML = MODEL_LIST.map(m => `<option value="${m[0]}">${m[1]} (${m[2]} per M tokens)</option>`).join(''); $('modelSel').value = model;
+$('modelSel').onchange = e => { model = e.target.value; store.set('prep.model', model); log('model →', model); if (currentPage === 'suggest') renderSuggest(); };
+const modelName = id => (MODEL_LIST.find(m => m[0] === id) || [id, id])[1].replace(' · cheapest', '');
+
+const textHash = t => { let h = 0x811c9dc5; for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, '0') + t.length.toString(16); };   // FNV-1a, same as scripts/gen-cache.ts
+const sg = () => cur().sugg;
+function applyEdits(base, items, statuses = ['accepted']) {                            // builds the revised script from the accepted edits
+  let out = '', pos = 0; for (const it of items.slice().sort((a, b) => a.at - b.at)) { if (!statuses.includes(it.status)) continue; out += base.slice(pos, it.at) + it.replacement; pos = it.at + it.original.length; } return out + base.slice(pos);
+}
+function placeItems(base, list) {                                                      // keep edits whose original text is really in the script exactly once, in order, without overlaps
+  const found = []; for (const x of Array.isArray(list) ? list : []) {
+    if (!x || typeof x.original !== 'string' || !x.original || typeof x.replacement !== 'string' || x.original === x.replacement) continue;
+    const at = base.indexOf(x.original); if (at < 0 || base.indexOf(x.original, at + 1) >= 0) continue;
+    found.push({ type:String(x.type || 'clarity'), original:x.original, replacement:x.replacement, reason:String(x.reason || ''), at, status:'pending' });
+  }
+  found.sort((a, b) => a.at - b.at); let edge = -1; return found.filter(f => { if (f.at < edge) return false; edge = f.at + f.original.length; return true; });
+}
+const showState = html => { $('sgState').innerHTML = html; $('sgState').hidden = !html; };
+async function enterSuggest(force) {
+  const s = cur(), text = s.speech.text, base = s.sugg && s.sugg.appliedText === text ? s.sugg.base : text;      // coming back after applying edits: show the same choices against the original
+  if (!force && s.sugg && s.sugg.base === base) { renderSuggest(); return; }
+  $('sgWrap').hidden = true; $('sgTools').hidden = true; $('sgSummary').textContent = 'Reading your script…';
+  showState(`<div class="dots"><i></i><i></i><i></i></div><p><b>Looking for improvements</b>Using ${esc(modelName(model))}…</p>`);
+  const sample = SAMPLES.find(x => x.id === (s.speech && s.speech.sample)); let data = null, source = 'live';
+  if (!force && sample && sample.text === base) {                                      // a demo script used unchanged: use the saved response, no model call
+    try { const r = await fetch('cache/' + sample.id + '.json'); const c = r.ok ? await r.json() : null; if (c && c.textHash === textHash(base)) { data = c; source = 'cache'; log('using saved suggestions for demo script', sample.id, '(made with', c.model + ')'); } } catch {}
+  }
+  if (!data) {
+    try {
+      const body = { text:base, model, profile:detailsJSON(false).profile, session:{ purpose:s.f.purpose, timeLimitMinutes:+s.f.minutes || null, audience:s.f.audience, audienceRegion:s.f.region, priorities:s.f.priorities } };
+      log('asking', model, 'for suggestions —', words(base), 'words');
+      const r = await fetch('api/suggest', { method:'POST', headers:{ 'content-type':'application/json' }, body:JSON.stringify(body) });
+      const j = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(j.message || 'Something went wrong.'), { code:j.error });
+      data = j;
+    } catch (e) {
+      log('suggestions failed:', e.message); if (currentPage !== 'suggest') return;
+      showState(`<p><b>We couldn’t get suggestions</b>${esc(e.code === 'not-configured' ? 'The server has no model key set up yet.' : e.message)}</p><button class="browse" id="sgRetry" type="button">Try again</button> <button class="ghost" id="sgSkip" type="button">Skip to practice</button>`);
+      $('sgSummary').textContent = 'Suggestions are unavailable right now.'; return;
+    }
+  }
+  s.sugg = { base, model:data.model || model, source, summary:String(data.summary || ''), items:placeItems(base, data.suggestions), appliedText:null }; touch(); log('suggestions ready:', s.sugg.items.length, 'from', source);
+  if (currentPage === 'suggest') renderSuggest();
+}
+function renderSuggest() {
+  const s = cur(), g = s.sugg; if (!g) return;
+  showState(''); $('sgWrap').hidden = false; $('sgTools').hidden = false;
+  const acc = g.items.filter(x => x.status === 'accepted').length, rej = g.items.filter(x => x.status === 'rejected').length, pend = g.items.length - acc - rej;
+  $('sgSummary').textContent = g.items.length ? g.summary : 'No edits suggested. Your script looks good as it is.';
+  const revised = applyEdits(g.base, g.items), spoken = words(revised) / 130, lim = +s.f.minutes;
+  $('sgChips').innerHTML = [`${g.items.length} suggestions`, `${acc} accepted`, `${rej} rejected`, `${words(revised)} words · ~${spoken < 1 ? Math.max(1, Math.round(spoken * 60)) + ' sec' : spoken.toFixed(1).replace('.0', '') + ' min'}${lim ? ' of ' + lim + ' min' : ''}`].map((t, i) => `<span class="chip ${['', 'c', 'b', ''][i]}">${t}</span>`).join('');
+  $('sgSrc').className = 'sgsrc ' + (g.source === 'cache' ? 'cache' : ''); $('sgSrc').textContent = g.source === 'cache' ? `Saved response for this demo script · ${modelName(g.model)}` : `Written just now by ${modelName(g.model)}`;
+  $('sgList').innerHTML = g.items.map((x, i) => `<div class="sg ${x.status}" data-i="${i}"><div class="sgtop"><span class="ty ${esc(x.type)}">${esc(x.type)}</span><span class="sgr">${esc(x.reason)}</span></div>
+    <div class="diff"><del>${esc(x.original)}</del><span class="arr">→</span>${x.replacement ? `<ins>${esc(x.replacement)}</ins>` : '<ins>(remove)</ins>'}</div>
+    <div class="sgbtn"><button class="acc" type="button" data-act="accepted">✓ Accept</button><button class="rej" type="button" data-act="rejected">✕ Reject</button></div></div>`).join('') || '<div class="muted">Nothing to change.</div>';
+  let html = '', pos = 0; g.items.forEach((x, i) => {
+    html += esc(g.base.slice(pos, x.at)); pos = x.at + x.original.length;
+    html += x.status === 'accepted' ? (x.replacement ? `<span class="m acc" data-i="${i}">${esc(x.replacement)}</span>` : `<span class="m acc del" data-i="${i}" title="removed: ${esc(x.original)}">⌫</span>`)
+          : x.status === 'rejected' ? `<span class="m rej" data-i="${i}">${esc(x.original)}</span>` : `<span class="m pend" data-i="${i}">${esc(x.original)}</span>`;
+  }); $('sgText').innerHTML = html + esc(g.base.slice(pos));
+  setBar('suggest', pend ? `<b>${acc}</b> accepted · <b>${rej}</b> rejected · ${pend} undecided (kept as written)` : `<b>${acc}</b> accepted · <b>${rej}</b> rejected`, true); $('barNext').textContent = 'Practice →';
+}
+function decide(i, status) { const it = sg().items[i]; it.status = it.status === status ? 'pending' : status; touch(); renderSuggest(); }
+const setAll = status => { sg().items.forEach(x => x.status = status); touch(); renderSuggest(); };
+$('sgList').addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b) decide(+b.closest('.sg').dataset.i, b.dataset.act); });
+$('accAll').onclick = () => setAll('accepted'); $('rejAll').onclick = () => setAll('rejected'); $('resetAll').onclick = () => setAll('pending');
+$('regen').onclick = () => enterSuggest(true);
+$('sgState').addEventListener('click', e => { if (e.target.id === 'sgRetry') enterSuggest(true); if (e.target.id === 'sgSkip') go('workspace/' + curId + '/record'); });
+const flash = (el, cls) => { el.classList.add(cls); setTimeout(() => el.classList.remove(cls), 1200); };
+$('sgText').addEventListener('click', e => { const m = e.target.closest('.m'); if (!m) return; const c = $('sgList').querySelector(`.sg[data-i="${m.dataset.i}"]`); if (c) { c.scrollIntoView({ behavior:'smooth', block:'center' }); flash(c, 'flash'); } });
+$('sgList').addEventListener('mouseover', e => { const c = e.target.closest('.sg'); document.querySelectorAll('#sgText .hot').forEach(n => n.classList.remove('hot')); if (c) { const m = $('sgText').querySelector(`.m[data-i="${c.dataset.i}"]`); if (m) { m.classList.add('hot'); } } });
+function commitSuggestions() {                                                         // called when moving on to practice: the accepted edits become the script
+  const s = cur(), g = s.sugg; if (!g || (s.speech.text !== g.base && s.speech.text !== g.appliedText)) return;       // the script was edited since the suggestions were made: leave it alone
+  const revised = applyEdits(g.base, g.items);
+  s.speech.text = revised; g.appliedText = revised; touch(); log('applied', g.items.filter(x => x.status === 'accepted').length, 'edits;', words(g.base), '→', words(revised), 'words');
+}
+
+/* =====================================================================================
+   Summary: rubric score from Jev, the speaker transcript, and past recordings
+   ===================================================================================== */
+const findRec = (s, id) => (s.recordings || []).find(r => r.id === id);
+const rubricKeyOf = r => textHash([r.planned, r.transcript, r.purpose, r.audience].join('\u0000'));      // same key the server and scripts/gen-rubrics.ts use
+let rubricCachePromise = null;
+const savedRubrics = () => rubricCachePromise || (rubricCachePromise = fetch('cache/rubrics.json').then(r => r.ok ? r.json() : { entries:{} }).then(j => j.entries || {}).catch(() => ({})));
+const dur = sec => sec >= 60 ? Math.floor(sec / 60) + ' min ' + String(Math.round(sec % 60)).padStart(2, '0') + ' s' : Math.round(sec) + ' s';
+const rubricReady = r => r.rubric && r.rubric.status === 'ready' && r.rubric.forKey === rubricKeyOf(r);
+let smRecId = null;
+const scoring = new Set();
+async function computeRubric(rec, force) {
+  const key = rubricKeyOf(rec), tag = rec.id + '|' + key; if (scoring.has(tag)) return; scoring.add(tag);
+  try { await scoreIt(rec, key, force); } finally { scoring.delete(tag); }
+}
+async function scoreIt(rec, key, force) {
+  rec.rubric = { status:'loading', forKey:key }; touch(); if (smRecId === rec.id) renderSummary();
+  let data = null, source = 'jev';
+  try {
+    const saved = force ? null : (await savedRubrics())[key];                                  // a demo script with a demo transcript, unchanged: no Jev call
+    if (saved) { data = saved.result; source = 'saved'; log('using saved Jev result for', saved.sampleId, '×', saved.transcriptId); }
+    else {
+      log('asking Jev to score the recording —', words(rec.transcript), 'words'); const t0 = performance.now();
+      const r = await fetch('api/rubric', { method:'POST', headers:{ 'content-type':'application/json' }, body:JSON.stringify({ planned:rec.planned, actual:rec.transcript, purpose:rec.purpose, audience:rec.audience }) });
+      const j = await r.json().catch(() => ({})); if (!r.ok) throw Object.assign(new Error(j.message || 'Something went wrong.'), { code:j.error });
+      data = j; source = j.cached ? 'saved' : 'jev'; log('Jev scored it in', Math.round(performance.now() - t0), 'ms');
+    }
+  } catch (e) {
+    log('rubric failed:', e.message); if (rubricKeyOf(rec) !== key) return;
+    rec.rubric = { status:'error', forKey:key, message:e.code === 'not-configured' ? 'The server has no Jev key set up yet.' : e.message }; touch(); if (smRecId === rec.id) renderSummary(); return;
+  }
+  if (rubricKeyOf(rec) !== key) return;                                                       // the transcript changed while scoring: a newer run owns the result
+  rec.rubric = { status:'ready', forKey:key, source, data, computedAt:Date.now() }; touch(); if (smRecId === rec.id) renderSummary();
+}
+function band(x) { return x >= 4.2 ? 'Excellent' : x >= 3.4 ? 'Strong' : x >= 2.6 ? 'Developing' : 'Needs work'; }
+function ringSvg(v) { const C = 2 * Math.PI * 52, f = Math.max(0, Math.min(1, (v - 1) / 4)); return `<svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="52" fill="none" stroke="#f3e7dc" stroke-width="12"/><circle cx="64" cy="64" r="52" fill="none" stroke="#f07c3c" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - f)}" transform="rotate(-90 64 64)"/><text x="64" y="72" text-anchor="middle" font-size="30" font-weight="800" fill="#4b3426">${v.toFixed(1)}</text></svg>`; }
+function renderRubric(rec) {
+  const rb = rec.rubric, main = $('smMain');
+  if (!rb || rb.status === 'loading') { main.innerHTML = '<div class="scard2"><div class="smload"><div class="dots"><i></i><i></i><i></i></div><b>Scoring your recording with Jev</b>Reading the transcript against your script…</div></div>'; return; }
+  if (rb.status === 'error') { main.innerHTML = `<div class="scard2"><div class="smload"><b>We couldn’t score this recording</b>${esc(rb.message)}<br><br><button class="browse" id="smRetry" type="button">Try again</button></div></div>`; return; }
+  const d = rb.data, rows = Object.entries(d.labels), planRated = Object.values(d.core.plan).map(x => x.rating).filter(x => typeof x === 'number'), planAvg = planRated.length ? planRated.reduce((a, b) => a + b, 0) / planRated.length : null;
+  const m = d.alignment.metrics, pc = x => x == null ? 'n/a' : Math.round(x * 100) + '%';
+  const overall = `<div class="scard2"><div class="ovr">${d.overall != null ? ringSvg(d.overall) : ''}<div><div class="big">${d.overall != null ? d.overall.toFixed(1) : '–'} <small>/ 5</small></div><div class="lbl">${d.overall != null ? band(d.overall) : ''}</div>
+    <div style="margin-top:8px"><span class="src ${rb.source === 'saved' ? 'saved' : ''}">${rb.source === 'saved' ? 'Saved result for this demo' : 'Scored just now by Jev'}</span> ${planAvg != null ? `<span class="src">Your script on paper: ${planAvg.toFixed(1)}</span>` : ''}</div></div></div></div>`;
+  const core = `<div class="scard2"><h2>Core rubric</h2><p class="cap">Each row is scored 1 to 5 from the transcript. The dark tick shows how your script scored on paper.</p>
+    <table class="rb"><tr><th>Dimension</th><th>Score</th><th></th><th></th></tr>${rows.map(([k, label]) => { const a = d.core.actual[k], p = d.core.plan[k];
+      if (a.rating == null) return `<tr><td>${esc(label)}</td><td colspan="3" class="muted">${esc(a.note || 'not scored')}</td></tr>`;
+      const dl = p && p.rating != null ? a.rating - p.rating : null;
+      return `<tr><td>${esc(label)}</td><td style="width:42%"><div class="meter"><i style="width:${(a.rating - 1) / 4 * 100}%"></i>${p && p.rating != null ? `<b style="left:${(p.rating - 1) / 4 * 100}%" title="script on paper ${p.rating.toFixed(1)}"></b>` : ''}</div></td>
+        <td class="num">${a.rating.toFixed(1)}</td><td>${dl == null ? '' : `<span class="dl ${dl > 0.2 ? 'up' : dl < -0.2 ? 'down' : 'flat'}">${dl > 0 ? '+' : ''}${dl.toFixed(1)}</span>`} ${a.review !== 'auto' ? `<span class="rv ${a.review}" title="Jev was ${a.review === 'human' ? 'unsure' : 'fairly sure'}: worth a second look">${a.review === 'human' ? 'double-check' : 'check'}</span>` : ''}</td></tr>`; }).join('')}</table>
+    <p class="cap" style="margin:12px 0 0">Not scored from text: ${Object.keys(d.notScored).map(esc).join(', ')} (they need audio or a person).</p></div>`;
+  const items = d.alignment.items, ins = d.alignment.insertions;
+  const align = `<div class="scard2"><h2>Script versus what you said</h2><p class="cap">How closely the recording followed the plan.</p>
+    <div class="tiles"><div class="tile2"><b>${pc(m.coverage)}</b><span>of planned ideas delivered</span></div><div class="tile2"><b>${pc(m.meaningFidelity)}</b><span>point kept, when delivered</span></div><div class="tile2"><b>${pc(m.wordingFidelity)}</b><span>wording matched</span></div><div class="tile2"><b>${pc(m.orderFidelity)}</b><span>order kept</span></div></div>
+    <p class="cap">${m.omitted} left out · ${m.drifted} changed meaning · ${m.detailChanged} changed a detail · ${m.insertions} added · ${m.wordEdits.substituted} words swapped, ${m.wordEdits.deleted} dropped, ${m.wordEdits.inserted} added</p>
+    <table class="rb al"><tr><th>Planned</th><th>Said</th><th></th></tr>${items.map(it => `<tr><td style="width:44%">${esc(it.planned)}</td><td>${it.spoken ? esc(it.spoken) : '<span class="muted">(not said)</span>'}</td><td><span class="stt ${it.status}">${it.status.replace('_', ' ')}</span></td></tr>`).join('')}</table>
+    ${ins.length ? `<p class="cap" style="margin:14px 0 6px"><b>Added by you</b></p><table class="rb al">${ins.map(u => `<tr><td>${esc(u.spoken)}</td><td style="width:30%"><span class="stt detail_changed">${esc(u.type.replace(/_/g, ' '))}</span></td></tr>`).join('')}</table>` : ''}</div>`;
+  main.innerHTML = overall + core + align;
+}
+function renderRecList(el, s, activeId) {
+  const list = (s.recordings || []);
+  el.innerHTML = list.map(r => `<button class="ritem ${r.id === activeId ? 'on' : ''}" data-rid="${r.id}"><span class="rd">${esc(stamp(r.startedAt))}<small>${dur(r.durationSec || 0)} · ${r.stats ? r.stats.words : words(r.transcript)} words${r.source !== 'recorded' ? ' · sample transcript' : ''}</small></span>${rubricReady(r) && r.rubric.data.overall != null ? `<span class="sc">${r.rubric.data.overall.toFixed(1)}</span>` : ''}</button>`).join('') || '<div class="muted">No recordings yet.</div>';
+}
+const renderPastList = () => renderRecList($('rmList'), cur(), null);
+function renderSummary() {
+  const s = cur(), rec = findRec(s, smRecId); if (!rec) return;
+  $('smSub').textContent = `${s.name || 'Untitled'} · ${stamp(rec.startedAt)}`;
+  $('smChips').innerHTML = [dur(rec.durationSec || 0), words(rec.transcript) + ' words', ((rec.stats && rec.stats.pauses) || []).length + ' pauses'].map((t, i) => `<span class="chip ${['', 'b', 'c'][i]}">${t}</span>`).join('');
+  renderRubric(rec); renderRecList($('smRecs'), s, rec.id);
+  $('smTx').value = rec.transcript;
+  const samples = rec.sampleId && SPEAKER_SAMPLES[rec.sampleId]; $('smPick').hidden = !samples;                     // only demo scripts offer sample transcripts
+  $('smSrc').textContent = rec.source === 'recorded' ? 'What the microphone heard.' : 'A sample transcript: the rubric was recalculated for it.';
+  if (samples) $('smSample').innerHTML = `<option value="recorded">Your recording</option>` + samples.map(x => `<option value="${x.id}">${esc(x.label)}</option>`).join(''), $('smSample').value = rec.source === 'recorded' ? 'recorded' : rec.source.replace('sample:', '');
+}
+$('smSample').onchange = e => {                                                            // swap the transcript, then re-score automatically
+  const rec = findRec(cur(), smRecId), v = e.target.value; if (!rec) return;
+  const pick = v === 'recorded' ? null : (SPEAKER_SAMPLES[rec.sampleId] || []).find(x => x.id === v);
+  rec.transcript = pick ? pick.text : rec.original; rec.source = pick ? 'sample:' + pick.id : 'recorded'; rec.stats = Object.assign({}, rec.stats, { words:words(rec.transcript) });
+  log('transcript changed →', rec.source, '— recalculating'); touch(); renderSummary(); computeRubric(rec);
+};
+$('smMain').addEventListener('click', e => { if (e.target.id === 'smRetry') computeRubric(findRec(cur(), smRecId), true); });
+$('smRecs').addEventListener('click', e => { const b = e.target.closest('[data-rid]'); if (b) go('workspace/' + curId + '/summary/' + b.dataset.rid); });
+function enterSummary() {
+  const rec = findRec(cur(), smRecId); renderSummary();
+  if (rec && !rubricReady(rec)) computeRubric(rec);
+}
+
+/* =====================================================================================
+   5. RECORD — live transcript tracking: highlight + scroll, robust to mispronunciations, skipping ahead and back
+   ===================================================================================== */
+const STOP = new Set('the a an of to and in on for is are was be it that this with as at by or we our i you'.split(' '));
+const NUM = 'zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty'.split(' ');
+const norm = w => { w = w.toLowerCase().replace(/[^a-z0-9]/g, ''); return /^\d+$/.test(w) && +w <= 20 ? NUM[+w] : w; };      // "3" and "three" match
+function lev(a, b) {
+  const d = Array.from({ length:a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function phon(w) {                                                // rough phonetic key: fold spelling variants, then Soundex
+  w = w.replace(/^kn/, 'n').replace(/^wr/, 'r').replace(/^wh/, 'w').replace(/ph/g, 'f').replace(/ck/g, 'k').replace(/gh/g, '').replace(/ce|ci|cy/g, m => 's' + m[1]).replace(/c/g, 'k').replace(/tion|sion/g, 'shun').replace(/(.)\1+/g, '$1');
+  const c = { b:1,f:1,p:1,v:1, k:2,g:2,j:2,q:2,s:2,x:2,z:2, d:3,t:3, l:4, m:5,n:5, r:6 }; let out = w[0], last = c[w[0]] || 0;
+  for (let i = 1; i < w.length && out.length < 5; i++) { const k = c[w[i]] || 0; if (k && k !== last) out += k; if (!'hw'.includes(w[i])) last = k; }
+  return (out + '0000').slice(0, 5);
+}
+function sim(a, b) {
+  if (!a || !b) return 0; if (a === b) return 1;
+  const isW = /^[a-z]/.test(a) && /^[a-z]/.test(b); let s = 1 - lev(a, b) / Math.max(a.length, b.length); if (s < 0.6) s = 0;
+  if (isW && a.length > 2 && b.length > 2) {
+    if (phon(a) === phon(b)) s = Math.max(s, 0.85);                                                     // sounds alike (mispronunciation)
+    else if (a[0] === b[0] && phon(a).slice(0, 3) === phon(b).slice(0, 3)) s = Math.max(s, 0.65);
+    if (b.startsWith(a)) s = Math.max(s, 0.8);                                                           // half-recognised word
+  }
+  return s;
+}
+/* ---- pace + pauses ---- */
+const clock = () => (window.__t != null ? window.__t : performance.now());          // overridable so the timing can be tested
+const PAUSE_MIN = 1200, WINDOW_MS = 20000;                                         // a pause is silence of 1.2 s or more; the rolling window is 20 s
+let PC = { running:false, t0:0, pos0:0, adv:[], paused:null, pauses:[], lastAct:0, sawSpeech:false, timer:null };
+const mmss = sec => { sec = Math.max(0, Math.round(sec)); return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); };
+const liveMode = () => P.q16.includes('none') ? 'off' : (P.q16.includes('minimal') && !P.q16.includes('visual') ? 'min' : 'on');   // from the profile: how live feedback should be delivered
+function paceStart() {
+  const s = cur(); PC = { running:true, t0:clock(), pos0:T.pos, adv:[], paused:null, pauses:[], lastAct:clock(), sawSpeech:false, timer:PC.timer, limit:(+s.f.minutes || 0) * 60 };
+  clearInterval(PC.timer); PC.timer = setInterval(paceTick, 250); $('pauselog').textContent = '—'; $('pausenow').textContent = '';
+  document.querySelectorAll('.pz').forEach(n => n.remove()); log('pace started — limit', PC.limit, 's, from word', T.pos, 'of', T.S.length); paceTick();
+}
+function paceHold() { if (!PC.running) return; PC.holdAt = clock(); PC.running = false; clearInterval(PC.timer); $('pausenow').textContent = ''; }
+function paceResume() { if (PC.running || PC.holdAt == null) return; const d = clock() - PC.holdAt; PC.t0 += d; PC.lastAct += d; if (PC.paused) PC.paused.start += d; PC.holdAt = null; PC.running = true; PC.timer = setInterval(paceTick, 250); }
+const activeSeconds = () => PC.t0 ? ((PC.holdAt != null ? PC.holdAt : clock()) - PC.t0) / 1000 : 0;
+function paceStop() { PC.running = false; clearInterval(PC.timer); $('pausenow').textContent = ''; log('pace stopped — pauses:', PC.pauses.length); }
+function pushAdv(n) { if (PC.running && n > 0) PC.adv.push([clock(), n]); }
+function onActivity() {                                            // called whenever new speech arrives
+  if (!PC.running) return; const t = clock();
+  if (PC.paused) {
+    const d = (t - PC.paused.start) / 1000; PC.pauses.push({ d, pos:PC.paused.pos }); log('pause ended', d.toFixed(1) + 's after word', PC.paused.pos);
+    const w = $('rscript').querySelector(`.w[data-i="${PC.paused.pos - 1}"]`);        // a faint timestamp right after the word you paused on
+    if (w && PC.paused.pos > 0) { const m = document.createElement('sup'); m.className = 'pz'; m.textContent = d.toFixed(1) + 's'; w.after(m); }
+    PC.paused = null; $('pausenow').textContent = ''; renderPauseLog();
+  }
+  PC.lastAct = t; PC.sawSpeech = true;
+}
+function renderPauseLog() {
+  const p = PC.pauses; if (!p.length) { $('pauselog').textContent = '—'; return; }
+  const tot = p.reduce((a, x) => a + x.d, 0), mx = Math.max(...p.map(x => x.d));
+  $('pauselog').innerHTML = `${p.length} ${p.length === 1 ? 'pause' : 'pauses'} · total ${tot.toFixed(1)}s · longest ${mx.toFixed(1)}s<br>` + p.slice(-6).map(x => x.d.toFixed(1) + 's').join(' · ');
+}
+function paceTick() {
+  if (!PC.running) return; const t = clock(), N = T.S.length, elapsed = (t - PC.t0) / 1000, mode = liveMode();
+  // --- pauses: silence since the last speech, only once reading has begun and before the script is finished ---
+  const idle = t - PC.lastAct;
+  if (!PC.paused && PC.sawSpeech && idle >= PAUSE_MIN && T.pos < N - 1) PC.paused = { start:PC.lastAct, pos:T.pos };
+  $('pausenow').textContent = PC.paused && mode !== 'off' ? 'pause ' + ((t - PC.paused.start) / 1000).toFixed(1) + ' s' : '';
+  // --- pace ---
+  const card = $('pacecard'); card.style.display = mode === 'off' ? 'none' : '';
+  if (!PC.limit || N - PC.pos0 < 1) { $('paceTxt').textContent = 'Set a time limit to see your pace.'; return; }
+  const remainingWords = N - PC.pos0, target = remainingWords / PC.limit * 60;                     // words per minute needed to finish exactly on the limit
+  const expected = Math.min(N, PC.pos0 + elapsed / PC.limit * remainingWords), delta = T.pos - expected, secs = Math.abs(delta) / (target / 60);
+  const fmt = s => s < 60 ? Math.round(s) + ' s' : mmss(s), tol = Math.max(4, 0.04 * N);
+  let txt, cls = '';
+  if (!PC.sawSpeech) txt = 'Start reading when you’re ready.';
+  else if (Math.abs(delta) <= tol) txt = 'On pace';
+  else if (delta > 0) { cls = 'ahead'; txt = `${delta > 0.2 * N ? 'Well ahead' : 'A little ahead'}<small>${Math.round(delta)} words (about ${fmt(secs)}) ahead of schedule</small>`; }
+  else { cls = 'behind'; txt = `${-delta > 0.2 * N ? 'Well behind' : 'A little behind'}<small>${Math.round(-delta)} words (about ${fmt(secs)}) behind schedule</small>`; }
+  $('paceTxt').innerHTML = txt; $('paceTxt').className = 'pacetxt ' + cls; $('ptrack').className = 'ptrack ' + cls;
+  if (mode === 'min') card.style.display = cls ? '' : 'none';                                      // "only if I'm far off"
+  $('pFill').style.width = (T.pos / N * 100) + '%'; $('pExp').style.left = (expected / N * 100) + '%';
+  $('pTimeLeft').textContent = elapsed <= PC.limit ? mmss(PC.limit - elapsed) + ' left' : mmss(elapsed - PC.limit) + ' over';
+  // --- rolling window: pace over the last 20 seconds, against the target ---
+  PC.adv = PC.adv.filter(a => t - a[0] <= WINDOW_MS); const w = PC.adv.reduce((a, x) => a + x[1], 0), span = Math.max(5, Math.min(WINDOW_MS / 1000, elapsed));
+  const rwpm = elapsed >= 4 && PC.sawSpeech ? w / span * 60 : null, lo = 0.8, hi = 1.25, max = 2 * target;
+  $('twpm').textContent = Math.round(target) + ' wpm'; $('rzone').style.left = (lo * target / max * 100) + '%'; $('rzone').style.width = ((hi - lo) * target / max * 100) + '%';
+  $('rwpm').textContent = rwpm == null ? '–' : Math.round(rwpm) + ' wpm'; $('rneedle').style.left = (rwpm == null ? 0 : Math.min(1, rwpm / max) * 100) + '%';
+  $('rword').textContent = rwpm == null ? 'steady' : rwpm < lo * target ? 'a bit slow' : rwpm > hi * target ? 'a bit fast' : 'steady';
+  const done = T.pos - PC.pos0, proj = done >= 3 && elapsed > 3 ? elapsed + (N - T.pos) / (done / elapsed) : null;
+  $('tproj').textContent = proj == null ? '–' : mmss(proj) + ' of ' + mmss(PC.limit);
+}
+const T = { S:[], words:[], pos:0, lost:0, heard:[], skipped:new Set(), rows:new Map(), pending:null, jumps:0, shown:-1, ends:[] };
+function loadScript() {
+  const ps = cur().speech.text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean); let html = '', i = 0;
+  Object.assign(T, { S:[], words:[], pos:0, lost:0, heard:[], skipped:new Set(), rows:new Map(), pending:null, jumps:0, shown:-1, ends:[] });
+  for (const p of ps) { html += '<p>'; for (const w of p.split(/\s+/)) { T.words.push(w); T.S.push(norm(w)); html += `<span class="w" data-i="${i++}">${esc(w)}</span> `; } html += '</p>'; T.ends.push(i); }
+  $('rscript').innerHTML = html; $('rscript').scrollTop = 0; $('skipN').textContent = '0'; $('jumpN').textContent = '0'; $('heard').textContent = '—'; setPos(0, true);
+}
+function setPos(np, full) {
+  const spans = $('rscript').querySelectorAll('.w'), cls = i => 'w' + (i < np ? (T.skipped.has(i) ? ' skip' : ' done') : i === np ? ' cur' : '');
+  if (full || T.shown < 0) spans.forEach((el, i) => el.className = cls(i));
+  else { const lo = Math.max(0, Math.min(np, T.shown) - 1), hi = Math.min(spans.length - 1, Math.max(np, T.shown) + 1); for (let i = lo; i <= hi; i++) spans[i].className = cls(i); }
+  T.pos = np; T.shown = np;
+  const cur = spans[Math.min(np, spans.length - 1)]; if (cur) { const b = $('rscript'); b.scrollTo({ top:cur.offsetTop - b.clientHeight * 0.42, behavior:'smooth' }); }          // keep the current word near the middle
+  const f = T.S.length ? np / T.S.length : 0; $('rbar').style.width = (f * 100) + '%'; $('rpct').textContent = Math.round(f * 100) + '%'; $('skipN').textContent = T.skipped.size;
+}
+$('rscript').addEventListener('click', e => { const s = e.target.closest('.w'); if (!s) return; const n = +s.dataset.i; T.lost = 0; T.pending = null; for (const i of [...T.skipped]) if (i >= n) T.skipped.delete(i); log('manual reposition →', n); setPos(n, true); });
+function row(hw) { let r = T.rows.get(hw); if (r) return r; r = new Float32Array(T.S.length); for (let i = 0; i < r.length; i++) r[i] = sim(hw, T.S[i]); if (T.rows.size > 400) T.rows.clear(); T.rows.set(hw, r); return r; }
+function scoreAt(j, heard, rows) {                                // how well do the last heard words fit a window of script ending at j?
+  const m = heard.length; let sc = 0, wt = 0, solid = 0, endHit = false, nonStop = 0;
+  for (let k = 0; k < m; k++) {
+    const stop = STOP.has(heard[k]), w = stop ? 0.35 : 1; let bs = 0;
+    for (let si = Math.max(0, j - m - 1); si <= j; si++) { const v = rows[k][si]; if (v > bs) bs = v; if (si === j && v >= 0.8 && !stop) endHit = true; }
+    sc += w * bs; wt += w; if (!stop) { nonStop++; if (bs >= 0.8) solid++; }
+  }
+  return { score:sc / wt, solid, nonStop, ok:endHit && nonStop > 0 && solid >= Math.min(2, nonStop) };
+}
+function track(interimWords) {
+  if (!T.S.length) return;
+  const heard = T.heard.concat(interimWords).slice(-5), m = heard.length; if (!m) return;
+  const rows = heard.map(row), N = T.S.length; let near = null, far = null;
+  for (let j = 0; j < N; j++) {                                   // best match near where we are, and best match anywhere (needs stronger proof)
+    const d = j - T.pos, isNear = d >= -3 && d <= 40, r = scoreAt(j, heard, rows); if (!r.ok) continue;
+    const sc = r.score - (isNear ? 0.003 * Math.max(0, d) : 0.0005 * Math.abs(d)), c = { j, sc, solid:r.solid, raw:r.score };
+    if (isNear) { if (!near || sc > near.sc) near = c; } else if (!far || sc > far.sc) far = c;
+  }
+  const needNear = m < 3 ? 0.85 : 0.5, farOk = far && far.solid >= Math.min(3, m) && far.raw >= 0.7 && m >= 3 && (!near || far.sc > near.sc + 0.1);
+  const show = (j, note) => $('heard').innerHTML = `${esc(heard.join(' '))}` + (j >= 0 ? `<br>→ <b>${esc(T.words.slice(Math.max(0, j - m + 1), j + 1).join(' '))}</b>` : '') + (note ? `<br><small>${note}</small>` : '');
+  if (near && near.sc >= needNear && !farOk) {                    // normal reading, including mispronounced or dropped words
+    T.lost = 0; T.pending = null; const first = near.j - m + 1;
+    if (near.j + 1 > T.pos) { const gap = first - T.pos; pushAdv(gap >= 4 ? m : near.j + 1 - T.pos); if (gap >= 4) { for (let i = T.pos; i < first; i++) T.skipped.add(i); setPos(near.j + 1, true); log('skipped', gap, 'words'); show(near.j, `skipped ${gap} words`); } else { setPos(near.j + 1); show(near.j, ''); } }
+    else show(near.j, '');
+  } else if (farOk) {                                             // skipped ahead or jumped back: confirm on a second update before moving
+    if (T.pending && Math.abs(T.pending.j - far.j) <= 6) T.pending.n++; else T.pending = { j:far.j, n:1 };
+    if (T.pending.n >= 2) {
+      const first = far.j - m + 1, from = T.pos; pushAdv(m); T.pending = null; T.lost = 0; T.jumps++; $('jumpN').textContent = T.jumps;
+      if (far.j + 1 > from) { const gap = first - from; if (gap >= 4) for (let i = from; i < first; i++) T.skipped.add(i); } else for (const i of [...T.skipped]) if (i >= far.j - 15) T.skipped.delete(i);        // re-reading: un-skip the sentence being read again
+      setPos(far.j + 1, true); log('jump', far.j + 1 > from ? 'ahead' : 'back', 'to', far.j + 1); show(far.j, far.j + 1 > from ? `jumped ahead ${far.j + 1 - from} words` : `jumped back ${from - far.j - 1} words`);
+    } else show(-1, 'possible jump, checking…');
+  } else { T.lost++; show(-1, T.lost >= 3 ? 'listening for a place to rejoin…' : ''); }
+}
+
+// ---- recording: Chrome's live recognizer, restarted whenever the browser ends it ----
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const R = { on:false, state:'idle', rec:null, aborts:[], heardAt:0, finals:[], interim:'', startedAt:0 };   // state: idle | recording | paused | stopped
+const rstat = t => $('rstat').textContent = t;
+function makeRec() {
+  const rec = new SR(); R.rec = rec; rec.continuous = true; rec.interimResults = true; rec.lang = /[\u3040-\u30ff\u4e00-\u9fff]/.test(T.src || '') ? 'ja-JP' : 'en-US';
+  const mine = () => rec === R.rec;
+  rec.onstart = () => { if (!mine()) return; log('recognizer started'); rstat('Listening… start reading.'); };
+  rec.onaudiostart = () => mine() && log('audio started');
+  rec.onsoundstart = () => { if (mine()) { log('sound detected'); } };
+  rec.onspeechstart = () => { if (mine()) { $('hear').classList.add('on'); onActivity(); log('speech detected'); } };
+  rec.onspeechend = () => { if (mine()) $('hear').classList.remove('on'); };
+  rec.onresult = e => {
+    if (!mine()) return; let interim = ''; onActivity();
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const r = e.results[i], txt = r[0].transcript;
+      if (r.isFinal) { T.heard.push(...(txt.match(/[A-Za-z0-9']+/g) || []).map(norm)); if (T.heard.length > 40) T.heard = T.heard.slice(-40); R.finals.push(txt.trim()); } else interim += txt;
+    }
+    R.interim = interim;
+    log('result — interim:', JSON.stringify(interim).slice(0, 70), '| heard tail:', T.heard.slice(-4).join(' '));
+    track((interim.match(/[A-Za-z0-9']+/g) || []).map(norm));
+  };
+  rec.onerror = e => {
+    if (!mine()) return; log('recognizer ERROR:', e.error, e.message || '');
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') { R.on = false; R.state = 'stopped'; paceHold(); stopUi(); rstat('Microphone blocked. Allow it for this site (lock icon in the address bar), then try again.'); }
+    else if (e.error === 'audio-capture') rstat('No microphone found. Check your input device in System Settings.');
+    else if (e.error === 'network') rstat('Chrome’s speech service can’t be reached. Check your internet connection.');
+    else if (e.error === 'aborted') { const t = performance.now(); R.aborts = R.aborts.filter(x => t - x < 8000).concat(t); if (R.aborts.length >= 3) rstat('Something keeps interrupting speech recognition. Close other tabs or windows using the microphone.'); }
+  };
+  rec.onend = () => {
+    if (!mine()) return; $('hear').classList.remove('on'); log('recognizer ended');
+    if (R.on) setTimeout(() => { if (R.on && mine()) makeRec(); }, R.aborts.length >= 3 ? 2500 : 250);          // keep listening until the user stops
+  };
+  try { rec.start(); } catch (err) { log('start() failed:', err.message); }
+}
+function renderControls() {
+  const st = R.state, B = (c, cls, label) => `<button type="button" class="${cls}" data-c="${c}">${label}</button>`;
+  $('rbtns').innerHTML = st === 'idle' ? B('start', 'browse', '● Start recording')
+    : st === 'recording' ? B('pause', 'pa', '⏸ Pause') + B('stop', 'st', '■ Stop')
+    : st === 'paused' ? B('resume', 'browse', '▶ Resume') + B('end', 'en', '✓ End recording')
+    : B('resume', 'browse', '▶ Continue') + B('end', 'en', '✓ End recording');
+  const bd = $('recbadge'); bd.className = st === 'recording' ? 'rec' : st === 'idle' ? '' : 'pause';
+  bd.textContent = st === 'recording' ? '● Recording' : st === 'paused' ? 'Paused' : st === 'stopped' ? 'Stopped' : 'Ready';
+  if (st !== 'recording') $('hear').classList.remove('on');
+  const n = (cur() && cur().recordings || []).length; $('pastBtn').disabled = !n; $('pastBtn').textContent = n ? `Past recordings (${n})` : 'Past recordings';
+}
+const stopUi = renderControls;
+function haltRecognizer() { R.on = false; try { R.rec && R.rec.abort(); } catch {} R.rec = null; }
+function recStart() {
+  if (!SR) return rstat('Speech recognition isn’t available here. Open this page in Chrome.');
+  R.finals = []; R.interim = ''; R.startedAt = Date.now(); R.sid = curId; R.on = true; R.state = 'recording'; R.aborts = []; rstat('Starting…'); log('recording started'); paceStart(); makeRec(); renderControls();
+}
+function recPause(kind) { haltRecognizer(); R.state = kind; paceHold(); rstat(kind === 'paused' ? 'Paused. Resume when you’re ready, or end the recording.' : 'Stopped. Continue, or end the recording to see your summary.'); log('recording', kind); renderControls(); }
+function recResume() { R.on = true; R.state = 'recording'; R.aborts = []; rstat('Starting…'); log('recording resumed'); paceResume(); makeRec(); renderControls(); }
+const spokenTranscript = () => [...R.finals, R.interim].join(' ').replace(/\s+/g, ' ').trim();
+function saveRecording() {                                         // turns what was captured into a saved recording (transcript + stats); the rubric is added on the summary page
+  const s = SS.find(x => x.id === R.sid) || cur(), transcript = spokenTranscript(); if (words(transcript) < 3 || !s) return null;
+  const rec = { id:'r' + Date.now().toString(36), startedAt:R.startedAt || Date.now(), endedAt:Date.now(), durationSec:Math.round(activeSeconds()), planned:s.speech.text, purpose:s.f.purpose, audience:s.f.audience,
+    transcript, original:transcript, source:'recorded', sampleId:s.speech.sample || null,
+    stats:{ words:words(transcript), pauses:PC.pauses.map(p => ({ d:+p.d.toFixed(1), pos:p.pos })), skipped:T.skipped.size, jumps:T.jumps, positionPct:T.S.length ? Math.round(T.pos / T.S.length * 100) : 0 }, rubric:null };
+  (s.recordings = s.recordings || []).unshift(rec); s.updated = Date.now(); saveSS(); log('recording saved:', rec.id, rec.stats.words, 'words'); return rec;
+}
+function recEnd() {
+  haltRecognizer(); paceHold(); const rec = saveRecording();
+  if (!rec) { R.state = 'stopped'; renderControls(); return toast('Nothing was recorded yet. Say a few words first, then end the recording.', null, true); }
+  R.state = 'idle'; R.finals = []; R.interim = ''; paceStop(); renderControls(); go('workspace/' + R.sid + '/summary/' + rec.id);
+}
+function autoSaveOnLeave() {                                       // leaving the practice page mid-recording must not lose it
+  if (R.state === 'idle') return; haltRecognizer(); paceHold(); const rec = saveRecording(); R.state = 'idle'; R.finals = []; R.interim = ''; paceStop();
+  if (rec) toast('Your recording was saved. Find it under Past recordings.');
+}
+$('rbtns').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; ({ start:recStart, pause:() => recPause('paused'), stop:() => recPause('stopped'), resume:recResume, end:recEnd })[b.dataset.c](); });
+$('pastBtn').onclick = () => { renderPastList(); $('rmodal').classList.add('show'); };
+$('rmclose').onclick = () => $('rmodal').classList.remove('show'); $('rmodal').addEventListener('click', e => { if (e.target === $('rmodal')) $('rmodal').classList.remove('show'); });
+$('rmList').addEventListener('click', e => { const b = e.target.closest('[data-rid]'); if (b) { $('rmodal').classList.remove('show'); go('workspace/' + curId + '/summary/' + b.dataset.rid); } });
+function renderRecord() {
+  const s = cur(), f = s.f, text = s.speech.text;
+  $('rTitle').textContent = s.name || 'Untitled'; $('rSub').textContent = shortPurpose(f.purpose) + (f.audience ? ' · for ' + f.audience : '');
+  $('rChips').innerHTML = [f.minutes + ' min', f.region === 'local' ? 'Local audience' : f.region === 'mixed' ? 'Mixed audience' : 'International audience', words(text) + ' words'].map((t, i) => `<span class="chip ${['', 'b', 'c'][i]}">${esc(t)}</span>`).join('');
+  T.src = text; if (T.loadedFor !== s.id + '|' + text) { loadScript(); T.loadedFor = s.id + '|' + text; }
+  renderControls();
+}
+
+/* =====================================================================================
+   Routing:  #/profile   #/workspace   #/workspace/<session>   #/workspace/<session>/record
+   ===================================================================================== */
+let currentPage = 'profile';
+function parseRoute() {
+  const [a, id, c, rid] = location.hash.replace(/^#\/?/, '').split('/');
+  if (a === 'workspace') return !id ? { page:'sessions' } : { page:c === 'record' ? 'record' : c === 'suggestions' ? 'suggest' : c === 'summary' ? 'summary' : 'prep', id, rid };
+  return { page:'profile' };
+}
+function route() {
+  let { page, id, rid } = parseRoute(); curId = id || null;
+  if ((page === 'prep' || page === 'suggest' || page === 'record' || page === 'summary') && !cur()) { page = 'sessions'; curId = null; history.replaceState(null, '', '#/workspace'); }
+  if ((page === 'record' || page === 'suggest') && !(cur().speech && cur().speech.text.trim())) { page = 'prep'; history.replaceState(null, '', '#/workspace/' + curId); }
+  if (page === 'summary' && !findRec(cur(), rid)) { page = 'record'; history.replaceState(null, '', '#/workspace/' + curId + '/record'); }
+  if (page !== 'record' && R.state !== 'idle') autoSaveOnLeave();
+  smRecId = page === 'summary' ? rid : null;
+  currentPage = page; ['profile', 'sessions', 'prep', 'suggest', 'record', 'summary'].forEach(n => $('pg-' + n).hidden = n !== page);
+  document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', (b.dataset.tab === 'profile') === (page === 'profile')));
+  $('bar').classList.remove('show'); $('toast').classList.remove('show');
+  if (page === 'profile') { syncProfile(); renderProfileBar(); }
+  if (page === 'sessions') renderSessions();
+  if (page === 'prep') renderPrep();
+  if (page === 'suggest') enterSuggest(false);
+  if (page === 'record') { commitSuggestions(); renderRecord(); }
+  if (page === 'summary') enterSummary();
+  log('page →', page, id || ''); scrollTo(0, 0);
+}
+const go = p => { location.hash = '#/' + p; };
+addEventListener('hashchange', route);
+$('tabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) go(b.dataset.tab); });
+$('backR').onclick = () => go('workspace/' + curId + '/record'); $('backS').onclick = () => go('workspace'); $('backP').onclick = () => go('workspace/' + curId); $('back3').onclick = () => go('workspace/' + curId + '/suggestions');
+
+buildProfile();
+log('ready — profile prefilled, valid:', !profileMissing().length, '| sessions:', SS.length, '| SpeechRecognition:', !!SR, '| secure context:', isSecureContext);
+route();
+</script>
+</body>
+</html>

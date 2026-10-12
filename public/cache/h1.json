@@ -1,0 +1,93 @@
+{
+  "sampleId": "h1",
+  "textHash": "21249dab3fc",
+  "model": "claude-haiku-5-5",
+  "generatedAt": "2026-10-11T23:29:07.345Z",
+  "summary": "The script is well under the three-minute limit, so the main gains are tighter wording, fewer fillers, and a clearer single problem statement. Several phrases also need literal, plain language for an international panel.",
+  "suggestions": [
+    {
+      "type": "filler",
+      "original": "Um, hi everyone",
+      "replacement": "Hi everyone",
+      "reason": "Removing the opening filler gives a cleaner, more confident start."
+    },
+    {
+      "type": "clarity",
+      "original": "we’re Team.",
+      "replacement": "we’re Team Lumen.",
+      "reason": "Stating the full team name gives judges something to remember."
+    },
+    {
+      "type": "filler",
+      "original": "Basically, we made an app, it’s like",
+      "replacement": "We made an app. It’s like",
+      "reason": "Dropping the hedge makes the opening sentence direct and easier to follow."
+    },
+    {
+      "type": "wording",
+      "original": "get really nervous",
+      "replacement": "get so nervous",
+      "reason": "Avoids the stumble word 'really' while keeping the same meaning."
+    },
+    {
+      "type": "wording",
+      "original": "the problem is practice",
+      "replacement": "the issue is practice",
+      "reason": "Swaps the stumble word 'problem' for a simpler, easier-to-say term."
+    },
+    {
+      "type": "filler",
+      "original": "and, like, that’s it.",
+      "replacement": "and that’s it.",
+      "reason": "Removing the filler 'like' keeps the sentence crisp."
+    },
+    {
+      "type": "wording",
+      "original": "your accent and stuff",
+      "replacement": "your accent and similar traits",
+      "reason": "Replaces the casual 'stuff' with wording that suits a judging panel."
+    },
+    {
+      "type": "wording",
+      "original": "shows your pace in real-time",
+      "replacement": "shows your pace as you speak",
+      "reason": "Avoids the stumble word 'real-time' and says the same thing plainly."
+    },
+    {
+      "type": "filler",
+      "original": "on, um, fillers",
+      "replacement": "on filler words",
+      "reason": "Removing 'um' tightens the sentence without changing its meaning."
+    },
+    {
+      "type": "tone",
+      "original": "We think it’s pretty accurate, I guess.",
+      "replacement": "We think it’s accurate.",
+      "reason": "Removing the hedge makes the claim sound more confident to judges."
+    },
+    {
+      "type": "idiom",
+      "original": "and, um, whatever.",
+      "replacement": "and other components.",
+      "reason": "Replaces vague filler with a concrete phrase that international listeners can follow."
+    },
+    {
+      "type": "idiom",
+      "original": "It’s a total game changer",
+      "replacement": "It’s a significant advance",
+      "reason": "Plain wording avoids an idiom that may not translate for an international panel."
+    },
+    {
+      "type": "wording",
+      "original": "and we want to take it to the next level.",
+      "replacement": "and we want to take it further.",
+      "reason": "A literal phrase is clearer than the idiom 'next level' for mixed audiences."
+    },
+    {
+      "type": "structure",
+      "original": "I’ll circle back to the demo at the end if there’s time.",
+      "replacement": "I’ll show the demo at the end.",
+      "reason": "A firm promise of the demo keeps judges focused on the live demo priority."
+    }
+  ]
+}
